@@ -1,2 +1,0 @@
-# Sprint
-Sprint L2

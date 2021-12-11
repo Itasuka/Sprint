@@ -8,6 +8,7 @@ function getConnect(){
     return $connexion;
 }
 
+<<<<<<< HEAD
 //on recherche les clients ayant tel nom et telle date de naissance, retourne un tableau des id des ces clients
 function chercherUnIdClient($nomclient,$datenaissanceclient){
     $connexion=getConnect();
@@ -42,5 +43,54 @@ function modifierEmploye($id,$newid,$mdp){
     $requete="modify into employe values ($newid, '$mdp', '$nom', '$prenom', '$categorie') where id='$id'" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
+=======
+function getCategorie($login){
+	$connexion=getConnect();
+	$requete="select categorie from employe where login="$login"";
+	$categorie=$connexion->query($requete);
+	$categorie->closeCursor();
+	return $categorie;
+}
+
+function ajouterClient($nom,$prenom,$datenaissance,$addresse,$numtel,$profession,$situationfam){
+	$connexion=getConnect();
+	$requete="insert into client values(0,$nom,$prenom,$datenaissance,$addresse,$numtel,$profession,$situationfam)";
+	$insere=$connexion->query($requete);
+	$insere->closeCursor();
+}
+
+function vendreContrat($idcli,$nom,$date,$tarifmensuel){
+	$connexion=getConnect();
+	$requete="insert into contrat values(0,$idcli,$nom,$date,$tarifmensuel)";
+	$vendre=$connexion->query($requete);
+	$vendre->closeCursor();
+}
+
+function ouvrircompte($idcli,$nomcompte,$date,$montantdecouvert){
+	$connexion=getConnect();
+	$requete="insert into compte values(0,$idcli,$nomcompte,$date,$montantdecouvert)";
+	$ouvrir=$connexion->query($requete);
+	$ouvrir->closeCursor();
+}
+
+function changerdecouvert($idcompte,$decouvert){
+	$connexion=getConnect();
+	$requete="update compte set montantdecouvert = $decouvert where idcompte=$idcompte";
+	$miseajour=$connexion->query($requete);
+	$miseajour->closeCursor();
+}
+
+function supprime($type,$id){
+	$connexion=getConnect();
+	if ($type=="contrat"){
+		$requete="delete from contrat where idcontrat=$id";
+		$supprime=$connexion->query($requete);
+	}
+	if ($type=="compte"){
+		$requete"delete from compte where idcompte=$id";
+		$supprime=$connexion->query($requete);
+	}
+	$supprime->closeCursor();
+>>>>>>> 81f70184b9ed3273833bd25fd18673fae9697450
 }
 

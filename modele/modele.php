@@ -8,11 +8,9 @@ function getConnect(){
     return $connexion;
 }
 
-<<<<<<< HEAD
-//on recherche les clients ayant tel nom et telle date de naissance, retourne un tableau des id des ces clients
 function chercherUnIdClient($nomclient,$datenaissanceclient){
     $connexion=getConnect();
-    $requete="select idcli from client where nomcli='$nomclient' and datenaissancecli='$datenaissance'";
+    $requete="select idcli from client where nomcli=$nomclient and datenaissancecli=$datenaissance";
     $resultat=$connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $tableaudesclients=$resultat->fetchall();
@@ -30,20 +28,77 @@ function syntheseClient($id){
     return $tableauduclient;
 }
 
-function creerEmploye($id,$mdp,$nom,$prenom,$categorie){
+function creerEmploye($login,$mdp,$nom,$prenom,$categorie){
     $connexion=getConnect();
-    $requete="insert into employe values ($id, '$mdp', '$nom', '$prenom', '$categorie')" ; 
+    $requete="insert into employe values ($login, $mdp, $nom, $prenom, $categorie)" ; 
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
 
 //bien chercher l'employer à modifier avant d'utiliser cette méthode pour avoir la valeur $id
-function modifierEmploye($id,$newid,$mdp){
+function modifierEmploye($login,$newlogin,$mdp){
     $connexion=getConnect();
-    $requete="modify into employe values ($newid, '$mdp', '$nom', '$prenom', '$categorie') where id='$id'" ;
+    $requete="update employe set login=$newlogin, mdp=$mdp where login=$login" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
-=======
+}
+
+function supprimerMotif($nomMotif){
+    $connexion=getConnect();
+    $requete="delete into motif where nommotif=$nomMotif" ;
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function modifierMotif($nomMotif,$newNomMotif){
+    $connexion=getConnect();
+    $requete="update motif set nommotif=$newNomMotif where nommotif=$nomMotif" ;
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function creerMotif($nomMotif){
+    $connexion=getConnect();
+    $requete="insert into motif(nommotif) values $nomMotif";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function creerListePourMotif($nomMotif,$liste){
+    $connexion=getConnect();
+    $requete="insert into motif(liste) values $liste where nommotif=$nomMotif" ;
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function modifierListePourMotif($nomMotif,$liste){
+    $connexion=getConnect();
+    $requete="update motif set liste=$liste where nommotif=$nomMotif" ;
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function supprimerListePourMotif($nomMotif){
+    $connexion=getConnect();
+    $requete="update motif set liste=NULL where nommotif=$nomMotif" ;
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function bloquerCréneau($date,$heure,$login){
+    $connexion=getConnect();
+    $requete="insert into planning(dateevenement,login,heure) values ($date,$login,$heure)" ;
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function poserRDV($date,$heure,$login,$idcli,$nommotif){
+    $connexion=getConnect();
+    $requete="insert into planning values ($date,$login,$idcli,$nommotif,$heure)" ;
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+    
 function getCategorie($login){
 	$connexion=getConnect();
 	$requete="select categorie from employe where login="$login"";
@@ -80,7 +135,7 @@ function changerdecouvert($idcompte,$decouvert){
 	$miseajour->closeCursor();
 }
 
-function supprime($type,$id){
+function supprimeConCom($type,$id){
 	$connexion=getConnect();
 	if ($type=="contrat"){
 		$requete="delete from contrat where idcontrat=$id";
@@ -91,6 +146,5 @@ function supprime($type,$id){
 		$supprime=$connexion->query($requete);
 	}
 	$supprime->closeCursor();
->>>>>>> 81f70184b9ed3273833bd25fd18673fae9697450
 }
 

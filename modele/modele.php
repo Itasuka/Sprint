@@ -199,15 +199,26 @@ function supprimeConCom($type,$id){
 }
 
 
-
-//FAIRE DATE BETWEEN PATATE
 function chercherPlanning($jour,$employe){
 	$connexion=getConnect();
-	$requete="select * from planning where dateevenement=$jour and login=$employe natural join motif natural join client natural join employe natural join compte natural join contrat";
+	$requete="select dateevenement,idmotif,login,idcli,heure,group_concat(nompiece),nommotif from planning where dateevenement=$jour and login=$employe natural join motif natural join requis natural join piece";
 	$planning=$connexion->query($requete);
 	$planning->setFetchMode(PDO::FETCH_OBJ);
 	$planning->fetchall();
 	$planning->closeCursor();
+	$requete="select distinct idcli from planning where dateevenement=$jour and login=$employe";
+	$lescli=$connexion->query($requete);
+	$lescli->setFetchMode(PDO::FETCH_OBJ);
+	$lescli->fetchall();
+	$tabres=array($planning);
+	$tabclis=array();
+	foreach ($lescli as $client){
+		$tabcli=syntheseClientInfo($client);
+		$tabcontrat=syntheseClientContrat($client);
+		$tabcompte=syntheseClientCompte($client);
+		array_push($tabclis, array($client,$tabcli,$tabcontrat,$tabcompte));
+	}
+	array_push($tabres,$tabclis);
 	return afficherPlanning($planning);
 }
 

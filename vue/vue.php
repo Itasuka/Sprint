@@ -52,3 +52,13 @@ function afficherSyntheseRDV($tabclient,$tabcontrat,$tabcompte,$listePJ,$motif){
     }
 
 }
+
+function afficherErreur($erreur){
+    $contenu='<p>'$erreur'</p>';
+    require_once('gabarit.php');
+}
+
+function afficherAcceuil(){
+    $contenu="";
+    require_once('gabarit.php');
+}

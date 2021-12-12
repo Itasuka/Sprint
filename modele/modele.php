@@ -178,3 +178,51 @@ function supprimeConCom($type,$id){
 	$supprime->closeCursor();
 }
 
+
+
+//FAIRE DATE BETWEEN PATATE
+function chercherPlanning($jour,$employe){
+	$connexion=getConnect();
+	$requete="select * from planning where dateevenement=$jour and login=$employe natural join motif natural join client natural join employe natural join compte natural join contrat";
+	$planning=$connexion->query($requete);
+	$planning->closeCursor();
+	return afficherPlanning($planning);
+}
+
+function planningDuJour($conseille){
+	$ajd=localtime();
+	return chercherPlanning($ajd,$conseille);
+}
+
+function statsContrats($date1,$date2){
+	$connexion=getConnect();
+	$requete="select count(idcontrat) nb from contrat where dateouverture>=$date1 and dateouverture<=date2";
+	$resultat=$connexion->query($requete);
+	$resultat->closeCursor();
+	return $resultat;
+}
+
+function statsRDV($date1,$date2){
+	$connexion=getConnect();
+	$requete="select count(dateevenement) nb from planning where dateevenement>=$date1 and dateevenement<=$date2";
+	$resultat=$connexion->query($requete);
+	$resultat->closeCursor();
+	return $resultat;
+}
+
+function statsClient($date){
+	$connexion=getConnect();
+	$requete="select count(idcli) nb from client where idcli in (
+			    select idcli from contrat where dateouverture<=$date
+			    union
+			    select idcli from compte where dateouverture<=$date";
+	$resultat=$connexion->query($requete);
+	$resultat->closeCursor();
+	return $resultat;
+}
+
+function statsSolde($date){
+	$connexion=getConnect();
+	$requete="select sum(solde) from compte where dateouverture<=$date";
+}
+

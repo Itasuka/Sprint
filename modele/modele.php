@@ -133,6 +133,8 @@ function getCategorie($login){
 	$connexion=getConnect();
 	$requete="select categorie from employe where login="$login"";
 	$categorie=$connexion->query($requete);
+	$categorie->setFetchMode(PDO::FETCH_OBJ);
+	$categorie->fetchall();
 	$categorie->closeCursor();
 	return $categorie;
 }
@@ -185,6 +187,8 @@ function chercherPlanning($jour,$employe){
 	$connexion=getConnect();
 	$requete="select * from planning where dateevenement=$jour and login=$employe natural join motif natural join client natural join employe natural join compte natural join contrat";
 	$planning=$connexion->query($requete);
+	$planning->setFetchMode(PDO::FETCH_OBJ);
+	$planning->fetchall();
 	$planning->closeCursor();
 	return afficherPlanning($planning);
 }
@@ -198,6 +202,8 @@ function statsContrats($date1,$date2){
 	$connexion=getConnect();
 	$requete="select count(idcontrat) nb from contrat where dateouverture>=$date1 and dateouverture<=date2";
 	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$resultat->fetchall();
 	$resultat->closeCursor();
 	return $resultat;
 }
@@ -206,6 +212,8 @@ function statsRDV($date1,$date2){
 	$connexion=getConnect();
 	$requete="select count(dateevenement) nb from planning where dateevenement>=$date1 and dateevenement<=$date2";
 	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$resultat->fetchall();
 	$resultat->closeCursor();
 	return $resultat;
 }
@@ -217,12 +225,19 @@ function statsClient($date){
 			    union
 			    select idcli from compte where dateouverture<=$date";
 	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$resultat->fetchall();
 	$resultat->closeCursor();
 	return $resultat;
 }
 
 function statsSolde($date){
 	$connexion=getConnect();
-	$requete="select sum(solde) from compte where dateouverture<=$date";
+	$requete="select sum(solde) somme from compte where dateouverture<=$date";
+	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$resultat->fetchall();
+	$resultat->closeCursor();
+	return $resultat;
 }
 

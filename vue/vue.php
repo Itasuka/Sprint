@@ -18,6 +18,7 @@ function afficherPlanning1jour1employe($tab){
     }
 }
 
+
 function afficherSynthese($tab){
     if ($contenu==null){
         $contenu="";

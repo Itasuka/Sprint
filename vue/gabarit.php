@@ -2,7 +2,7 @@
 <html lang="fr">
  		<head>
    			 <meta charset="utf-8">
-   			 <link rel="stylesheet">
+   			 <link rel="stylesheet" href= "style/style.css">
         </head>
         <body>
         	<form>
@@ -16,7 +16,11 @@
 						<label for="pass">Votre mot de passe :</label>
 						<input type="password" name="Mdp" id="Mdp" placeholder="saisir votre mot de passe" required />
 					</p>
+					<p>
+						<input type="submit" name="okay" value="envoyer">
+					</p>
         		</fieldset>
+        		
         	</form>
 
 

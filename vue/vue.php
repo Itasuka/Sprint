@@ -15,25 +15,27 @@ foreach($tab[0] as $ligne){
             $categorie=$planning->categorierdv;
             $idclient=$planning->idcli;
             if ($idclient==null){
-                if ()
-                $contenu.="<td> <a href=# onclick= ($h)>Informations RDV</a> <div id=$h></div> </td> </tr>";
-            }
-            else{
+                if ($categorie=="tache"){
+                    $contenu.="<td> Tâches administratives </td> </tr>";
+                }else{
+                    $contenu.="<td> <a href=# onclick= 'poppassynthese($h,$listedespieces,$motif)>Informations</a> <div id=$h></div> </td> </tr>";
+                }
+            } else{
                 for ($j=0; $j<$tailletabcase2; $j++){
                     if ($tab[1][$j][0]==$idclient){
-                        $contenu.="<td> <a href=# onclick='popsynthese($h,$tab[1][$j][1],$tab[1][$j][2],$tab[1][$j][3],$listedespieces,$motif)'>Informations RDV</a> </td> </tr>";
+                        $contenu.="<td> <a href=# onclick='popsynthese($h,$tab[1][$j][1],$tab[1][$j][2],$tab[1][$j][3],$listedespieces,$motif)'>Informations RDV</a> <div id=$h></div> </td> </tr>";
             }
-        }
-     } $h=$h++;
+        } $h=$h++;
+     } 
 }
 
 function afficherSyntheseRDV($tabclient,$tabcontrat,$tabcompte,$listePJ,$motif){
     function afficherSynthese($tabclient,$tabcontrat,$tabcompte);
     $contenu2=$contenu;
-    $contenu2.="<p> Motif RDV : ".$motif."   |   Liste des pièces justificatives : ".$listePJ
+    $contenu2.="<p> Motif RDV : ".$motif."   |   Liste des pièces justificatives : ".$listePJ;
 }
 
-    function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
+function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
     if ($contenu==null){
         $contenu="";
     }
@@ -51,8 +53,7 @@ function afficherSyntheseRDV($tabclient,$tabcontrat,$tabcompte,$listePJ,$motif){
         $contenu.="<p> Contrat : ".$ligne->nomContrat."</p>";
     }
 
-}
-
+    
 function afficherErreur($erreur){
     $contenu='<p>'$erreur'</p>';
     require_once('gabarit.php');

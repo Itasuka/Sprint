@@ -8,6 +8,38 @@ function getConnect(){
     return $connexion;
 }
 
+function debitercompte($idcompte,$montant){
+    $connexion=getConnect();
+    $requete="select $solde from compte where idcompte=$idcompte";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tableau=$resultat->fetchall();
+    $resultat->closeCursor();
+    foreach($tableau as $lignes){
+        $s=$lignes->solde;
+        $nvsolde=$s-$montant;
+        $requete2="update compte set solde=$nvsolde where idcompte=$idcomtpe";
+        $resultat2=$connexion->query($requete2);
+        $resultat2->closeCursor();
+    }
+}
+
+function creditercompte($idcompte,$montant){
+    $connexion=getConnect();
+    $requete="select $solde from compte where idcompte=$idcompte";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tableau=$resultat->fetchall();
+    $resultat->closeCursor();
+    foreach($tableau as $lignes){
+        $s=$lignes->solde;
+        $nvsolde=$s+$montant;
+        $requete2="update compte set solde=$nvsolde where idcompte=$idcomtpe";
+        $resultat2=$connexion->query($requete2);
+        $resultat2->closeCursor();
+    }
+}
+
 function chercherUnIdClient($nomclient,$datenaissanceclient){
     $connexion=getConnect();
     $requete="select idcli from client where nomcli=$nomclient and datenaissancecli=$datenaissance";
@@ -171,11 +203,31 @@ function vendreContrat($idcli,$nom,$date,$tarifmensuel){
 	$vendre->closeCursor();
 }
 
-function ouvrircompte($idcli,$nomcompte,$date,$montantdecouvert){
+function ouvrirCompte($idcli,$nomcompte,$date,$montantdecouvert){
 	$connexion=getConnect();
 	$requete="insert into compte values(0,$idcli,$nomcompte,$date,$montantdecouvert)";
 	$ouvrir=$connexion->query($requete);
 	$ouvrir->closeCursor();
+}
+
+function checkCompte($idcli,$nomcompte){
+    $connexion=getConnect(); 
+    $requete="select idcli from compte where idcli=$idcli and nomcompte=$nomcompte";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tab=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $tab;
+}
+
+function checkContrat($idcli,$nomcontrat){
+    $connexion=getConnect(); 
+    $requete="select idcli from compte where idcli=$idcli and nomcontrat=$nomcontrat";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tab=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $tab;
 }
 
 function changerdecouvert($idcompte,$decouvert){

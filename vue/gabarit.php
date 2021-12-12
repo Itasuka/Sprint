@@ -3,6 +3,8 @@
  		<head>
    			 <meta charset="utf-8">
    			 <link rel="stylesheet" href= "style/style.css">
+   			 <link rel="stylesheet">
+   			 <script type="text/javascript" src="script/script.js"></script>
         </head>
         <body>
         	<form>
@@ -14,7 +16,7 @@
 					</p>
 					<p>
 						<label for="pass">Votre mot de passe :</label>
-						<input type="password" name="Mdp" id="Mdp" placeholder="saisir votre mot de passe" required />
+						<input type="password" name="mdp" id="mdp" placeholder="saisir votre mot de passe" required />
 					</p>
 					<p>
 						<input type="submit" name="okay" value="envoyer">

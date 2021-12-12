@@ -18,14 +18,32 @@ function chercherUnIdClient($nomclient,$datenaissanceclient){
     return $tableaudesclients;
 }
 
-function syntheseClient($id){
+//ICI LES TROIS FONCTIONS A FAIRE POUR LE CTLSYNTHESECLIENT (on obtient diff tab a mettre en parametres de affichersynthese)
+function syntheseClientInfo($id){
     $connexion=getConnect();
-    $requete="select *,*,*,nomemploye from client natural join contrat natural join compte natural join employe"
-    $resultat=$connexion->query($requete);
-    $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $tableauduclient=$resultat->fetchall();
-    $resultat->closeCursor();
-    return $tableauduclient;
+    $requeteinfoclient="select * from client where idcli=$id";
+    $infoclient=$connexion->query($requeteinfoclient);
+    $infoclient->setFetchMode(PDO::FETCH_OBJ);
+    $tabduclient=$infoclient->fetchall();
+    $infoclient->closeCursor();
+    return $tabduclient;
+
+function syntheseClientContrat($id){
+    $requeteinfocontrat="select nomcontrat from client where idcli=$id";
+    $infocontrat=$connexion->query($requeteinfocontrat);
+    $infocontrat->setFetchMode(PDO::FETCH_OBJ);
+    $tabcompte=$infocompte->fetchall();
+    $infocontrat->closeCursor();
+    return $tabcompte;
+}
+
+function syntheseClientCompte($id){
+    $requeteinfocompte="select nomcompte,solde from client where idcli=$id";
+    $infocompte=$connexion->query($requeteinfocompte);
+    $infocompte->setFetchMode(PDO::FETCH_OBJ);
+    $tabdcontrat=$infocompte->fetchall();
+    $infocompte->closeCursor();
+    return $tabcontrat;
 }
 
 function creerEmploye($login,$mdp,$nom,$prenom,$categorie){
@@ -45,42 +63,72 @@ function modifierEmploye($login,$newlogin,$mdp){
 
 function supprimerMotif($nomMotif){
     $connexion=getConnect();
-    $requete="delete into motif where nommotif=$nomMotif" ;
+    $trouveridmotif="select idmotif from motif where nommotif=$nomMotif";
+    $idmotif=$connexion->query($trouveridmotif);
+    $idmotif->setFetchMode(PDO::FETCH_OBJ);
+    $idmotif->closeCursor();
+    while ( $lignemotif = $idmotif->fetch() ) {
+    $requete="delete from motif where idmotif=$idmotif" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
-}
-
-function modifierMotif($nomMotif,$newNomMotif){
-    $connexion=getConnect();
-    $requete="update motif set nommotif=$newNomMotif where nommotif=$nomMotif" ;
-    $resultat=$connexion->query($requete);
-    $resultat->closeCursor();
+    }
 }
 
 function creerMotif($nomMotif){
     $connexion=getConnect();
-    $requete="insert into motif(nommotif) values $nomMotif";
+    $requete="insert into motif values (0,$nomMotif)";
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
 
-function creerListePourMotif($nomMotif,$liste){
+function creerPiece($lapiece){
     $connexion=getConnect();
-    $requete="insert into motif(liste) values $liste where nommotif=$nomMotif" ;
+    $requete="insert into piece values (0,$lapiece)" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
 
-function modifierListePourMotif($nomMotif,$liste){
+function ajouterPJ($nomMotif,$nomPiece){
+    $connexion=getConnect();
+    $trouveridmotif="select idmotif from motif where nommotif=$nomMotif";
+    $idmotif=$connexion->query($trouveridmotif);
+    $idmotif->setFetchMode(PDO::FETCH_OBJ);
+    $idmotif->closeCursor();
+    $trouveridpiece="select idpiece from piece where nompiece=$nomPiece";
+    $idpiece=$connexion->query($trouveridpiece);
+    $idpiece->setFetchMode(PDO::FETCH_OBJ);
+    $idpiece->closeCursor();
+    while( $lignemotif = $idmotif->fetch() ) {
+        while( $lignepiece = $idmotif->fetch() ) {
+             $requete="insert into requis values ($lignepiece->$idpiece,$lignemotif->$idmotif)";
+        }
+    }
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function supprimerPJ($nomMotif,$nomPiece){
+    $connexion=getConnect();
+    $trouveridmotif="select idmotif from motif where nommotif=$nomMotif";
+    $idmotif=$connexion->query($trouveridmotif);
+    $idmotif->closeCursor();
+    $idmotif->setFetchMode(PDO::FETCH_OBJ);
+    $trouveridpiece="select idpiece from piece where nompiece=$nomPiece";
+    $idpiece=$connexion->query($trouveridpiece);
+    $idpiece->closeCursor();
+    $idpiece->setFetchMode(PDO::FETCH_OBJ);
+    while( $lignemotif = $idmotif->fetch() ) {
+        while( $lignepiece = $idmotif->fetch() ) {
+             $requete="delete from requis where idmotif=$idmotif and idpiece=$idpiece";
+        }
+    }
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function modifierListePJ($nomMotif,$liste){
     $connexion=getConnect();
     $requete="update motif set liste=$liste where nommotif=$nomMotif" ;
-    $resultat=$connexion->query($requete);
-    $resultat->closeCursor();
-}
-
-function supprimerListePourMotif($nomMotif){
-    $connexion=getConnect();
-    $requete="update motif set liste=NULL where nommotif=$nomMotif" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
@@ -103,6 +151,8 @@ function getCategorie($login){
 	$connexion=getConnect();
 	$requete="select categorie from employe where login="$login"";
 	$categorie=$connexion->query($requete);
+	$categorie->setFetchMode(PDO::FETCH_OBJ);
+	$categorie->fetchall();
 	$categorie->closeCursor();
 	return $categorie;
 }
@@ -146,5 +196,77 @@ function supprimeConCom($type,$id){
 		$supprime=$connexion->query($requete);
 	}
 	$supprime->closeCursor();
+}
+
+
+function chercherPlanning($jour,$employe){
+	$connexion=getConnect();
+	$requete="select dateevenement,idmotif,login,idcli,heure,group_concat(nompiece),nommotif from planning where dateevenement=$jour and login=$employe natural join motif natural join requis natural join piece";
+	$planning=$connexion->query($requete);
+	$planning->setFetchMode(PDO::FETCH_OBJ);
+	$planning->fetchall();
+	$planning->closeCursor();
+	$requete="select distinct idcli from planning where dateevenement=$jour and login=$employe";
+	$lescli=$connexion->query($requete);
+	$lescli->setFetchMode(PDO::FETCH_OBJ);
+	$lescli->fetchall();
+	$tabres=array($planning);
+	$tabclis=array();
+	foreach ($lescli as $client){
+		$tabcli=syntheseClientInfo($client);
+		$tabcontrat=syntheseClientContrat($client);
+		$tabcompte=syntheseClientCompte($client);
+		array_push($tabclis, array($client,$tabcli,$tabcontrat,$tabcompte));
+	}
+	array_push($tabres,$tabclis);
+	return afficherPlanning($planning);
+}
+
+function planningDuJour($conseille){
+	$ajd=localtime();
+	return chercherPlanning($ajd,$conseille);
+}
+
+function statsContrats($date1,$date2){
+	$connexion=getConnect();
+	$requete="select count(idcontrat) nb from contrat where dateouverture>=$date1 and dateouverture<=date2";
+	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$resultat->fetchall();
+	$resultat->closeCursor();
+	return $resultat;
+}
+
+function statsRDV($date1,$date2){
+	$connexion=getConnect();
+	$requete="select count(dateevenement) nb from planning where dateevenement>=$date1 and dateevenement<=$date2";
+	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$resultat->fetchall();
+	$resultat->closeCursor();
+	return $resultat;
+}
+
+function statsClient($date){
+	$connexion=getConnect();
+	$requete="select count(idcli) nb from client where idcli in (
+			    select idcli from contrat where dateouverture<=$date
+			    union
+			    select idcli from compte where dateouverture<=$date";
+	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$resultat->fetchall();
+	$resultat->closeCursor();
+	return $resultat;
+}
+
+function statsSolde($date){
+	$connexion=getConnect();
+	$requete="select sum(solde) somme from compte where dateouverture<=$date";
+	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$resultat->fetchall();
+	$resultat->closeCursor();
+	return $resultat;
 }
 

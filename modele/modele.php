@@ -18,14 +18,32 @@ function chercherUnIdClient($nomclient,$datenaissanceclient){
     return $tableaudesclients;
 }
 
-function syntheseClient($id){
+//ICI LES TROIS FONCTIONS A FAIRE POUR LE CTLSYNTHESECLIENT (on obtient diff tab a mettre en parametres de affichersynthese)
+function syntheseClientInfo($id){
     $connexion=getConnect();
-    $requete="select *,*,*,nomemploye from client natural join contrat natural join compte natural join employe"
-    $resultat=$connexion->query($requete);
-    $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $tableauduclient=$resultat->fetchall();
-    $resultat->closeCursor();
-    return $tableauduclient;
+    $requeteinfoclient="select * from client where idcli=$id";
+    $infoclient=$connexion->query($requeteinfoclient);
+    $infoclient->setFetchMode(PDO::FETCH_OBJ);
+    $tabduclient=$infoclient->fetchall();
+    $infoclient->closeCursor();
+    return $tabduclient;
+
+function syntheseClientContrat($id){
+    $requeteinfocontrat="select nomcontrat from client where idcli=$id";
+    $infocontrat=$connexion->query($requeteinfocontrat);
+    $infocontrat->setFetchMode(PDO::FETCH_OBJ);
+    $tabcompte=$infocompte->fetchall();
+    $infocontrat->closeCursor();
+    return $tabcompte;
+}
+
+function syntheseClientCompte($id){
+    $requeteinfocompte="select nomcompte,solde from client where idcli=$id";
+    $infocompte=$connexion->query($requeteinfocompte);
+    $infocompte->setFetchMode(PDO::FETCH_OBJ);
+    $tabdcontrat=$infocompte->fetchall();
+    $infocompte->closeCursor();
+    return $tabcontrat;
 }
 
 function creerEmploye($login,$mdp,$nom,$prenom,$categorie){

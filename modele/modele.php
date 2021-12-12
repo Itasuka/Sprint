@@ -45,42 +45,72 @@ function modifierEmploye($login,$newlogin,$mdp){
 
 function supprimerMotif($nomMotif){
     $connexion=getConnect();
-    $requete="delete into motif where nommotif=$nomMotif" ;
+    $trouveridmotif="select idmotif from motif where nommotif=$nomMotif";
+    $idmotif=$connexion->query($trouveridmotif);
+    $idmotif->setFetchMode(PDO::FETCH_OBJ);
+    $idmotif->closeCursor();
+    while ( $lignemotif = $idmotif->fetch() ) {
+    $requete="delete from motif where idmotif=$idmotif" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
-}
-
-function modifierMotif($nomMotif,$newNomMotif){
-    $connexion=getConnect();
-    $requete="update motif set nommotif=$newNomMotif where nommotif=$nomMotif" ;
-    $resultat=$connexion->query($requete);
-    $resultat->closeCursor();
+    }
 }
 
 function creerMotif($nomMotif){
     $connexion=getConnect();
-    $requete="insert into motif(nommotif) values $nomMotif";
+    $requete="insert into motif values (0,$nomMotif)";
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
 
-function creerListePourMotif($nomMotif,$liste){
+function creerPiece($lapiece){
     $connexion=getConnect();
-    $requete="insert into motif(liste) values $liste where nommotif=$nomMotif" ;
+    $requete="insert into piece values (0,$lapiece)" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
 
-function modifierListePourMotif($nomMotif,$liste){
+function ajouterPJ($nomMotif,$nomPiece){
+    $connexion=getConnect();
+    $trouveridmotif="select idmotif from motif where nommotif=$nomMotif";
+    $idmotif=$connexion->query($trouveridmotif);
+    $idmotif->setFetchMode(PDO::FETCH_OBJ);
+    $idmotif->closeCursor();
+    $trouveridpiece="select idpiece from piece where nompiece=$nomPiece";
+    $idpiece=$connexion->query($trouveridpiece);
+    $idpiece->setFetchMode(PDO::FETCH_OBJ);
+    $idpiece->closeCursor();
+    while( $lignemotif = $idmotif->fetch() ) {
+        while( $lignepiece = $idmotif->fetch() ) {
+             $requete="insert into requis values ($lignepiece->$idpiece,$lignemotif->$idmotif)";
+        }
+    }
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function supprimerPJ($nomMotif,$nomPiece){
+    $connexion=getConnect();
+    $trouveridmotif="select idmotif from motif where nommotif=$nomMotif";
+    $idmotif=$connexion->query($trouveridmotif);
+    $idmotif->closeCursor();
+    $idmotif->setFetchMode(PDO::FETCH_OBJ);
+    $trouveridpiece="select idpiece from piece where nompiece=$nomPiece";
+    $idpiece=$connexion->query($trouveridpiece);
+    $idpiece->closeCursor();
+    $idpiece->setFetchMode(PDO::FETCH_OBJ);
+    while( $lignemotif = $idmotif->fetch() ) {
+        while( $lignepiece = $idmotif->fetch() ) {
+             $requete="delete from requis where idmotif=$idmotif and idpiece=$idpiece";
+        }
+    }
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function modifierListePJ($nomMotif,$liste){
     $connexion=getConnect();
     $requete="update motif set liste=$liste where nommotif=$nomMotif" ;
-    $resultat=$connexion->query($requete);
-    $resultat->closeCursor();
-}
-
-function supprimerListePourMotif($nomMotif){
-    $connexion=getConnect();
-    $requete="update motif set liste=NULL where nommotif=$nomMotif" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }

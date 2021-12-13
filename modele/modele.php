@@ -71,7 +71,7 @@ function syntheseClientInfo($id){
     return $tabduclient;
 
 function syntheseClientContrat($id){
-    $requeteinfocontrat="select nomcontrat from client where idcli=$id";
+    $requeteinfocontrat="select nomcontrat,tarifmensuel from client where idcli=$id";
     $infocontrat=$connexion->query($requeteinfocontrat);
     $infocontrat->setFetchMode(PDO::FETCH_OBJ);
     $tabcompte=$infocompte->fetchall();
@@ -80,7 +80,7 @@ function syntheseClientContrat($id){
 }
 
 function syntheseClientCompte($id){
-    $requeteinfocompte="select nomcompte,solde from client where idcli=$id";
+    $requeteinfocompte="select * from client where idcli=$id";
     $infocompte=$connexion->query($requeteinfocompte);
     $infocompte->setFetchMode(PDO::FETCH_OBJ);
     $tabdcontrat=$infocompte->fetchall();
@@ -268,13 +268,13 @@ function chercherPlanning($jour,$employe){
 	$requete="select dateevenement,idmotif,login,idcli,heure,group_concat(nompiece),nommotif from planning where dateevenement=$jour and login=$employe natural join motif natural join requis natural join piece";
 	$planning=$connexion->query($requete);
 	$planning->setFetchMode(PDO::FETCH_OBJ);
-	$planning->fetchall();
+	$tab1=$planning->fetchall();
 	$planning->closeCursor();
 	$requete="select distinct idcli from planning where dateevenement=$jour and login=$employe";
 	$lescli=$connexion->query($requete);
 	$lescli->setFetchMode(PDO::FETCH_OBJ);
 	$lescli->fetchall();
-	$tabres=array($planning);
+	$tabres=array($tab1);
 	$tabclis=array();
 	foreach ($lescli as $client){
 		$tabcli=syntheseClientInfo($client);
@@ -296,9 +296,9 @@ function statsContrats($date1,$date2){
 	$requete="select count(idcontrat) nb from contrat where dateouverture>=$date1 and dateouverture<=date2";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
-	$resultat->fetchall();
+	$tab=$resultat->fetchall();
 	$resultat->closeCursor();
-	return $resultat;
+	return $tab;
 }
 
 function statsRDV($date1,$date2){
@@ -306,9 +306,9 @@ function statsRDV($date1,$date2){
 	$requete="select count(dateevenement) nb from planning where dateevenement>=$date1 and dateevenement<=$date2";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
-	$resultat->fetchall();
+	$tab=$resultat->fetchall();
 	$resultat->closeCursor();
-	return $resultat;
+	return $tab;
 }
 
 function statsClient($date){
@@ -319,9 +319,9 @@ function statsClient($date){
 			    select idcli from compte where dateouverture<=$date";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
-	$resultat->fetchall();
+	$tab=$resultat->fetchall();
 	$resultat->closeCursor();
-	return $resultat;
+	return $tab;
 }
 
 function statsSolde($date){
@@ -329,8 +329,27 @@ function statsSolde($date){
 	$requete="select sum(solde) somme from compte where dateouverture<=$date";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
-	$resultat->fetchall();
+	$tab=$resultat->fetchall();
 	$resultat->closeCursor();
-	return $resultat;
+	return $tab;
 }
+
+function listePiece($nomMotif){
+    $connexion=getConnect();
+    $requete="select group_concat(nompiece) pieces from motif where nommotif=$nommotif natural join requis natural join piece";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tab=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $tab;
+}
+
+function lesMotif(){
+    $connexion=getConnect();
+    $requete="select * from motif";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tab=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $tab;
 }

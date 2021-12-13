@@ -6,11 +6,11 @@ function afficherIndex(){
                 <fieldset>
                     <legend> Veillez saisir votre login et votre mots de passe </legend>
                     <p>
-                        <label name="log">Votre login:</label>
+                        <label for="log">Votre login:</label>
                         <input type="text" name="login" id="login" placeholder="saisir votre login" required  />
                     </p>
                     <p>
-                        <label name="mdp">Votre mot de passe :</label>
+                        <label for="mdp">Votre mot de passe :</label>
                         <input type="password" name="mdp" id="mdp" placeholder="saisir votre mot de passe" required />
                     </p>
                     <p>
@@ -288,11 +288,19 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
 //tab des comptes
     // en fonction de l'id 
 function afficherLesComptes($tab){
-    $contenu="<form method='POST' action='site.php' onsubmit='return verifActionCompte()><fieldset><legend>Débiter ou Créditer un du/des compte(s)</legend>";
-    foreach ($tab as $compte) {
-        $contenu.="<p><input type='radio' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->montantdecouvert.",".$compte->solde.")'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomCompte." ouvert le ".$compte->dateouverture.". </label></p>";
+    foreach ($tab as $ligne) {
+        $contenu="<form name='formAffCom' method='POST' action='site.php' onsubmit='return verifActionCompte()><fieldset><legend>Gestion du ou des compte(s) du client n°".$ligne->idcli."</legend>";
+        break;
     }
-    $contenu.="<input type='submit' value= ";
+    foreach ($tab as $compte) {
+        $contenu.="<p><input type='radio' name='compteChoisi' onfocus='afficheDecouvertEtSolde("$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomCompte." ouvert le ".$compte->dateouverture.". </label></p>";
+    }
+    $contenu.="<p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>
+               <p><label>Le solde du compte sélectionné (en euros) :  </label><input type='text' id='solde' readonly/></p>
+               <p><label>Le découvert maximum du compte sélectionné (en euros) :  </label><input type='text' id='decouvert' readonly/></p>
+               <p><label>Veuillez indiquer le montant à débiter/créditer (en euros) :  </label><input type='text' id='montant' required/></p>
+               <p><label>Choisissez l'action à effectuer :  Débiter  </label><input type='radio' id='debit'/>   Créditer  <input type='radio' id='credit'</p>";
+    $contenu.="<input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p>";
 }
 
 function afficherErreurdeco($erreur){

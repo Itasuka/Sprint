@@ -39,13 +39,17 @@ function afficherAcceuilDirecteur(){
 function afficherAccueilAgent(){
 	$contenuCat='<form id="Agent" action="site.php" method="POST">
                         <fieldset> <legend> QUE VOULEZ-VOUS FAIRE ? </legend>
-                                <input type="submit" value="Modifier les informations des clients" name="ModifTnfoCli" />
+                                <input type="submit" value="Modifier les informations des clients" name="ModifInfoCli" />
                                 <input type="submit" value="Synthese d\'un client" name="InfoCli" />
                                 <input type="submit" value="Dépot ou retrait sur le compte d\'un client" name="DouRCompteCli" />
                                 <input type="submit" value="Prendre RDV" name="PrendreRDV" />
                                 <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
                         </fieldset>
                 </form>';
+    if(!isset($contenu)){
+        $contenu="";
+    }
+    require_once('gabarit.php');
 }
 function afficherModifierInfosClientAgent(){
     $contenu='<form id="ModifInfoCli" action="site.php" method="POST">
@@ -59,6 +63,7 @@ function afficherModifierInfosClientAgent(){
                                 <p> <input type="submit" value="Modifier" name="ModifierCli" /> </p>
                         </fieldset>
                 </form>';
+    $_SESSION['contenu']=$contenu;
 }
     function afficherSyntheseClientAgent(){
        $contenu='<form id="InfoCli" action="site.php" method="POST">
@@ -71,6 +76,7 @@ function afficherModifierInfosClientAgent(){
                 </form>';
     }
 
+//Agent
     function afficherDouRCompteClient(){ //appeler la fonction de nicolas dans le ctl apres celle ci
         $contenu='<form id="DouRCompteCli" action="site.php" method="POST">
                         <fieldset> <legend> DEBITER OU CREDITER UN CLIENT </legend>
@@ -79,7 +85,10 @@ function afficherModifierInfosClientAgent(){
                                 </p>
                         </fieldset>
                 </form>';
-
+}
+//Agent
+    // à faire avant lesmotifs dans une var
+    // récupe les 
     function afficherPrendreRDV($tabdemotifs){
         $contenu='<form id="PrendreRDV" action="site.php" method="POST">
                         <fieldset> <legend> PRENDRE RDV </legend>
@@ -95,10 +104,10 @@ function afficherModifierInfosClientAgent(){
             foreach($tab as $ligne){
                     $contenu.='<option value="'.$ligne->nommotif.'">'.$ligne->nommotif.'</option>';
             }   
-        $contenu.='</select> <p> <input type="submit" formaction="site.php" formmethod="POST" value="Ajouter RDV" name="CreationRDV"/> </p>'
-        $contenu.='</fieldset>
-                </form>'; //A APPELER DANS LE SITE LA FONCTION  afficherListeDesPJ($tab) avec tab le motif recuperé dans le select
-
+        $contenu.='</select> <p> <input type="submit" formaction="site.php" formmethod="POST" value="Ajouter RDV" name="CreationRDV"/> </p>';
+        $contenu.='</fieldset></form>'; 
+        //A APPELER DANS LE CONTROLEUR LA FONCTION  afficherListeDesPJ($tab) avec tab le motif recuperé dans le select
+}
 function afficherAccueilConseille(){
 	$contenuCat='<form id="debutConseille" action="site.php" method="POST">
                 <fieldset>
@@ -231,7 +240,7 @@ function afficherPlanning1jour1employe($tab){
             else{
                 for ($j=0; $j<$tailletabcase2; $j++){
                     if ($tab[1][$j][0]==$idclient){
-                        foreach ($tab[1][$j][1]->$ligne){
+                        foreach ($tab[1][$j][1] as $ligne){
                             $nomcli=$ligne->nomcli;
                             $prenomcli=$ligne->prenomcli;
                             $idcli=$ligne->idcli;
@@ -242,11 +251,11 @@ function afficherPlanning1jour1employe($tab){
                             $adressecli=$ligne->adressecli;
                             $login=$ligne->login;
                         }
-                        foreach ($tab[1][$j][2]->$ligne){
+                        foreach ($tab[1][$j][2] as $ligne){
                             $nomcompte=$ligne->nomcompte;
                             $solde=$ligne->solde;
                         }
-                        foreach ($tab[1][$j][3]->$ligne){
+                        foreach ($tab[1][$j][3] as $ligne){
                             $nomcontrat=$ligne->nomcontrat;
                             $tarifc=$ligne->tarifmensuel;
                         }
@@ -293,7 +302,7 @@ function afficherLesComptes($tab){
         break;
     }
     foreach ($tab as $compte) {
-        $contenu.="<p><input type='radio' name='compteChoisi' onfocus='afficheDecouvertEtSolde("$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomCompte." ouvert le ".$compte->dateouverture.". </label></p>";
+        $contenu.="<p><input type='radio' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
     }
     $contenu.="<p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>
                <p><label>Le solde du compte sélectionné (en euros) :  </label><input type='text' id='solde' readonly/></p>
@@ -317,7 +326,6 @@ function afficherErreurco($erreur){
     <p><a href=site.php name="retour">Retour au site</a>';
     require_once('gabarit.php');
 }
-
 
 
 /*

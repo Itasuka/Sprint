@@ -2,9 +2,13 @@
 session_start();
 require_once('controleur/controleur.php');
 try{
+	if(!isset($_SESSION['contenu'])){
+		$_SESSION['contenu']="";
+	}
 	if ((isset($_GET['action'])) && ($_GET['action'] == 'logout')){
 		$_SESSION=array();
 		session_destroy();
+		$_SESSION['contenu']="";
 	}
 	if(isset($_POST['login'])){
 		$login = $_POST['login'];
@@ -12,12 +16,23 @@ try{
 		ctlConnexion($login,$mdp);
 	}
 	if(isset($_SESSION['categorie'])){
-		ctlAcceuilCat();
 		if($_SESSION['categorie']=="Conseille"){
 			//Tout les isset conseille
 		}
 		else if($_SESSION['categorie']=="Agent"){
 			//Tout les isset Agents
+			if(isset($_POST['ModifInfoCli'])){
+			ctlAfficherModInfCli();
+			}
+			if(isset($_POST['InfoCli'])){
+			ctlInfCli();
+			}
+			if(isset($_POST['DouRCompteCli'])){
+			ctlRechercheCli();
+			}
+			if(isset($_POST['PrendreRDV'])){
+			ctlPrendreRDV();
+			}
 		}
 		else if($_SESSION['categorie']=="Directeur"){
 			//Tout les isset Directeur
@@ -33,7 +48,10 @@ try{
 			if(isset($_POST['Stat'])){
 				ctlStat();
 			}
+
 		}
+
+		ctlAcceuilCat();
 	}
 
 

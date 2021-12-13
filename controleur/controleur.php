@@ -19,96 +19,22 @@ function ctlConnexion($login,$mdp){
 function ctlAcceuilCat(){
 	$categorie=$_SESSION['categorie'];
 	if($categorie=="Conseille"){
-		afficherAcceuilConseille();
+		afficherAccueilConseille();
 	}
 	if($categorie=="Agent"){
-		afficherAcceuilAgent();
+		afficherAccueilAgent();
 	}
 	if($categorie=="Directeur"){
-		afficherAcceuilDirecteur();
+		afficherAccueilDirecteur();
 	}
 }
 
-function ctlModifierLogEmploye(){
-	if()
+function ctlAfficherModInfCli(){
+	afficherModifierInfosClientAgent();
+	if(isset($_POST['ModifierCli'])){
+		if(!empty())
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function ctlErreur($erreur){
@@ -119,14 +45,12 @@ function ctlErreur($erreur){
 }
 
 function ctlAcceuil(){
-	afficherAcceuil();
+	afficherIndex();
 }
 
-function ctl
     //debiter ou crediter le compte
     //mettre synthese compte dans variable
     //appelle de la fonctopn afficher comptes aves checkbox
     //on verif quelle checkbox et quelle boutons sont cochés
     //ensuite on appelle soit debiter soit crediter
-	afficherIndex();
-}
+	

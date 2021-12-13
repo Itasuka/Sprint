@@ -206,7 +206,6 @@ function ajouterClient($nom,$prenom,$datenaissance,$adresse,$numtel,$profession,
 	$insere->closeCursor();
 }
 
-function
 
 function vendreContrat($idcli,$nom,$date,$tarifmensuel){
 	$connexion=getConnect();
@@ -352,4 +351,5 @@ function lesMotif(){
     $tab=$resultat->fetchall();
     $resultat->closeCursor();
     return $tab;
+}
 }

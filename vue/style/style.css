@@ -1,1 +1,89 @@
+header,footer{
+    background-color:rebeccapurple;
+    height: 15%;
+    width: 100%;
+    margin-bottom: 2%;
+}
+body,html{
+    height: 100%;
+    width: 100%;
+    margin: 0%;
+    padding:0%;
+}
+body{
+    background-color:#F1F4F9;  
+}
+p{
+    text-justify: auto;
+}
+a{
+    width: 23%;
+    margin-left:92% ;
+}
+form{
+    margin: auto;
+    width: 75%;
+}
+fieldset{
+    color: rgb(247,247, 247);
+    border-radius: 5px; 
+    margin-bottom: 10px;
+    border-color: #CCC;
+    border-width: 1px;
+    border-style:solid ;
+}
+legend{
+    padding: 0px 10px;
+    color: rgb(0, 0, 0);
+    border-left: #CCC;
+    border-right:#CCC ;
+    border-width: 1px; 
+    border-style:solid ;
+}
+label{
+    background-color: #9400D3;
+    color: #FFF;
+    display: block;
+    width: 39%;
+    float: left ;
+    padding-bottom:1% ;
+    padding-right:1% ;
+    padding-top:1% ;
+    margin-left: 4%;
+    text-align: right;
+    letter-spacing: 1px;
+}
+input{
+    color: #414A51;
+    padding-top: 1%;
+    padding-left: 1%;
+    padding-bottom: 1%;
+    font-size: 14px;
+    margin-left: 1%;
+    width: 48%;
+    border-color:#CCC ;
+    border-width: 1px;
+    border-style:solid ;
+    transition: all O.25s linear;
+}
 
+input[type="submit"],input[type="reset"]{
+    width: 23%;
+    background-color: #9400D3;
+    color: #FFF;
+    letter-spacing: 1px;
+    border-radius: 1px;
+    transition: all 0.2s linear;
+    margin-bottom: 20px;
+    border-color: #DDeeff;
+    border-width: 1px;
+    border-style: solid;
+}
+input[type="submit"]:hover,input[type="reset"]:hover{
+    background-color: #9400D3;
+    color: #FFF;
+    box-shadow: 0 0 5px #9400D3;
+}
+input[type="number"] { 
+    -moz-appearance: textfield;
+}

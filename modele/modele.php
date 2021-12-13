@@ -207,7 +207,6 @@ function ajouterClient($nom,$prenom,$datenaissance,$adresse,$numtel,$profession,
 	$insere->closeCursor();
 }
 
-function
 
 function vendreContrat($idcli,$nom,$date,$tarifmensuel){
 	$connexion=getConnect();

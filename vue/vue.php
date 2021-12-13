@@ -168,9 +168,6 @@ function afficherAccueilConseille(){
                     <p> <input type="submit" value="changer le découvert" name="changerDecouvert" /> </p>
                 </fieldset>
             </form>';
-    if(!isset($contenu)){
-        $contenu="";
-    }
 	require_once('gabarit.php');
 }
 

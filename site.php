@@ -1,7 +1,7 @@
 <?php
 session_start();
 try{
-require_once('controleur.php');
+require_once('controleur/controleur.php');
 	if(isset($_GET['action']) && $_GET['action']=='logout'){
 		$_SESSION=array();
 		session_destroy();

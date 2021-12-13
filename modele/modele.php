@@ -8,6 +8,16 @@ function getConnect(){
     return $connexion;
 }
 
+function seConnecter($login,$mdp){
+	$connexion=getConnect();
+	$requete="select CATEGORIE from employe where LOGIN='".$login."' and MDP='".$mdp."'";
+	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$categorie=$resultat->fetchall();
+	$resultat->closeCursor();
+	return $categorie;
+}
+
 function debitercompte($idcompte,$montant){
     $connexion=getConnect();
     $requete="select $solde from compte where idcompte=$idcompte";
@@ -181,7 +191,7 @@ function poserRDV($date,$heure,$login,$idcli,$nommotif){
     
 function getCategorie($login){
 	$connexion=getConnect();
-	$requete="select categorie from employe where login="$login"";
+	$requete="select categorie from employe where login=$login";
 	$categorie=$connexion->query($requete);
 	$categorie->setFetchMode(PDO::FETCH_OBJ);
 	$categorie->fetchall();
@@ -189,12 +199,14 @@ function getCategorie($login){
 	return $categorie;
 }
 
-function ajouterClient($nom,$prenom,$datenaissance,$addresse,$numtel,$profession,$situationfam){
+function ajouterClient($nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam){
 	$connexion=getConnect();
-	$requete="insert into client values(0,$nom,$prenom,$datenaissance,$addresse,$numtel,$profession,$situationfam)";
+	$requete="insert into client values(0,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam)";
 	$insere=$connexion->query($requete);
 	$insere->closeCursor();
 }
+
+function
 
 function vendreContrat($idcli,$nom,$date,$tarifmensuel){
 	$connexion=getConnect();
@@ -244,7 +256,7 @@ function supprimeConCom($type,$id){
 		$supprime=$connexion->query($requete);
 	}
 	if ($type=="compte"){
-		$requete"delete from compte where idcompte=$id";
+		$requete="delete from compte where idcompte=$id";
 		$supprime=$connexion->query($requete);
 	}
 	$supprime->closeCursor();
@@ -321,4 +333,4 @@ function statsSolde($date){
 	$resultat->closeCursor();
 	return $resultat;
 }
-
+}

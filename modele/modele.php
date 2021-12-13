@@ -69,6 +69,7 @@ function syntheseClientInfo($id){
     $tabduclient=$infoclient->fetchall();
     $infoclient->closeCursor();
     return $tabduclient;
+}
 
 function syntheseClientContrat($id){
     $requeteinfocontrat="select nomcontrat,tarifmensuel from client where idcli=$id";
@@ -352,4 +353,35 @@ function lesMotif(){
     $tab=$resultat->fetchall();
     $resultat->closeCursor();
     return $tab;
+}
+
+function ModifAdresseCli($idCli1,$adressecli){
+    $connexion=getConnect();
+    $requete="update client set adressecli=$adressecli where idCli=$idCli1";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+function ModifNumTelCli($idCli1,$NumTelcli){
+    $connexion=getConnect();
+    $requete="update client set numtelcli=$NumTelcli where idCli=$idCli1";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+function ModifMailCli($idCli1,$mailcli){
+    $connexion=getConnect();
+    $requete="update client set mailcli=$mailcli where idCli=$idCli1";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+function ModifProfesionCli($idCli1,$Profesioncli){
+    $connexion=getConnect();
+    $requete="update client set profesioncli1=$Profesioncli where idCli=$idCli1";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+function ModifSitFamiCli($idCli1,$Sitfamicli){
+    $connexion=getConnect();
+    $requete="update client set situationfamcli=$Sitfamicli where idCli=$idCli1";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
 }

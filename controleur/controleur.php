@@ -2,6 +2,8 @@
 require_once('modele/modele.php');
 require_once('vue/vue.php');
 
+//date_modify($date, '+1 day');
+
 function ctlConnexion($login,$mdp){
 	$categorie=seConnecter($login,$mdp);
 	foreach ($categorie as $ligne){
@@ -32,6 +34,14 @@ function ctlAcceuilCat(){
 function ctlModifierLogEmploye(){
 	if()
 }
+
+//             ctlAfficherSyntheseClient()
+//on recupere l'identifiant du client dans le input
+//apres on fait les 3 syntheses dans des variables
+//syntheseClientInfo($id)
+//syntheseClientContrat($id)
+//syntheseClientCompte($id)
+//on appelle afficherSynthese($tabclient,$tabcontrat,$tabcompte)            
 
 
 

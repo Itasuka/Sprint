@@ -6,6 +6,7 @@
    			 <link rel="stylesheet">
    			 <script type="text/javascript" src="script/script.js"></script>
         </head>
-        
+        <?php echo $contenuCat; ?>
+        <?php echo $contenu; ?>
 
 </html>

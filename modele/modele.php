@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once('connect.php');
 
 function getConnect(){
@@ -7,6 +6,16 @@ function getConnect(){
     $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $connexion->query('SET NAMES UTF8');
     return $connexion;
+}
+
+function seConnecter($login,$mdp){
+	$connexion=getConnect();
+	$requete="select CATEGORIE from employe where LOGIN='".$login."' and MDP='".$mdp."'";
+	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$categorie=$resultat->fetchall();
+	$resultat->closeCursor();
+	return $categorie;
 }
 
 function debitercompte($idcompte,$montant){
@@ -182,7 +191,7 @@ function poserRDV($date,$heure,$login,$idcli,$nommotif){
     
 function getCategorie($login){
 	$connexion=getConnect();
-	$requete="select categorie from employe where login="$login"";
+	$requete="select categorie from employe where login=$login";
 	$categorie=$connexion->query($requete);
 	$categorie->setFetchMode(PDO::FETCH_OBJ);
 	$categorie->fetchall();
@@ -245,7 +254,7 @@ function supprimeConCom($type,$id){
 		$supprime=$connexion->query($requete);
 	}
 	if ($type=="compte"){
-		$requete"delete from compte where idcompte=$id";
+		$requete="delete from compte where idcompte=$id";
 		$supprime=$connexion->query($requete);
 	}
 	$supprime->closeCursor();
@@ -322,4 +331,4 @@ function statsSolde($date){
 	$resultat->closeCursor();
 	return $resultat;
 }
-
+}

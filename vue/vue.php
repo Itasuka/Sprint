@@ -1,40 +1,52 @@
 <?php
 
 function affichierpageDirecteur(){
-	$contenue.='';
+	$contenu='';
 	require_one('gabarit_Directeur.php')
 }
 function affichierpageAgent(){
-	$contenue.='';
+	$contenu='';
 	require_one('gabarit_Agent.php')
 }
 function affichierpageConseiller(){
-	$contenue.='';
+	$contenu='';
 	require_one('gabarit_conseillerclient.php')
 }
-function afficherStat1($date1,$date2,$resultat){
-	$contenue.=le nombre de contrat souscrit entre <?=$date1> et <?=$date2> est de <?=$resultat>;
-	require_one('gabarit_Directeur.php')
+
+function afficherStatsContrats($tab){
+    foreach($tab as $ligne){
+    $contenu="Le nombre de contrats souscrits entre les deux dates est de ".$ligne->nb.".</p>";
+    }
+    require_one('gabarit_Directeur.php');
 }
-function afficherStat2($date1,$date2,$resultat){
-	$contenue.=le nombre de rdv pris par des agents entre <?=$date1> et <?=$date2> est de <?=$resultat>;
-	require_one('gabarit_Directeur.php')
+
+function afficherStatsRDV($tab){
+    foreach($tab as $ligne){
+    $contenu="<p> Le nombre de RDV pris par des agents entre les deux dates est de ".$ligne->nb.".</p>";
+    }
+    require_one('gabarit_Directeur.php');
 }
-function afficherStat3($date1,$resultat){
-	$contenue.=le nombre de client de la banque du <?=$date1> est de <?=$resultat>;
-	require_one('gabarit_Directeur.php')
+
+function afficherStatsClients($tab){
+    foreach($tab as $ligne){
+    $contenu="<p> Le nombre de clients de la banque à cette date est de ".$ligne->nb.".</p>";
+    }
+    require_one('gabarit_Directeur.php');
 }
-function afficherStat3($date1,$resultat){
-	$contenue.=la solde total de tous les client de la banque du <?=$date1> est de <?=$resultat>;
-	require_one('gabarit_Directeur.php')
+
+function afficherStatsSomme($tab){
+    foreach($tab as $ligne){
+    $contenu="<p> Le solde total tous clients confondus à cette date est de ".$ligne->somme.".</p>";
+    }
+    require_one('gabarit_Directeur.php');
 }
-function afficheridentifiantClient($IdClient,$Date){
-	$contenue.=$contenueClient
-	$contenue.='<p>'.information client .'</p>'
-	foreach ($ligne as $contenue) {
-		$contenue.'<p>'. $ligne.'</p>'
-	}
+
+function afficheridentifiantClient($tab){
+    foreach($tab as $ligne){
+    $contenu="<p> Le client à l'identifiant suivant : ".$ligne->idlci.".</p>";
+    }
 }
+
 function afficherPlanning1jour1employe($tab){
 $h=8
 $tailletabcase2 = sizeof($tab[1])

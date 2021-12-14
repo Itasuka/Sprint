@@ -119,15 +119,16 @@ function modifierEmploye($login,$newlogin,$mdp){
 
 function supprimerMotif($nomMotif){
     $connexion=getConnect();
-    $trouveridmotif="select idmotif from motif where nommotif=$nomMotif";
+    $trouveridmotif="select idmotif from motif where nommotif='$nomMotif'";
     $idmotif=$connexion->query($trouveridmotif);
     $idmotif->setFetchMode(PDO::FETCH_OBJ);
     $idmotif->closeCursor();
-    while ( $lignemotif = $idmotif->fetch() ) {
-    $requete="delete from motif where idmotif=$idmotif" ;
+    $motif=$idmotif->fetchall();
+    foreach ( $motif as $lignemotif) {
+    $requete="delete from motif where idmotif='$lignemotif'" ;
+    }
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
-    }
 }
 
 function creerMotif($nomMotif){
@@ -149,13 +150,15 @@ function ajouterPJ($nomMotif,$nomPiece){
     $trouveridmotif="select idmotif from motif where nommotif=$nomMotif";
     $idmotif=$connexion->query($trouveridmotif);
     $idmotif->setFetchMode(PDO::FETCH_OBJ);
+    $motif=$idmotif->fetchall();
     $idmotif->closeCursor();
     $trouveridpiece="select idpiece from piece where nompiece=$nomPiece";
     $idpiece=$connexion->query($trouveridpiece);
     $idpiece->setFetchMode(PDO::FETCH_OBJ);
     $idpiece->closeCursor();
-    while( $lignemotif = $idmotif->fetch() ) {
-        while( $lignepiece = $idmotif->fetch() ) {
+    $piece=$idmotif->fetchall();
+    foreach($motif as $lignemotif) {
+        foreach($idpiece as $lignepiece ) {
              $requete="insert into requis values ($lignepiece->$idpiece,$lignemotif->$idmotif)";
         }
     }
@@ -165,17 +168,18 @@ function ajouterPJ($nomMotif,$nomPiece){
 
 function supprimerPJ($nomMotif,$nomPiece){
     $connexion=getConnect();
-    $trouveridmotif="select idmotif from motif where nommotif=$nomMotif";
+    $trouveridmotif="select idmotif from motif where nommotif='$nomMotif'";
     $idmotif=$connexion->query($trouveridmotif);
-    $idmotif->closeCursor();
     $idmotif->setFetchMode(PDO::FETCH_OBJ);
-    $trouveridpiece="select idpiece from piece where nompiece=$nomPiece";
+    $motif=$idmotif->fetchall();
+    $idmotif->closeCursor();
+    $trouveridpiece="select idpiece from piece where nompiece='$nomPiece'";
     $idpiece=$connexion->query($trouveridpiece);
-    $idpiece->closeCursor();
     $idpiece->setFetchMode(PDO::FETCH_OBJ);
-    while( $lignemotif = $idmotif->fetch() ) {
-        while( $lignepiece = $idmotif->fetch() ) {
-             $requete="delete from requis where idmotif=$idmotif and idpiece=$idpiece";
+    $idpiece->closeCursor();
+    foreach( $lignemotif as $idmotif) {
+        foreach( $lignepiece as $idmotif) {
+             $requete="delete from requis where idmotif='$idmotif' and idpiece='$idpiece'";
         }
     }
     $resultat=$connexion->query($requete);
@@ -215,7 +219,7 @@ function getCategorie($login){
 
 function ajouterClient($loginconseille,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam){
 	$connexion=getConnect();
-	$requete="insert into client values(O,'$loginconseille','$nom','$prenom','$datenaissance','$adresse','$numtel','$profession','$situationfam')";
+	$requete="insert into client values(0,'$loginconseille','$nom','$prenom','$datenaissance','$adresse','$numtel','$profession','$situationfam')";
 	$insere=$connexion->query($requete);
 	$insere->closeCursor();
 }
@@ -307,7 +311,7 @@ function planningDuJour($conseille){
 
 function statsContrats($date1,$date2){
 	$connexion=getConnect();
-	$requete="select count(idcontrat) nb from contrat where dateouverture>=$date1 and dateouverture<=date2";
+	$requete="select count(idcontrat) nb from contrat where dateouverture>='$date1' and dateouverture<='$date2'";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
 	$tab=$resultat->fetchall();
@@ -317,7 +321,7 @@ function statsContrats($date1,$date2){
 
 function statsRDV($date1,$date2){
 	$connexion=getConnect();
-	$requete="select count(dateevenement) nb from planning where dateevenement>=$date1 and dateevenement<=$date2";
+	$requete="select count(dateevenement) nb from planning where dateevenement>='$date1' and dateevenement<='$date2'";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
 	$tab=$resultat->fetchall();
@@ -328,9 +332,9 @@ function statsRDV($date1,$date2){
 function statsClient($date){
 	$connexion=getConnect();
 	$requete="select count(idcli) nb from client where idcli in (
-			    select idcli from contrat where dateouverture<=$date
+			    select idcli from contrat where dateouverture<='$date'
 			    union
-			    select idcli from compte where dateouverture<=$date";
+			    select idcli from compte where dateouverture<='$date'";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
 	$tab=$resultat->fetchall();
@@ -340,7 +344,7 @@ function statsClient($date){
 
 function statsSolde($date){
 	$connexion=getConnect();
-	$requete="select sum(solde) somme from compte where dateouverture<=$date";
+	$requete="select sum(solde) somme from compte where dateouverture<='$date'";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
 	$tab=$resultat->fetchall();

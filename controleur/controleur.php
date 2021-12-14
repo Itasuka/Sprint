@@ -43,7 +43,6 @@ function ctlModifCli(){
 		$id=$_POST['IdCli'];
 		if(!empty($_POST['AdresseCli'])){ModifAdresseCli($id,$_POST['AdresseCli']);}
 		if(!empty($_POST['NumTelCli'])){ModifNumTelCli($id,$_POST['NumTelCli']);}
-		if(!empty($_POST['MailCli'])){ModifMailCli($id,$_POST['MailCli']);}
 		if(!empty($_POST['ProfessionCli'])){ModifProfessionCli($id,$_POST['ProfessionCli']);}
 		if(!empty($_POST['SitFamiCli'])){ModifSitFamiCli($id,$_POST['SitFamiCli']);}
 		$_SESSION['contenuForm']="<p><label name='reussite'>opération reussite</label></p>";
@@ -248,6 +247,88 @@ function ctlResilierContrat(){
 //-------------FIN CONSEILLE --------------
 
 //-----------DIRECTEUR----------------
+function ctlCMSContrat(){
+	$tab=LesMotifs();
+	afficherChangeContrat($tab);
+}
+function ctlCMSPiece(){
+	afficherListePiece();
+}
+
+function ctlStat(){
+	afficherStat();
+}
+//Controle de contrat
+function ctlSuprimerContrat(){
+	if ((empty($_POST['IDModifContrat']))){
+		throw new Exception("Le champ est vide");
+	}
+	supprimerMotif($_POST['IDModifContrat']);
+}
+function ctlModifContrat(){
+	if ((empty($_POST['IDModifContrat']))){
+		throw new Exception("Le champ est vide");
+	}
+	supprimerMontrat($_POST['IDModifContrat']);
+	creeMotif($_POST['IDModifContrat']);
+}
+function ctlCreeContrat(){
+	if ((empty($_POST['IDModifContrat']))){
+		throw new Exception("Le champ est vide");
+	}
+	creeContrat($_POST['IDModifContrat']);
+}
+//Controle des pieces
+function ctlCreePiece(){
+	if (empty($_POST['NomPiece']) && empty($_POST['NomMotif']) ){
+		ajouterPJ($_POST['NomPiece'],$_POST['NomMotif']);
+	}else if(empty($_POST['NomPiece'])){
+	creerPiece($_POST['NomPiece']);
+	}
+	throw new Exception("Les champs sont vide");
+}
+function ctlModifPiece(){
+	if (empty($_POST['NomPiece']) && empty($_POST['NomMotif'])){
+		modifierListePJ($_POST['NomPiece'],$_POST['NomListe']);;
+	}
+	throw new Exception("Le champ est vide");
+}
+function ctlSuppPiece(){
+	if (empty($_POST['NomPiece']) && empty($_POST['NomMotif'])){
+		supprimerPJ($_POST['NomPiece'],$_POST['NomMotif']);;
+	}
+	throw new Exception("Le champ est vide");
+
+}
+//controle de Statistique
+function ctlaffStat1(){
+	afficherStratDateContrat();
+}
+function ctlaffStat2(){
+	afficherStratDateRDV();
+}
+function ctlaffStat3(){
+	afficherStratDateClients();
+}
+function ctlaffStat4(){
+	afficherStratDateSomme();
+}
+function ctlStat1(){
+	$res=statsContrats($_POST['IDDate1Contrat'],$_POST['IDDate2Contrat']);
+	afficherStatsContrats($res);
+}
+function ctlStat2(){
+	$res=statsRDV($_POST['IDDate1RDV'],$_POST['IDDate1RDV']);
+	afficherStatsRDV($res);
+}
+function ctlStat3(){
+	$res=statsClient($_POST['IDDateClient']);
+	afficherStatsClients($res);
+}
+function ctlStat4(){
+	$res=statsSolde($_POST['IDDate1Somme']);
+	afficherStatsSomme($res);
+}
 //----------FIN DIRECTEUR-----------
 function ctlErreur($erreur){
 	if(isset($_SESSION['categorie'])){
@@ -256,7 +337,6 @@ function ctlErreur($erreur){
 	}
 	else{afficherErreurdeco($erreur);}
 }
-
 function ctlAcceuil(){
 	afficherIndex();
 }

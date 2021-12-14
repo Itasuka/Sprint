@@ -47,7 +47,6 @@ function afficherModifierInfosClientAgent(){
                                 <p><label>Identifiant du client a modifier :</label><input type="text" name="IdCli"></p>
                                 <p><label>Adresse :</label><input type="text" name="AdresseCli"></p>
                                 <p><label>Numero de téléphone :</label><input type="text" name="NumTelCli"></p>
-                                <p><label>Mail :</label><input type="text" name="MailCli"></p>
                                 <p><label>Profession :</label><input type="text" name="ProfessionCli"></p>
                                 <p><label>Situation familiale :</label><input type="text" name="SitFamiCli"></p>
                                 <p> <input type="submit" value="Modifier" name="ModifierCli" /> </p>
@@ -264,45 +263,45 @@ function afficherAccesEmploye(){
     $_SESSION['contenu']=$contenu;
 }
 
-function afficherChangeContrat(){
+function afficherChangeContrat($tabdemotifs){
 	$contenu= '<form id="ChangeContrat" action="site.php" method="POST">
                         <fieldset><legend>Changer un Contrat</legend>
-                                <p><input type="submit" value="Créé un contrat" name="CreeContrat" />
-                                        <input type="submit" formaction="site.php" formmethod="POST" value="ModifContrat" name="modifier Contrat"/>
-                                        <input type="submit" formaction="site.php" formmethod="POST" value="SuppContrat" name="CreationRDV"/>
-                                </p>
-                                <p><label>Id du contrat :</label><input type="text" name="IDModifContrat"></p>
-                                <p><label>Id du client :</label><input type="text" name="IDModifContratCli"></p>
-                                <p><label>Nom du contrat :</label><input type="text" name="IDModifNomContrat"></p>
-                                <p><label>Date d\'ouverture :</label><input type="date" name="IDModifDateOu"></p>
-                                <p><label>Montant du contrat :</label><input type="text" name="IDModifMontant"></p>
-                                <p><input type="submit" name="Contrat création" id="ContratCree">
-                                        <input type="submit" formaction="site.php" formmethod="POST" value="ContratModif" name="Contrat modifier"/>
-                                        <input type="submit" formaction="site.php" formmethod="POST" value="ContratSupp" name="Contrat supprimer"/>
+                                <p><label>Id du contrat/compte :</label><input type="text" name="IDModifContrat"></p>
+                                <p><label>Piece a donner:</label><input type="text" name="IDModifContrat"></p>
+                                <p><label>Piece a donner:</label><input type="text" name="IDModifContrat"></p>
+                                <p><label>Type de contrat/compte</label><select name="MotifRDV">';
+            foreach($tabdemotifs as $ligne){
+                    $contenu.='<option value="'.$ligne->nommotif.'">'.$ligne->nommotif.'</option>';
+            }   
+        $contenu.='</select> <p> <input type="submit" formaction="site.php" formmethod="POST" value="Ajouter RDV" name="CreationRDV"/> </p>';
+        $contenu.='</fieldset>
+                </form>'; //A APPELER DANS LE SITE LA FONCTION  afficherListeDesPJ($tab) avec tab le motif recuperé dans le select
+        $_SESSION['contenu']=$contenu;'</p>
+                                <p><input type="submit" value="Contrat créé" name="ContratCree">
+                                        <input type="submit" formaction="site.php" formmethod="POST" name="ContratModif" value="Contrat modifier"/>
+                                        <input type="submit" formaction="site.php" formmethod="POST" name="ContratSupp" value="Contrat supprimer"/>
                                 <input type="reset" formaction="site.php" formmethod="POST" value="Eff" name="Effacer"/></p>
 
                         </fieldset>
                 </form>';
+                $_SESSION['contenu']=$contenu;
+            
 }
 
 function afficherListePiece(){
 	$contenu='<form id="ListePiece" action="site.php" method="POST">
                         <fieldset><legend>Liste Piece à Fournir</legend>
-                                <p><input type="submit" value="Créé un piece" name="CreeContrat" />
-                                <input type="submit" formaction="site.php" formmethod="POST" value="Modifier une piece" name="ModifCotrat" />
-                                <input type="submit" formaction="site.php" formmethod="POST" value="Supprimer une piece" name="SuppContrat" />
-                                </p>
-                                <p><label>Nom du contrat:</label><input type="text" name="IDPieceContrat" ></p>
-                                <p><label>Pièce du contrat:</label><input type="text" name="IDPieceSuite" ></p>
-                                <p><input type="submit" name="Piece créé" id="PieceCree">
-                                <input type="submit" name="Piece modifier" id="PieceModif">
-                                <input type="submit" formaction="site.php" formmethod="POST" name="Piece supprimer" id="PieceSupp">
-                                <input type="reset" formaction="site.php" formmethod="POST" value="Eff" name="Effacer"/></p>
+                                <p><label>nom de la piece:</label><input type="text" name="NomPiece" ></p>
+                                <p><label>nom du motif:</label><input type="text" name="NomMotif" ></p
+                                <p><input type="submit" value="Piece créé" name="PieceCree">
+                                <input type="submit" value="Piece modifier" name="PieceModif">
+                                <input type="submit" formaction="site.php" formmethod="POST" value="Piece supprimer" name="PieceSupp">
+                                <input type="reset" formaction="site.php" formmethod="POST" value="Effacer" name="Effacer"/></p>
                                 
                         </fieldset>
                 </form>';
+                $_SESSION['contenu']=$contenu;
 }
-
 function afficherStat(){
 	                $contenu='<form id="Stat" action="site.php" method="POST">
                         <fieldset><legend>Statistique à voir</legend> 
@@ -312,42 +311,85 @@ function afficherStat(){
                                 <input type="submit" formaction="site.php" formmethod="POST" value="Solde Client" name="StatSomme" />
                         </fieldset>
                 </form>';
+                $_SESSION['contenu']=$contenu;
 
 }
-
+function afficherStratDateContrat(){
+    $contenu='<form id="DateContratStat" action="site.php" method="POST">
+                        <fieldset><legend>Date a donner :</legend>
+                                <p><label>date de debut:</label><input type="date" name="IDDate1Contrat" ></p>
+                                <p><label>date de fin:</label><input type="date" name="IDDate2Contrat" ></p>
+                                <p><input type="submit" name="OkayContratStat" value="valider "></p>
+                        </fieldset>
+                </form>';
+                $_SESSION['contenu']=$contenu;
+}
+function afficherStratDateRDV(){
+    $contenu='<form id="DateRDVStat" action="site.php" method="POST">
+                        <fieldset><legend>Date a donner :</legend>
+                                <p><label>date de debut:</label><input type="date" name="IDDate1RDV" ></p>
+                                <p><label>date de fin:</label><input type="date" name="IDDate2RDV" ></p>
+                                <p><input type="submit" name="OkayRDVStat" value="valider "></p>
+                        </fieldset>
+                </form>';
+                $_SESSION['contenu']=$contenu;
+}
+function afficherStratDateClients(){
+    $contenu='<form id="DateClientStat" action="site.php" method="POST">
+                        <fieldset><legend>Date a donner :</legend>
+                                <p><label>date :</label><input type="date" name="IDDateClient" ></p>
+                                <p><input type="submit" name="OkayClientStat" value="valider "></p>
+                        </fieldset>
+                </form>';
+                $_SESSION['contenu']=$contenu;
+}
+function afficherStratDateSomme(){
+    $contenu='<form id="DateSommeStat" action="site.php" method="POST">
+                        <fieldset><legend>Date a donner :</legend>
+                                <p><label>date :</label><input type="date" name="IDDateSomme" ></p>
+                                <p><input type="submit" name="OkaySommeStat" value="valider "></p>
+                        </fieldset>
+                </form>';
+                $_SESSION['contenu']=$contenu;
+}
 function afficherListeDesPJ($tab){
     $contenu.="<p>Liste des pieces à apporter pour le RDV :</p>";
     foreach($tab as $ligne){
         $contenu.="<p>".$ligne->pieces."</p>";
     }
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherStatsContrats($tab){
+    $contenu="";
     foreach($tab as $ligne){
     $contenu.="<p> Le nombre de contrats souscrits entre les deux dates est de ".$ligne->nb.".</p>";
     }
-    require_once('gabarit_Directeur.php');
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherStatsRDV($tab){
+    $contenu="";
     foreach($tab as $ligne){
     $contenu.="<p> Le nombre de RDV pris par des agents entre les deux dates est de ".$ligne->nb.".</p>";
     }
-    require_once('gabarit_Directeur.php');
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherStatsClients($tab){
+    $contenu="";
     foreach($tab as $ligne){
     $contenu.="<p> Le nombre de clients de la banque à cette date est de ".$ligne->nb.".</p>";
     }
-    require_once('gabarit_Directeur.php');
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherStatsSomme($tab){
+    $contenu="";
     foreach($tab as $ligne){
     $contenu.="<p> Le solde total tous clients confondus à cette date est de ".$ligne->somme.".</p>";
     }
-    require_once('gabarit_Directeur.php');
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficheridentifiantClient($tab){

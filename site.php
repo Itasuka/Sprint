@@ -27,22 +27,22 @@ try{
 		if($_SESSION['categorie']=="Conseille"){
 			//Tout les isset conseille
 			if(isset($POST['planning_conseiller'])){
-				afficherPlanningConseille();
+				ctlafficherPlanningConseille();
 			}
 			else if(isset($POST['ajoutCli'])){
-				afficherAjoutClient();
+				ctlafficherAjoutClient();
 			}
 			else if(isset($POST['vendreContrat'])){
-				afficherVendreContrat();
+				ctlafficherVendreContrat();
 			}
 			else if(isset($POST['ouvrirCompte'])){
-				afficherOuvrirCompte();
+				ctlafficherOuvrirCompte();
 			}
 			else if(isset($POST['modifDecouvert'])){
-				afficherModifierDecouvert();
+				ctlafficherModifierDecouvert();
 			}
 			else if(isset($POST['resilier'])){
-				afficherResiliationContratCompte();
+				ctlafficherResiliationContratCompte();
 			}
 			//----------------------------------
 			//Isset pour Planning

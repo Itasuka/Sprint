@@ -135,6 +135,7 @@ function afficherPlanningConseille(){  //si la date n'est pas mise alors c'est l
         </fieldset>
         <p> <input type="submit" value="ajouter le client" name="planning1jour" /></p>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherAjoutClient(){
@@ -152,6 +153,7 @@ function afficherAjoutClient(){
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherVendreContrat(){
@@ -166,6 +168,7 @@ function afficherVendreContrat(){
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherOuvrirCompte(){
@@ -180,6 +183,7 @@ function afficherOuvrirCompte(){
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherModifierDecouvert(){
@@ -193,6 +197,7 @@ function afficherModifierDecouvert(){
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherResiliationContratCompte(){
@@ -204,6 +209,7 @@ function afficherResiliationContratCompte(){
             <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Resilier un contrat"/></p> 
     </fieldset>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 
@@ -433,14 +439,6 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
         $contenu.="<p><input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p></fieldset></form>";
         $_SESSION['contenuForm']=$contenu;
     }
-    $contenu.="<p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>
-               <p><label>Le solde du compte sélectionné (en euros) :  </label><input type='text' id='solde' readonly/></p>
-               <p><label>Le découvert maximum du compte sélectionné (en euros) :  </label><input type='text' id='decouvert' readonly/></p>
-               <p><label>Veuillez indiquer le montant à débiter/créditer (en euros) :  </label><input type='text' id='montant' required/></p>
-               <p><label>Choisissez l'action à effectuer :</label>  Débiter : <input type='radio' id='debit'/>   Créditer : <input type='radio' id='credit'</p>";
-    $contenu.="<input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p>";
-}
-
 function afficherErreurdeco($erreur){
         $contenuCat="";
         $contenu='<p>'.$erreur.'</p>

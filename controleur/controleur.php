@@ -83,39 +83,39 @@ function ctlPrendreRDV(){
 }
 
 function ctlPlanning7j(){
-	if(empty($POST_["NomConseille"]){
+	if(empty($POST_["NomConseille"])){
 		throw new Exception("Nom du conseillé obligatoire");
 	}
 	else{
-		if (empty($_POST["DateDepart"]){
+		if (empty($_POST["DateDepart"])){
 			$p=planningDuJour($_POST["NomConseille"]);
-			afficherPlanning1jour1employe($p)
+			afficherPlanning1jour1employe($p);
 			$date=date("d-m-Y");
 				for ($i=0;$i<7;$i++){
 				$date=date_modify($date, '+1 day');
 				$p=chercherPlanning($date,$_POST["NomConseille"]);
-				afficherPlanning1jour1employe($p)
+				afficherPlanning1jour1employe($p);
 			}
 		}
 		else {
 			$p=chercherPlanning($_POST["DateDepart"],$_POST["NomConseille"]);
 			$date=$POST_["DateDepart"];
-			afficherPlanning1jour1employe($p)
+			afficherPlanning1jour1employe($p);
 			for ($i=0;$i<7;$i++){
 				$date=date_modify($date, '+1 day');
 				$p=chercherPlanning($date,$_POST["NomConseille"]);
-				afficherPlanning1jour1employe($p)
+				afficherPlanning1jour1employe($p);	
 		}
 	}
 }
 }
 
-function ctlAjoutRDV(){
+/*function ctlAjoutRDV(){
 	if((!isset($_POST['DateRDV']) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
-	throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
-}poserRDV($_POST['DateRDV'],$_POST['HeureRDV'],$_POST['LoginConseille'],$_POST['IdCli'],$_POST['MotifRDV']);
+		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
+}poserRDV($_POST['DateRDV'],$_POST['HeureRDV'],$_POST['LoginConseille'],$_POST['IdCli'],$_POST['MotifRDV']);*
 //finir 
-}
+}*/
 
 //------------FIN AGENT------------
 
@@ -143,19 +143,36 @@ function ctlCreationClient(){
 	$situationfam=$_POST['SituFamilleCli'];
 	ajouterClient($idclient,$loginc,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam);
 }
-
+function ctlafficherPlanningConseille(){
+	afficherPlanningConseille();
+}
+function ctlafficherAjoutClient(){
+	afficherAjoutClient();
+}
+function ctlafficherVendreContrat(){
+	afficherVendreContrat();
+}
+function ctlafficherOuvrirCompte(){
+	afficherOuvrirCompte();
+}
+function ctlafficherModifierDecouvert(){
+	afficherModifierDecouvert();
+}
+function ctlafficherResiliationContratCompte(){
+	afficherResiliationContratCompte();
+}
 function ctlVendreContrat(){
 	if ((empty($_POST['Idcli']))||(empty($_POST['NomContrat']))||(empty($_POST['DateOuvertureContrat']))||(empty($_POST['TarifContrat']))){
 		throw new Exception("Un ou plusieurs champs sont vides");
 	}
-	vendreContrat($_POST['Idcli'],$_POST['NomContrat'],$_POST['DateOuvertureContrat'],$_POST['TarifContrat'])
+	vendreContrat($_POST['Idcli'],$_POST['NomContrat'],$_POST['DateOuvertureContrat'],$_POST['TarifContrat']);
 }
 
 function ctlOuvrirCompte(){
 	if ((empty($_POST['IdCli']))||(empty($_POST['NomCompte']))||(empty($_POST['DateOuvertureCompte']))||(empty($_POST['MontantDecouvert']))){
 		throw new Exception("Un ou plusieurs champs sont vides");
 	}
-	ouvrirCompte($_POST['IdCli'],$_POST['NomCompte'],$_POST['DateOuvertureCompte'],$_POST['MontantDecouvert'])
+	ouvrirCompte($_POST['IdCli'],$_POST['NomCompte'],$_POST['DateOuvertureCompte'],$_POST['MontantDecouvert']);
 }
 
 function ctlChangerDecouvert(){
@@ -176,7 +193,7 @@ function ctlResilierContrat(){
 	if ((empty($_POST['IdResilier']))){
 		throw new Exception("Le champ est vide");
 	}
-	supprimerContrat($_POST['IdResilier'])
+	supprimerContrat($_POST['IdResilier']);
 	
 }
 //-------------FIN CONSEILLE --------------

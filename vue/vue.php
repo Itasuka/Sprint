@@ -28,13 +28,6 @@ function afficherIndex(){
     require_once('gabarit.php');
 }
 
-function afficherAcceuilDirecteur(){
-	$contenuCat='<form id="directeur" action="site.php" method="POST">
-                    <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
-                </form>';
-    $contenu="";
-	require_once('gabarit.php');
-}
 
 function afficherAccueilAgent(){
 	$contenuCat='<form id="Agent" action="site.php" method="POST">
@@ -64,12 +57,10 @@ function afficherModifierInfosClientAgent(){
                                 <p> <input type="submit" value="Modifier" name="ModifierCli" /> </p>
                         </fieldset>
                 </form>';
-<<<<<<< HEAD
                 
-=======
     $_SESSION['contenu']=$contenu;
->>>>>>> ce0324b431357c09a2ea641067b22811f5545ae8
 }
+
     function afficherSyntheseClientAgent(){
        $contenu='<form id="InfoCli" action="site.php" method="POST">
                         <fieldset> <legend> SYNTHESE DU CLIENT </legend>
@@ -91,16 +82,13 @@ function afficherModifierInfosClientAgent(){
                                 </p>
                         </fieldset>
                 </form>';
-<<<<<<< HEAD
                 
     }
 
-=======
-}
+
 //Agent
     // à faire avant lesmotifs dans une var
     // récupe les 
->>>>>>> ce0324b431357c09a2ea641067b22811f5545ae8
     function afficherPrendreRDV($tabdemotifs){
         $contenu='<form id="PrendreRDV" action="site.php" method="POST">
                         <fieldset> <legend> PRENDRE RDV </legend>
@@ -116,19 +104,11 @@ function afficherModifierInfosClientAgent(){
             foreach($tab as $ligne){
                     $contenu.='<option value="'.$ligne->nommotif.'">'.$ligne->nommotif.'</option>';
             }   
-<<<<<<< HEAD
-        $contenu.='</select> <p> <input type="submit" formaction="site.php" formmethod="POST" value="Ajouter RDV" name="CreationRDV"/> </p>'
-        $contenu.='</fieldset>
-                </form>'; //A APPELER DANS LE SITE LA FONCTION  afficherListeDesPJ($tab) avec tab le motif recuperé dans le select
-                
-        }
-
-=======
         $contenu.='</select> <p> <input type="submit" formaction="site.php" formmethod="POST" value="Ajouter RDV" name="CreationRDV"/> </p>';
         $contenu.='</fieldset></form>'; 
         //A APPELER DANS LE CONTROLEUR LA FONCTION  afficherListeDesPJ($tab) avec tab le motif recuperé dans le select
 }
->>>>>>> ce0324b431357c09a2ea641067b22811f5545ae8
+
 function afficherAccueilConseille(){
 	$contenuCat='<form id="debutConseille" action="site.php" method="POST">
     <fieldset><legend> QUE VOULEZ-VOUS FAIRE ? </legend>
@@ -229,7 +209,7 @@ function afficherResiliationContratCompte(){
 }
 
 
-function afficherDebutDirecteur(){
+function afficherAccueilDirecteur(){
 	$contenuCat='<form id="debutDirecteur" action="site.php" method="POST">
             <fieldset>
                     <p>
@@ -438,7 +418,7 @@ function afficherLesComptes($tab){
                <p><label>Le solde du compte sélectionné (en euros) :  </label><input type='text' id='solde' readonly/></p>
                <p><label>Le découvert maximum du compte sélectionné (en euros) :  </label><input type='text' id='decouvert' readonly/></p>
                <p><label>Veuillez indiquer le montant à débiter/créditer (en euros) :  </label><input type='text' id='montant' required/></p>
-               <p><label>Choisissez l'action à effectuer :  Débiter  </label><input type='radio' id='debit'/>   Créditer  <input type='radio' id='credit'</p>";
+               <p><label>Choisissez l'action à effectuer :</label>  Débiter : <input type='radio' id='debit'/>   Créditer : <input type='radio' id='credit'</p>";
     $contenu.="<input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p>";
 }
 
@@ -457,10 +437,7 @@ function afficherErreurco($erreur){
     require_once('gabarit.php');
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> ce0324b431357c09a2ea641067b22811f5545ae8
 /*
 faire les vues de l'acceuil en fonction de la catégorie du client
 

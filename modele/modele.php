@@ -8,6 +8,48 @@ function getConnect(){
     return $connexion;
 }
 
+function seConnecter($login,$mdp){
+	$connexion=getConnect();
+	$requete="select CATEGORIE from employe where LOGIN='".$login."' and MDP='".$mdp."'";
+	$resultat=$connexion->query($requete);
+	$resultat->setFetchMode(PDO::FETCH_OBJ);
+	$categorie=$resultat->fetchall();
+	$resultat->closeCursor();
+	return $categorie;
+}
+
+function debitercompte($idcompte,$montant){
+    $connexion=getConnect();
+    $requete="select $solde from compte where idcompte=$idcompte";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tableau=$resultat->fetchall();
+    $resultat->closeCursor();
+    foreach($tableau as $lignes){
+        $s=$lignes->solde;
+        $nvsolde=$s-$montant;
+        $requete2="update compte set solde=$nvsolde where idcompte=$idcomtpe";
+        $resultat2=$connexion->query($requete2);
+        $resultat2->closeCursor();
+    }
+}
+
+function creditercompte($idcompte,$montant){
+    $connexion=getConnect();
+    $requete="select $solde from compte where idcompte=$idcompte";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tableau=$resultat->fetchall();
+    $resultat->closeCursor();
+    foreach($tableau as $lignes){
+        $s=$lignes->solde;
+        $nvsolde=$s+$montant;
+        $requete2="update compte set solde=$nvsolde where idcompte=$idcomtpe";
+        $resultat2=$connexion->query($requete2);
+        $resultat2->closeCursor();
+    }
+}
+
 function chercherUnIdClient($nomclient,$datenaissanceclient){
     $connexion=getConnect();
     $requete="select idcli from client where nomcli=$nomclient and datenaissancecli=$datenaissance";
@@ -149,7 +191,7 @@ function poserRDV($date,$heure,$login,$idcli,$nommotif){
     
 function getCategorie($login){
 	$connexion=getConnect();
-	$requete="select categorie from employe where login="$login"";
+	$requete="select categorie from employe where login=$login";
 	$categorie=$connexion->query($requete);
 	$categorie->setFetchMode(PDO::FETCH_OBJ);
 	$categorie->fetchall();
@@ -171,11 +213,31 @@ function vendreContrat($idcli,$nom,$date,$tarifmensuel){
 	$vendre->closeCursor();
 }
 
-function ouvrircompte($idcli,$nomcompte,$date,$montantdecouvert){
+function ouvrirCompte($idcli,$nomcompte,$date,$montantdecouvert){
 	$connexion=getConnect();
 	$requete="insert into compte values(0,$idcli,$nomcompte,$date,$montantdecouvert)";
 	$ouvrir=$connexion->query($requete);
 	$ouvrir->closeCursor();
+}
+
+function checkCompte($idcli,$nomcompte){
+    $connexion=getConnect(); 
+    $requete="select idcli from compte where idcli=$idcli and nomcompte=$nomcompte";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tab=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $tab;
+}
+
+function checkContrat($idcli,$nomcontrat){
+    $connexion=getConnect(); 
+    $requete="select idcli from compte where idcli=$idcli and nomcontrat=$nomcontrat";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tab=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $tab;
 }
 
 function changerdecouvert($idcompte,$decouvert){
@@ -192,7 +254,7 @@ function supprimeConCom($type,$id){
 		$supprime=$connexion->query($requete);
 	}
 	if ($type=="compte"){
-		$requete"delete from compte where idcompte=$id";
+		$requete="delete from compte where idcompte=$id";
 		$supprime=$connexion->query($requete);
 	}
 	$supprime->closeCursor();
@@ -269,4 +331,4 @@ function statsSolde($date){
 	$resultat->closeCursor();
 	return $resultat;
 }
-
+}

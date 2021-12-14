@@ -37,7 +37,7 @@ legend{
 
 }
 label{
-    background-color: #9400D3;
+    background-color:red;
     color: #FFF;
     display: block;
     width: 39%;
@@ -61,6 +61,18 @@ input{
     border-width: 1px;
     border-style:solid ;
     transition: all O.25s linear;
+}
+a{
+    width: 23%;
+    background-color: black;
+    color: #FFF;
+    letter-spacing: 1px;
+    border-radius: 1px;
+    transition: all 0.2s linear;
+    margin-bottom: 20px;
+    border-color: #DDeeff;
+    border-width: 1px;
+    border-style: solid;
 }
 
 input[type="submit"],input[type="button"],input[type="reset"]{

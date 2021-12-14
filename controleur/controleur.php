@@ -62,6 +62,7 @@ function ctlAfficherSyntheseClient(){
 	$tabcompte=syntheseClientCompte($_POST['IdCli']);
 	afficherSynthese($tabclient,$tabcontrat,$tabcompte);
 	afficherSyntheseClientAgent();
+	$_SESSION['contenuForm']="<p><label name='reussite'>Operation reussie</label></p>";
 }
 
 function ctlDouRCompteCli(){
@@ -74,6 +75,7 @@ function ctlRechercheCli(){
 	}
 	$tab=syntheseClientCompte($_POST['IdCli']);
 	afficherLesComptes($tab);
+	$_SESSION['contenuForm']="<p><label name='reussite'>Operation reussie</label></p>";
 }
 
 function ctlPrendreRDV(){
@@ -112,20 +114,21 @@ function ctlPlanning7j(){
 function ctlAjoutRDV(){
 	if(!isset($_POST['DateRDV']) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
 	throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
-	}
-$date=$_POST['DateRDV'];
-$heure=$_POST['HeureRDV'];
-$login=$_POST['LoginConseille'];
-$idcli=$_POST['IdCli'];
-$motif=$_POST['MotifRDV'];
-	poserRDV($date,$heure,$login,$idcli,$motif,'rdv');
-	$tabp=listePiece($motif);
-	$_SESSION['contenuForm']="Liste des pièces nécessaire au rendez-vous :  ";
-	foreach ($tabp as $ligne) {
-		$_SESSION['contenuForm'].=$ligne->nompiece.", ";
-	}
-	$tab=lesMotifs();
-	afficherPrendreRDV($tab);
+	} $date=$_POST['DateRDV'];
+	$heure=$_POST['HeureRDV'];
+	$login=$_POST['LoginConseille'];
+	$idcli=$_POST['IdCli'];
+	$motif=$_POST['MotifRDV'];
+	if (checkRDV($date,$heure,$login)==null){
+		poserRDV($date,$heure,$login,$idcli,$motif,'rdv');
+		$tabp=listePiece($motif);
+		$_SESSION['contenuForm']="Liste des pièces nécessaires au rendez-vous :  ";
+		foreach ($tabp as $ligne) {
+			$_SESSION['contenuForm'].=$ligne->nompiece.", ";
+			$tab=lesMotifs();
+			afficherPrendreRDV($tab);
+		} 
+	} else { throw new Exception("impossible de prendre un rdv sur cette plage horaire");}
 }
 
 function ctlafficherRechercherId(){
@@ -136,26 +139,59 @@ function ctlChercherIdClient(){
 	if((!isset($_POST['DateNaissanceClient'])) || (empty($_POST['NomClient']))){
 		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
 		}
-	$tab=chercherUnIdClient($_POST['DateNaissanceClient'],$_POST['NomClient']);
+	$tab=chercherUnIdClient($_POST['NomClient'],$_POST['DateNaissanceClient']);
 	afficherIdClient($tab);
+}
+
+function ctlDebiterCrediter(){
+	if((empty($_POST['montant']))||(empty($_POST['compte']))||(empty($_POST['solde']))||(empty($_POST['decouvert']))){
+		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
+		}
+	if((isset($_POST['debit'])){
+			$montant=$_POST['montant'];
+			$solde=$_POST['solde'];
+			$decouvert=$_POST['decouvert'];
+			if(($solde-$montant)>$decouvert){
+			debitercompte($_POST['compte'],$_POST['montant']);
+			}
+			throw new Exception("Impossible !");
+	}
+	creditercompte($_POST['compte'],$_POST['montant']);
+	}
+}
+
+function ctlCréditer(){
+	crediter()
 }
 
 //------------FIN AGENT------------
 
 //----------CONSEILLE--------------
+
+function ctlPoserCreneau(){
+	if((empty($_POST['JourPlan']))||(empty($_POST['HeurePlan']))||(empty($_POST['LoginC']))){
+		throw new Exception("Un ou plusieurs champs sont vides");
+	}
+	bloquerCréneau($_POST['JourPlan'],$_POST['HeurePlan'],$_POST['LoginC'])	;
+}
+
+function ctlafficherPoserTaches(){
+	afficherPoserTaches();
+}
+
 function ctlPlanning1JourConseille(){
 	if ((empty($_POST['JourPlanning']))||(empty($_POST['LoginC']))){
 		throw new Exception("Un ou plusieurs champs sont vides");
 	} 
-	$p=chercherPlanning($POST_["JourPlanning"],$POST_["LoginC"]);
+	$p=chercherPlanning($_POST["JourPlanning"],$_POST["LoginC"]);
 	afficherPlanning1jour1employe($p);
 }
 
 function ctlCreationClient(){
-	if (empty($_POST['loginC'])){
-		throw new Exception("le conseillé ne peut etre vide");
+	if (empty($_POST['LoginC'])){
+		throw new Exception("Le conseillé ne peut être vide");
 	}
-	$loginc=$_POST['loginC'];
+	$loginc=$_POST['LoginC'];
 	$nom=$_POST['NomCli'];
 	$prenom=$_POST['PrenomCli'];
 	$datenaissance=$_POST['DateNaissanceCli'];
@@ -164,6 +200,7 @@ function ctlCreationClient(){
 	$profession=$_POST['ProfessionCli'];
 	$situationfam=$_POST['SituFamilleCli'];
 	ajouterClient($loginc,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam);
+	$_SESSION['contenuForm']="<p><label name='reussite'>Operation reussie</label></p>";
 }
 function ctlafficherPlanningConseille(){
 	afficherPlanningConseille();
@@ -188,6 +225,7 @@ function ctlVendreContrat(){
 		throw new Exception("Un ou plusieurs champs sont vides");
 	}
 	vendreContrat($_POST['Idcli'],$_POST['NomContrat'],$_POST['DateOuvertureContrat'],$_POST['TarifContrat']);
+	$_SESSION['contenuForm']="<p><label name='reussite'>Operation reussie</label></p>";
 }
 function ctlModifierLogEmploye(){
 	afficherAccesEmploye();
@@ -221,6 +259,7 @@ function ctlOuvrirCompte(){
 		throw new Exception("Un ou plusieurs champs sont vides");
 	}
 	ouvrirCompte($_POST['IdCli'],$_POST['NomCompte'],$_POST['DateOuvertureCompte'],$_POST['MontantDecouvert']);
+	$_SESSION['contenuForm']="<p><label name='reussite'>Operation reussie</label></p>";
 }
 
 function ctlChangerDecouvert(){
@@ -228,6 +267,7 @@ function ctlChangerDecouvert(){
 		throw new Exception("Un ou plusieurs champs sont vides");
 	}
 	changerdecouvert($_POST['IDCompte'],$_POST['NewDecouvert']);
+	$_SESSION['contenuForm']="<p><label name='reussite'>Operation reussie</label></p>";
 }
 
 function ctlResilierCompte(){
@@ -235,6 +275,7 @@ function ctlResilierCompte(){
 		throw new Exception("Le champ est vide");
 	}
 	supprimerCompte($_POST['IdResilier']);
+	$_SESSION['contenuForm']="Opération validée";
 }
 
 function ctlResilierContrat(){
@@ -242,7 +283,7 @@ function ctlResilierContrat(){
 		throw new Exception("Le champ est vide");
 	}
 	supprimerContrat($_POST['IdResilier']);
-	
+	$_SESSION['contenuForm']="<p><label name='reussite'>Operation reussite</label></p>";
 }
 //-------------FIN CONSEILLE --------------
 
@@ -346,4 +387,3 @@ function ctlAcceuil(){
     //appelle de la fonctopn afficher comptes aves checkbox
     //on verif quelle checkbox et quelle boutons sont cochés
     //ensuite on appelle soit debiter soit crediter
-	

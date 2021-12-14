@@ -4,7 +4,7 @@ function afficherIndex(){
     $contenuCat='<body>
             <form method="POST" action="site.php">
                 <fieldset>
-                    <legend> Veillez saisir votre login et votre mots de passe </legend>
+                    <legend> Veillez saisir votre login et votre mot de passe </legend>
                     <p>
                         <label for="log">Votre login:</label>
                         <input type="text" name="login" id="login" placeholder="saisir votre login" required  />
@@ -30,6 +30,7 @@ function afficherAccueilAgent(){
 	$contenuCat='<form id="Agent" action="site.php" method="POST">
                         <fieldset> <legend> QUE VOULEZ-VOUS FAIRE ? </legend>
                                 <input type="submit" value="Modifier les informations des clients" name="ModifInfoCli" />
+                                <input type="submit" value="Rechercher un identifiant" name="ChercherId" />
                                 <input type="submit" value="Synthese d\'un client" name="InfoCli" />
                                 <input type="submit" value="Dépot ou retrait sur le compte d\'un client" name="DouRCompteCli" />
                                 <input type="submit" value="Prendre RDV" name="PrendreRDV" />
@@ -108,9 +109,10 @@ function afficherModifierInfosClientAgent(){
 function afficherRechercherId(){
     $contenu='<form id="FormChercherId" action="site.php" method="POST"> 
                 <fieldset> <legend> CHERCHER UN ID </legend>
-            <p><label>Nom du client:</label><input type="text" name="NomClient"></p>
-            <p><label>Date de naissance du client:</label><input type="text" name="DateNaissanceClient"></p>
-            <p><input type="submit" value="Chercher un client" name="modifDecouvert"/></p>';
+            <p><label>Nom du client:</label><input type="text" name="NomClient"/></p>
+            <p><label>Date de naissance du client:</label><input type="date" name="DateNaissanceClient"/></p>
+            <p><input type="submit" value="Chercher un client" name="chercherUnClient"/></p></fieldset></form>';
+            $_SESSION['contenu']=$contenu;
 }
 
 function afficherAccueilConseille(){
@@ -118,6 +120,7 @@ function afficherAccueilConseille(){
     <fieldset><legend> QUE VOULEZ-VOUS FAIRE ? </legend>
     <p>
         <input type="submit" value="voir planning" name="planning_conseiller" />
+        <input type="submit" value="bloquer un créneau" name="creneau_conseiller" />
         <input type="submit" value="inscrire client" name="ajoutCli" />
         <input type="submit" value="vendre un contrat" name="vendreContrat" />
         <input type="submit" value="ouvrir compte" name="ouvrirCompte" />
@@ -139,10 +142,22 @@ function afficherPlanningConseille(){  //si la date n'est pas mise alors c'est l
         <p><label>Jour du planning :</label><input type="date" name="JourPlanning"></p> 
         <p><label>Login du conseillé:</label><input type="text" name="LoginC"></p>
         </fieldset>
-        <p> <input type="submit" value="ajouter le client" name="planning1jour" /></p>
+        <p> <input type="submit" value="ajouter le client" name="nvcreneau" /></p>
     </form>';
     $_SESSION['contenu']=$contenu;
 }
+
+function afficherPoserTaches(){
+    $contenu='<form id="tache_conseiller" action="site.php" method="POST">
+        <fieldset><legend>POSER UN CRENEAU</legend>
+        <p><label>Votre login:</label><input type="text" name="LoginC"></p>
+        <p><label>Jour:</label><input type="date" name="JourPlan"></p>
+        <p><label>Heure:</label><input type="text" name="HeurePlan"></p>
+        <p> <input type="submit" value="Bloquer le créneau" name="putcreneau" /></p>
+    </form>';
+        $_SESSION['contenu']=$contenu;
+}
+
 
 function afficherAjoutClient(){
     $contenu='<form id="ajoutCli"action="site.php" method="POST">
@@ -150,6 +165,7 @@ function afficherAjoutClient(){
         <p><label>login conseiller :</label><input type="text" name"loginC">
         <p><label>Nom du client :</label><input type="text" name="NomCli"></p>
         <p><label>Prenom du client :</label><input type="text" name="PrenomCli"></p>
+        <p><label>Login du conseille</label><input type="text" name="LoginC"></p>
         <p><label>Date de naissance du Client :</label><input type="date" name="DateNaissanceCli"></p>
         <p><label>Adresse du client :</label><input type="text" name="AdresseCli"></p>
         <p><label>Numero de telephone du client :</label><input type="text" name="NumTelCli"></p>
@@ -210,8 +226,8 @@ function afficherResiliationContratCompte(){
     <fieldset>
         <legend>Résilier un  contrat</legend>
             <p><label>Id du compte/contrat :</label><input type="text" name="IdResilier"></p>
-            <p><input type="submit" name="Résilier un compte" id="ResilierCompte"/>
-            <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Resilier un contrat"/></p> 
+            <p><input type="submit" name="Résilier un compte" value="Résilier un compte" id="ResilierCompte"/>
+            <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Résilier un contrat"/></p> 
     </fieldset>
     </form>';
     $_SESSION['contenu']=$contenu;
@@ -235,13 +251,7 @@ function afficherAccueilDirecteur(){
             }
             require_once('gabarit.php');
 }
-function afficherIdClient($tab){
-    $contenu.='<fieldset> <legend>Résultat de la recherche</legend>';
-    foreach($tab as $ligne){
-        $contenu.='<p>'.$ligne->$idcli.'</p>';
-    }
-    $contenu.='</fieldset>';
-}
+
 
 
 function afficherAccesEmploye(){
@@ -401,12 +411,13 @@ function afficheridentifiantClient($tab){
 
 function afficherPlanning1jour1employe($tab){
     $h=8;
-    $tailletabcase2 = sizeof($tab[1]);
-    foreach($tab[0] as $ligne){
-        $contenu.="<table> <tr> <th colspan='2'>Planning de '. $tab[0]->nomemploye.' '.$tab[0]->prenomemploye .' le '.$tab[0]->dateevenement.'</th> </tr> <tr>";
+    $contenu="";
+    /*$tailletabcase2 = sizeof(array($tab[1]));
+    foreach($tab as $ligne){
+        $contenu.="<table> <tr> <th colspan='2'>Planning de '. $ligne->nomemploye.' '.$ligne->prenomemploye .' le '.$ligne->dateevenement.'</th> </tr> <tr>";
         break;
     }
-    foreach ($tab[0] as $planning){
+    foreach ($tab as $planning){
         $contenu.="<tr> <th>".$h."h00 </th>";
         if (($planning->heure)-8==$h){
             $listedespieces=$planning->nompieces;
@@ -450,7 +461,9 @@ function afficherPlanning1jour1employe($tab){
             $h=$h++;
         }
     }
-    $contenu.="</table>";
+    $contenu.="</table>";*/
+    $contenu.="<label>Le Planning n'est pas accessible pour le moment";
+    $_SESSION['contenuForm']=$contenu;
 }
 
 function afficherSynthese($tabclient,$tabcontrat,$tabcompte){ 
@@ -487,21 +500,35 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
             break;
         }
         foreach ($tab as $compte) {
-            $contenu.="<p><input type='radio' value='Compte n°".$compte->idcompte."' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
+            $idc=$compte->idcompte;
+            $decouvert=$compte->montantdecouvert;
+            $solde=$compte->montantdecouvert;
+            $contenu.="<p><input type='radio' value='Compte n°$idc' name='compteChoisi' onfocus='afficheDecouvertEtSolde($idc,$decouvert,$solde)'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
         }
         $contenu.="<br>
-                   <p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>
-                   <p><label>Le solde du compte sélectionné :  </label><input type='text' id='solde' readonly/></p>
-                   <p><label>Le découvert du compte sélectionné :  </label><input type='text' id='decouvert' readonly/></p>
-                   <p><label>le montant à débiter/créditer :  </label><input type='text' id='montant' required/></p>
+                   <p><label>Le numéro du compte sélectionné :  </label><input type='text' name='compte' readonly/></p>
+                   <p><label>Le solde du compte sélectionné :  </label><input type='text' name='solde' readonly/></p>
+                   <p><label>Le découvert du compte sélectionné :  </label><input type='text' name='decouvert' readonly/></p>
+                   <p><label>le montant à débiter/créditer :  </label><input type='text' name='montant' required/></p>
                    <p><label>Débiter</label> <input type='radio' id='debit' name='choix'/></p>
                    <p><label>Créditer</label><input type='radio' id='credit'name='choix'/>  
                    </p>
                    </br>";
                 
-        $contenu.="<p><input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p></fieldset></form>";
+        $contenu.="<p><input type='submit' value='Effectuer l'opération' /><p id='operation'></p></fieldset></form>";
         $_SESSION['contenuForm']=$contenu;
     }
+//la fonction qui fait pop l'id client
+function afficherIdClient($tab){
+    $contenu="";
+    $contenu.='<fieldset> <legend>Résultat de la recherche</legend>';
+    foreach($tab as $ligne){
+        $contenu.='<p> l\'id du client est :  '.$ligne->idcli.'</p>';
+    }
+    $contenu.='</fieldset>';
+    $_SESSION['contenuForm']=$contenu;
+}
+
 function afficherErreurdeco($erreur){
         $contenuCat="";
         $contenu='<p>'.$erreur.'</p>

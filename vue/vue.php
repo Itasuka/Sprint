@@ -230,6 +230,14 @@ function afficherAccueilDirecteur(){
             }
             require_once('gabarit.php');
 }
+function afficherIdClient($tab){
+    $contenu.='<fieldset> <legend>Résultat de la recherche</legend>';
+    foreach($tab as $ligne){
+        $contenu.='<p>'.$ligne->$idcli.'</p>';
+    }
+    $contenu.='</fieldset>';
+}
+
 
 function afficherAccesEmploye(){
 	$contenu='<form id="AccesEmploye" action="site.php" method="POST">

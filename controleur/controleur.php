@@ -46,7 +46,7 @@ function ctlModifCli(){
 		if(!empty($_POST['MailCli'])){ModifMailCli($id,$_POST['MailCli']);}
 		if(!empty($_POST['ProfessionCli'])){ModifProfessionCli($id,$_POST['ProfessionCli']);}
 		if(!empty($_POST['SitFamiCli'])){ModifSitFamiCli($id,$_POST['SitFamiCli']);}
-		$_SESSION['contenuForm']="<p>Les modifications ont été effectuée</p>";
+		$_SESSION['contenuForm']="<p><label name='reussite'>opération reussite</label></p>";
 		afficherModifierInfosClientAgent();
 }
 
@@ -192,7 +192,7 @@ function ctlCreeEmploye(){
 		throw new Exception("Un des champs est vide");
 	}
 	creerEmploye($log,$mdp,$nom,$prenom,$cate);
-	$_SESSION['contenuForm']="<p>L'employe a été créé</p>";
+	$_SESSION['contenuForm']="<p><label name='reussite'>opération reussite</label></p>";
 	afficherAccesEmploye();
 }
 
@@ -201,7 +201,7 @@ function ctlModifEmp(){
 		throw new Exception("Un des champs est vide");
 	}
 	modifierEmploye($_POST['Login'],$_POST['NouveauLoginChange'],$_POST['MDP']);
-	$_SESSION['contenuForm']="<p>L'employe a été modifié</p>";
+	$_SESSION['contenuForm']="<p><label name='reussite'>opération reussite</label></p>";
 	afficherAccesEmploye();
 }
 

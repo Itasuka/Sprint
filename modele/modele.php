@@ -214,14 +214,14 @@ function ajouterClient($login,$nom,$prenom,$datenaissance,$adresse,$numtel,$prof
 
 function vendreContrat($idcli,$nom,$date,$tarifmensuel){
 	$connexion=getConnect();
-	$requete="insert into contrat values(0,$idcli,$nom,$date,$tarifmensuel)";
+	$requete="insert into contrat values(0,'$idcli','$nom','$date','$tarifmensuel')";
 	$vendre=$connexion->query($requete);
 	$vendre->closeCursor();
 }
 
 function ouvrirCompte($idcli,$nomcompte,$date,$montantdecouvert){
 	$connexion=getConnect();
-	$requete="insert into compte values(0,$idcli,$nomcompte,$date,$montantdecouvert)";
+	$requete="insert into compte values(0,'$idcli','$nomcompte','$date','$montantdecouvert',0)";
 	$ouvrir=$connexion->query($requete);
 	$ouvrir->closeCursor();
 }

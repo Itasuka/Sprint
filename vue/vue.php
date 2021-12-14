@@ -148,6 +148,7 @@ function afficherPlanningConseille(){  //si la date n'est pas mise alors c'est l
 function afficherAjoutClient(){
     $contenu='<form id="ajoutCli"action="site.php" method="POST">
     <fieldset><legend>Ajouter un client :</legend>
+        <p><label>login conseiller :</label><input type="text" name"loginC">
         <p><label>Nom du client :</label><input type="text" name="NomCli"></p>
         <p><label>Prenom du client :</label><input type="text" name="PrenomCli"></p>
         <p><label>Login du conseille</label><input type="text" name="LoginC"></p>
@@ -181,9 +182,8 @@ function afficherVendreContrat(){
 function afficherOuvrirCompte(){
     $contenu='<form id="ouvrirCompte"action="site.php" method="POST">
     <fieldset><legend>ouvrir un compte :</legend>
-        <p><label>Id du nouveau compte:</label><input type="text" name="IDNewCompte"></p>
         <p><label>Id du client :</label><input type="text" name="IdCli"></p>
-        <p><label>Nom du client :</label><input type="text" name="NomCli"></p>
+        <p><label>Nom du compte :</label><input type="text" name="NomCompte"></p>
         <p><label>Date d\'ouverture des comptes :</label><input type="date" name="DateOuvertureCompte"></p>
         <p><label>Montant de découvert accorder :</label><input type="text" name="MontantDecouvert"></p>
         <p><input type="submit" value="ouvrir le compte" name="CompteOuvert"/>
@@ -211,7 +211,7 @@ function afficherResiliationContratCompte(){
     $contenu='<form id="Resilier" action="site.php" method="POST">
     <fieldset>
         <legend>Résilier un  contrat</legend>
-            <p><input type="text" name="IdResilier"></p>
+            <p><label>Id du compte/contrat :</label><input type="text" name="IdResilier"></p>
             <p><input type="submit" name="Résilier un compte" id="ResilierCompte"/>
             <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Resilier un contrat"/></p> 
     </fieldset>
@@ -237,6 +237,14 @@ function afficherAccueilDirecteur(){
             }
             require_once('gabarit.php');
 }
+function afficherIdClient($tab){
+    $contenu.='<fieldset> <legend>Résultat de la recherche</legend>';
+    foreach($tab as $ligne){
+        $contenu.='<p>'.$ligne->$idcli.'</p>';
+    }
+    $contenu.='</fieldset>';
+}
+
 
 function afficherAccesEmploye(){
 	$contenu='<form id="AccesEmploye" action="site.php" method="POST">

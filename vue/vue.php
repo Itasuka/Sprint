@@ -35,6 +35,7 @@ function afficherAccueilAgent(){
                                 <input type="submit" value="Synthese d\'un client" name="InfoCli" />
                                 <input type="submit" value="Dépot ou retrait sur le compte d\'un client" name="DouRCompteCli" />
                                 <input type="submit" value="Prendre RDV" name="PrendreRDV" />
+                                <input type="submit" value="Chercher un identifiant client" name="ChercherId"/>
                                 <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
                         </fieldset>
                 </form>';
@@ -107,6 +108,13 @@ function afficherModifierInfosClientAgent(){
         $_SESSION['contenu']=$contenu;
 }
 
+function afficherRechercherId(){
+    $contenu='<form id="FormChercherId" action="site.php" method="POST"> 
+                <fieldset> <legend> CHERCHER UN ID </legend>
+            <p><label>Nom du client:</label><input type="text" name="NomClient"></p>
+            <p><label>Date de naissance du client:</label><input type="text" name="DateNaissanceClient"></p>
+            <p><input type="submit" value="Chercher un client" name="modifDecouvert"/></p>'
+}
 
 function afficherAccueilConseille(){
 	$contenuCat='<form id="debutConseille" action="site.php" method="POST">
@@ -149,6 +157,7 @@ function afficherAjoutClient(){
         <p><label>Numero de telephone du client :</label><input type="text" name="NumTelCli"></p>
         <p><label>Profession du client :</label><input type="text" name="ProfessionCli" ></p>
         <p><label>Situation familliale du client :</label><input type="text" name="SituFamilleCli"></p>
+        <p><label>Login du conseillé rattaché :</label><input type="text" name="LoginC"></p>
         <p> <input type="submit" value="ajouter le client" name="envoyerNewCli" />
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
@@ -158,7 +167,6 @@ function afficherAjoutClient(){
 function afficherVendreContrat(){
     $contenu='<form id="vendreContrat" action="site.php" method="POST">
     <fieldset><legend>vendre un contrat :</legend>
-        <p><label>Id du contrat :</label><input type="text" name="IdContrat"></p>
         <p><label>Id du client :</label><input type="text" name="Idcli"></p>
         <p><label>Nom du contrat :</label><input type="text" name="NomContrat"></p>
         <p><label>Date d\'ouverture :</label><input type="date" name="DateOuvertureContrat"></p>
@@ -172,9 +180,8 @@ function afficherVendreContrat(){
 function afficherOuvrirCompte(){
     $contenu='<form id="ouvrirCompte"action="site.php" method="POST">
     <fieldset><legend>ouvrir un compte :</legend>
-        <p><label>Id du nouveau compte:</label><input type="text" name="IDNewCompte"></p>
         <p><label>Id du client :</label><input type="text" name="IdCli"></p>
-        <p><label>Nom du client :</label><input type="text" name="NomCli"></p>
+        <p><label>Nom du compte :</label><input type="text" name="NomCompte"></p>
         <p><label>Date d\'ouverture des comptes :</label><input type="date" name="DateOuvertureCompte"></p>
         <p><label>Montant de découvert accorder :</label><input type="text" name="MontantDecouvert"></p>
         <p><input type="submit" value="ouvrir le compte" name="CompteOuvert"/>
@@ -187,8 +194,6 @@ function afficherModifierDecouvert(){
     $contenu='<form id="modifDecouvert"action="site.php" method="POST">
     <fieldset><legend>modification d\'un découvert :</legend>
         <p><label>Id du compte :</label><input type="text" name="IDCompte"></p>
-        <p><label>Id du client :</label><input type="text" name="Idcli" ></p>
-        <p><label>Nom du client</label><input type="text" name="NomCli"></p>
         <p><label>Donner le nouveau découvert :</label><input type="text" name="NewDecouvert"></p>
         <p><input type="submit" value="changer le découvert" name="changerDecouvert" />
         <input type="reset" value="Effacer" id="Eff"></p>
@@ -202,7 +207,7 @@ function afficherResiliationContratCompte(){
         <legend>Résilier un  contrat</legend>
             <p><input type="text" name="IdResilier"></p>
             <p><input type="submit" name="Résilier un compte" id="ResilierCompte">
-            <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Resilier un contrat"/></p> 
+            <input type="submit" formaction="site.php" formmethod="POST" value="Resilier un contrat" name="ResilierContrat"/></p> 
     </fieldset>
     </form>';
 }
@@ -426,6 +431,14 @@ function afficherLesComptes($tab){
                <p><label>Veuillez indiquer le montant à débiter/créditer (en euros) :  </label><input type='text' id='montant' required/></p>
                <p><label>Choisissez l'action à effectuer :</label>  Débiter : <input type='radio' id='debit'/>   Créditer : <input type='radio' id='credit'</p>";
     $contenu.="<input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p>";
+}
+
+function afficherIdClient($tab){
+    $contenu.='<fieldset> <legend>Résultat de la recherche</legend>';
+    foreach($tab as $ligne){
+        $contenu.='<p>'.$ligne->$idcli.'</p>';
+    }
+    $contenu.='</fieldset>';
 }
 
 function afficherErreurdeco($erreur){

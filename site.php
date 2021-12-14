@@ -84,6 +84,9 @@ try{
 			if(isset($_POST['ModifInfoCli'])){
 				ctlAfficherModInfCli();
 			}
+			else if(isset($_POST['ChercherId'])){
+				ctlafficherRechercherId();
+			}
 			else if(isset($_POST['InfoCli'])){
 				ctlInfCli();
 			}

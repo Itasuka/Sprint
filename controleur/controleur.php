@@ -111,10 +111,22 @@ function ctlPlanning7j(){
 }
 
 function ctlAjoutRDV(){
-	if((!isset($_POST['DateRDV']) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
+	if((!isset($_POST['DateRDV'])) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
 	throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
 }poserRDV($_POST['DateRDV'],$_POST['HeureRDV'],$_POST['LoginConseille'],$_POST['IdCli'],$_POST['MotifRDV']);
 //finir 
+}
+
+function ctlafficherRechercherId(){
+	afficherRechercherId();
+}
+
+function ctlChercherIdClient(){
+	if((!isset($_POST['DateNaissanceClient'])) || (empty($_POST['NomClient']))){
+		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
+		}
+	$tab=chercherUnIdClient($_POST['DateNaissanceClient'],$_POST['NomClient'])
+	afficherIdClient($tab);
 }
 
 //------------FIN AGENT------------
@@ -181,6 +193,8 @@ function ctlResilierContrat(){
 }
 //-------------FIN CONSEILLE --------------
 
+//-----------DIRECTEUR----------------
+//----------FIN DIRECTEUR-----------
 function ctlErreur($erreur){
 	if(isset($_SESSION['categorie'])){
 		afficherErreurco($erreur);

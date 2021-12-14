@@ -46,7 +46,7 @@ function ctlModifCli(){
 		if(!empty($_POST['MailCli'])){ModifMailCli($id,$_POST['MailCli']);}
 		if(!empty($_POST['ProfessionCli'])){ModifProfessionCli($id,$_POST['ProfessionCli']);}
 		if(!empty($_POST['SitFamiCli'])){ModifSitFamiCli($id,$_POST['SitFamiCli']);}
-		$_SESSION['contenuForm']="<p>Les modifications ont été effectuée</p>";
+		$_SESSION['contenuForm']="<p><label name='reussite'>opération reussite</label></p>";
 		afficherModifierInfosClientAgent();
 }
 
@@ -113,7 +113,7 @@ function ctlPlanning7j(){
 function ctlAjoutRDV(){
 	if(!isset($_POST['DateRDV']) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
 	throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
-}poserRDV($_POST['DateRDV'],$_POST['HeureRDV'],$_POST['LoginConseille'],$_POST['IdCli'],$_POST['MotifRDV']);
+	}
 $date=$_POST['DateRDV'];
 $heure=$_POST['HeureRDV'];
 $login=$_POST['LoginConseille'];
@@ -137,7 +137,7 @@ function ctlChercherIdClient(){
 	if((!isset($_POST['DateNaissanceClient'])) || (empty($_POST['NomClient']))){
 		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
 		}
-	$tab=chercherUnIdClient($_POST['DateNaissanceClient'],$_POST['NomClient'])
+	$tab=chercherUnIdClient($_POST['DateNaissanceClient'],$_POST['NomClient']);
 	afficherIdClient($tab);
 }
 
@@ -153,11 +153,10 @@ function ctlPlanning1JourConseille(){
 }
 
 function ctlCreationClient(){
-	if ((empty($_POST['Idcli']))||(empty($_POST['LoginC']))){
-		throw new Exception("L'identifiant et le conseillé ne peuvent etre vide");
+	if (empty($_POST['loginC'])){
+		throw new Exception("le conseillé ne peut etre vide");
 	}
-	$idclient=$_POST['Idcli'];
-	$loginc=$_POST['LoginC'];
+	$loginc=$_POST['loginC'];
 	$nom=$_POST['NomCli'];
 	$prenom=$_POST['PrenomCli'];
 	$datenaissance=$_POST['DateNaissanceCli'];
@@ -165,7 +164,7 @@ function ctlCreationClient(){
 	$numtel=$_POST['NumTelCli'];
 	$profession=$_POST['ProfessionCli'];
 	$situationfam=$_POST['SituFamilleCli'];
-	ajouterClient($idclient,$loginc,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam);
+	ajouterClient($loginc,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam);
 }
 function ctlafficherPlanningConseille(){
 	afficherPlanningConseille();
@@ -205,7 +204,7 @@ function ctlCreeEmploye(){
 		throw new Exception("Un des champs est vide");
 	}
 	creerEmploye($log,$mdp,$nom,$prenom,$cate);
-	$_SESSION['contenuForm']="<p>L'employe a été créé</p>";
+	$_SESSION['contenuForm']="<p><label name='reussite'>opération reussite</label></p>";
 	afficherAccesEmploye();
 }
 
@@ -214,7 +213,7 @@ function ctlModifEmp(){
 		throw new Exception("Un des champs est vide");
 	}
 	modifierEmploye($_POST['Login'],$_POST['NouveauLoginChange'],$_POST['MDP']);
-	$_SESSION['contenuForm']="<p>L'employe a été modifié</p>";
+	$_SESSION['contenuForm']="<p><label name='reussite'>opération reussite</label></p>";
 	afficherAccesEmploye();
 }
 

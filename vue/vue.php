@@ -106,6 +106,13 @@ function afficherModifierInfosClientAgent(){
         $_SESSION['contenu']=$contenu;
 }
 
+function afficherRechercherId(){
+    $contenu='<form id="FormChercherId" action="site.php" method="POST"> 
+                <fieldset> <legend> CHERCHER UN ID </legend>
+            <p><label>Nom du client:</label><input type="text" name="NomClient"></p>
+            <p><label>Date de naissance du client:</label><input type="text" name="DateNaissanceClient"></p>
+            <p><input type="submit" value="Chercher un client" name="modifDecouvert"/></p>';
+}
 
 function afficherAccueilConseille(){
 	$contenuCat='<form id="debutConseille" action="site.php" method="POST">
@@ -141,9 +148,9 @@ function afficherPlanningConseille(){  //si la date n'est pas mise alors c'est l
 function afficherAjoutClient(){
     $contenu='<form id="ajoutCli"action="site.php" method="POST">
     <fieldset><legend>Ajouter un client :</legend>
+        <p><label>login conseiller :</label><input type="text" name"loginC">
         <p><label>Nom du client :</label><input type="text" name="NomCli"></p>
         <p><label>Prenom du client :</label><input type="text" name="PrenomCli"></p>
-        <p><label>Id du client</label><input type="text" name="Idcli"></p>
         <p><label>Date de naissance du Client :</label><input type="date" name="DateNaissanceCli"></p>
         <p><label>Adresse du client :</label><input type="text" name="AdresseCli"></p>
         <p><label>Numero de telephone du client :</label><input type="text" name="NumTelCli"></p>
@@ -174,9 +181,8 @@ function afficherVendreContrat(){
 function afficherOuvrirCompte(){
     $contenu='<form id="ouvrirCompte"action="site.php" method="POST">
     <fieldset><legend>ouvrir un compte :</legend>
-        <p><label>Id du nouveau compte:</label><input type="text" name="IDNewCompte"></p>
         <p><label>Id du client :</label><input type="text" name="IdCli"></p>
-        <p><label>Nom du client :</label><input type="text" name="NomCli"></p>
+        <p><label>Nom du compte :</label><input type="text" name="NomCompte"></p>
         <p><label>Date d\'ouverture des comptes :</label><input type="date" name="DateOuvertureCompte"></p>
         <p><label>Montant de découvert accorder :</label><input type="text" name="MontantDecouvert"></p>
         <p><input type="submit" value="ouvrir le compte" name="CompteOuvert"/>
@@ -204,8 +210,8 @@ function afficherResiliationContratCompte(){
     $contenu='<form id="Resilier" action="site.php" method="POST">
     <fieldset>
         <legend>Résilier un  contrat</legend>
-            <p><input type="text" name="IdResilier"></p>
-            <p><input type="submit" name="Résilier un compte" id="ResilierCompte">
+            <p><label>Id du compte/contrat :</label><input type="text" name="IdResilier"></p>
+            <p><input type="submit" name="Résilier un compte" id="ResilierCompte"/>
             <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Resilier un contrat"/></p> 
     </fieldset>
     </form>';

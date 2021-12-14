@@ -28,7 +28,6 @@ function afficherIndex(){
     require_once('gabarit.php');
 }
 
-
 function afficherAccueilAgent(){
 	$contenuCat='<form id="Agent" action="site.php" method="POST">
                         <fieldset> <legend> QUE VOULEZ-VOUS FAIRE ? </legend>
@@ -39,9 +38,8 @@ function afficherAccueilAgent(){
                                 <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
                         </fieldset>
                 </form>';
-    if(!isset($contenu)){
-        $contenu="";
-    }
+    
+    
     require_once('gabarit.php');
 }
 
@@ -70,7 +68,7 @@ function afficherModifierInfosClientAgent(){
                         </fieldset>
 
                 </form>';
-                
+        $_SESSION['contenu']=$contenu;
     }
 
 //Agent
@@ -82,9 +80,8 @@ function afficherModifierInfosClientAgent(){
                                 </p>
                         </fieldset>
                 </form>';
-                
+        $_SESSION['contenu']=$contenu;
     }
-
 
 //Agent
     // à faire avant lesmotifs dans une var
@@ -98,16 +95,18 @@ function afficherModifierInfosClientAgent(){
                                 <p><label>Donner l\'identifiant du client concerné :</label><input type="text" name="IdCli">
                                 <p><label>Donner la date du RDV :</label><input type="date" name="DateRDV">
                                 <p><label>Donner l\'heure du RDV :</label><input type="text" name="HeureRDV">
-                                <p><label>Donner le login du conseillé :</label><input type="text" name="LoginConseillé"></p>
+                                <p><label>Donner le login du conseillé :</label><input type="text" name="LoginConseille"></p>
                                 <p><label>Motif du RDV:</label>
                                 <select name="MotifRDV">';
-            foreach($tab as $ligne){
+            foreach($tabdemotifs as $ligne){
                     $contenu.='<option value="'.$ligne->nommotif.'">'.$ligne->nommotif.'</option>';
             }   
         $contenu.='</select> <p> <input type="submit" formaction="site.php" formmethod="POST" value="Ajouter RDV" name="CreationRDV"/> </p>';
-        $contenu.='</fieldset></form>'; 
-        //A APPELER DANS LE CONTROLEUR LA FONCTION  afficherListeDesPJ($tab) avec tab le motif recuperé dans le select
+        $contenu.='</fieldset>
+                </form>'; //A APPELER DANS LE SITE LA FONCTION  afficherListeDesPJ($tab) avec tab le motif recuperé dans le select
+        $_SESSION['contenu']=$contenu;
 }
+
 
 function afficherAccueilConseille(){
 	$contenuCat='<form id="debutConseille" action="site.php" method="POST">
@@ -167,7 +166,7 @@ function afficherVendreContrat(){
         <p> <input type="submit" value="Créer le contrat" name="ContratVendu"/>
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
-    </form>'
+    </form>';
 }
 
 function afficherOuvrirCompte(){
@@ -181,7 +180,7 @@ function afficherOuvrirCompte(){
         <p><input type="submit" value="ouvrir le compte" name="CompteOuvert"/>
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
-    </form>'
+    </form>';
 }
 
 function afficherModifierDecouvert(){
@@ -205,7 +204,7 @@ function afficherResiliationContratCompte(){
             <p><input type="submit" name="Résilier un compte" id="ResilierCompte">
             <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Resilier un contrat"/></p> 
     </fieldset>
-    </form>'
+    </form>';
 }
 
 
@@ -285,7 +284,7 @@ function afficherStat(){
                                 <input type="submit" formaction="site.php" formmethod="POST" value="Nombre Client" name="StatCli" />
                                 <input type="submit" formaction="site.php" formmethod="POST" value="Solde Client" name="StatSomme" />
                         </fieldset>
-                </form>'
+                </form>';
 
 }
 
@@ -326,8 +325,9 @@ function afficherStatsSomme($tab){
 
 function afficheridentifiantClient($tab){
     foreach($tab as $ligne){
-    $contenu.="<p> Le client à l'identifiant suivant : ".$ligne->idlci.".</p>";
+    $contenu="<p> Le client à l'identifiant suivant : ".$ligne->idlci.".</p>";
     }
+    $_SESSION['contenuForm']=$contenu;
 }
 
 function afficherPlanning1jour1employe($tab){
@@ -386,33 +386,39 @@ function afficherPlanning1jour1employe($tab){
 
 function afficherSynthese($tabclient,$tabcontrat,$tabcompte){ 
     if (!isset($contenu)){                                     
-        $contenu.="";                                           
+        $contenu="";                                           
+    }
+    foreach($tabclient as $ligne){                                     
+        $contenu.="<form><fieldset><legend>Synthese du client n°".$ligne->idcli." ";
     }
     foreach($tabclient as $ligne){
         $contenu.="</br> <p> Client : ".$ligne->nomcli." ".$ligne->prenomcli."   |   Identifiant : ".$ligne->idcli."   |   Date de naissance :".$ligne->datenaissance."</p>";
-        $contenu.="<p> Profession : ".$ligne->professioncli."   |   Situation familiale : ".$ligne->siruationfamcli."</p>";
+        $contenu.="<p> Profession : ".$ligne->professioncli."   |   Situation familiale : ".$ligne->situationfamcli."</p>";
         $contenu.="<p> Contact : joignable au ".$ligne->numtelcli." et habitant au ".$ligne->adressecli."</p>";
         $contenu.="<p> Conseillé :".$ligne->login."</p>";
         break;
     }
     foreach($tabcompte as $ligne){
-        $contenu.="<p> Compte : ".$ligne->nomCompte." avec un solde de ".$ligne->solde."</p>";
+        $contenu.="<p> Compte : ".$ligne->nomcompte." avec un solde de ".$ligne->solde."</p>";
     }
     foreach($tabcontrat as $ligne){
-        $contenu.="<p> Contrat : ".$ligne->nomContrat." avec un tarif mensuel de ".$ligne->tarifmensuel."</p>";
+        $contenu.="<p> Contrat : ".$ligne->nomcontrat." avec un tarif mensuel de ".$ligne->tarifmensuel."</p>";
     }
+    $contenu.="</fieldset></form>";
+    $_SESSION['contenuForm']=$contenu;
 }
 
 //checkbox
 //tab des comptes
     // en fonction de l'id 
 function afficherLesComptes($tab){
+    $contenu="";
     foreach ($tab as $ligne) {
         $contenu.="<form name='formAffCom' method='POST' action='site.php' onsubmit='return verifActionCompte()><fieldset><legend>Gestion du ou des compte(s) du client n°".$ligne->idcli."</legend>";
         break;
     }
     foreach ($tab as $compte) {
-        $contenu.="<p><input type='radio' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
+        $contenu.="<p><input type='radio' value='Compte n°".$compte->idcompte."' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
     }
     $contenu.="<p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>
                <p><label>Le solde du compte sélectionné (en euros) :  </label><input type='text' id='solde' readonly/></p>
@@ -424,21 +430,22 @@ function afficherLesComptes($tab){
 
 function afficherErreurdeco($erreur){
     $contenuCat="";
-    $contenu.='<p>'.$erreur.'</p>
+    $contenu='<p>'.$erreur.'</p>
     <p><a href=site.php name="retour">Retour au site</a>';
+    $_SESSION['contenuForm']=$contenu;
     require_once('gabarit.php');
 }    
 
 
 function afficherErreurco($erreur){
     $contenuCat="";
-    $contenu.='<p>'.$erreur.'</p>
+    $_SESSION['contenuBackup']=$_SESSION['contenu'];
+    $_SESSION['contenu']="";
+    $contenu='<p><div class="erreur">'.$erreur.'</div></p>
     <p><a href=site.php name="retour">Retour au site</a>';
+    $_SESSION['contenuForm']=$contenu;
     require_once('gabarit.php');
 }
-
-
 /*
 faire les vues de l'acceuil en fonction de la catégorie du client
-
 Ne pas oublier de changer le mcd */

@@ -10,7 +10,7 @@ function getConnect(){
 
 function seConnecter($login,$mdp){
 	$connexion=getConnect();
-	$requete="select CATEGORIE from employe where LOGIN='".$login."' and MDP='".$mdp."'";
+	$requete="select categorie from employe where LOGIN='".$login."' and MDP='".$mdp."'";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
 	$categorie=$resultat->fetchall();
@@ -72,21 +72,23 @@ function syntheseClientInfo($id){
 }
 
 function syntheseClientContrat($id){
-    $requeteinfocontrat="select nomcontrat,tarifmensuel from client where idcli=$id";
+    $connexion=getConnect();
+    $requeteinfocontrat="select nomcontrat,tarifmensuel from contrat where idcli=$id";
     $infocontrat=$connexion->query($requeteinfocontrat);
     $infocontrat->setFetchMode(PDO::FETCH_OBJ);
-    $tabcompte=$infocompte->fetchall();
+    $tabcontrat=$infocontrat->fetchall();
     $infocontrat->closeCursor();
-    return $tabcompte;
+    return $tabcontrat;
 }
 
 function syntheseClientCompte($id){
-    $requeteinfocompte="select * from client where idcli=$id";
+    $connexion=getConnect();
+    $requeteinfocompte="select * from compte where idcli=$id";
     $infocompte=$connexion->query($requeteinfocompte);
     $infocompte->setFetchMode(PDO::FETCH_OBJ);
-    $tabdcontrat=$infocompte->fetchall();
+    $tabcompte=$infocompte->fetchall();
     $infocompte->closeCursor();
-    return $tabcontrat;
+    return $tabcompte;
 }
 
 function creerEmploye($login,$mdp,$nom,$prenom,$categorie){
@@ -178,14 +180,14 @@ function modifierListePJ($nomMotif,$liste){
 
 function bloquerCréneau($date,$heure,$login){
     $connexion=getConnect();
-    $requete="insert into planning(dateevenement,login,heure) values ($date,$login,$heure)" ;
+    $requete="insert into planning(dateevenement,login,heure) values ($date,$login,$heure,'tache')" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
 
 function poserRDV($date,$heure,$login,$idcli,$nommotif){
     $connexion=getConnect();
-    $requete="insert into planning values ($date,$login,$idcli,$nommotif,$heure)" ;
+    $requete="insert into planning values (0,$date,$login,$idcli,$nommotif,$heure,'rdv')" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
@@ -200,9 +202,9 @@ function getCategorie($login){
 	return $categorie;
 }
 
-function ajouterClient($nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam){
+function ajouterClient($idcli,$loginconseille,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam){
 	$connexion=getConnect();
-	$requete="insert into client values(0,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam)";
+	$requete="insert into client values($idcli,$loginconseille,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam)";
 	$insere=$connexion->query($requete);
 	$insere->closeCursor();
 }
@@ -249,17 +251,19 @@ function changerdecouvert($idcompte,$decouvert){
 	$miseajour->closeCursor();
 }
 
-function supprimeConCom($type,$id){
+function supprimerContrat($id){
 	$connexion=getConnect();
-	if ($type=="contrat"){
-		$requete="delete from contrat where idcontrat=$id";
-		$supprime=$connexion->query($requete);
-	}
-	if ($type=="compte"){
-		$requete="delete from compte where idcompte=$id";
-		$supprime=$connexion->query($requete);
-	}
-	$supprime->closeCursor();
+	$requete="delete from contrat where idcontrat=$id";
+	$supprime=$connexion->query($requete);
+    $supprime->closeCursor();
+}
+	
+
+function supprimerCompte($id){
+    $connexion=getConnect();
+    $requete="delete from compte where idcompte=$id";
+	$supprime=$connexion->query($requete);
+    $supprime->closeCursor();
 }
 
 
@@ -283,11 +287,11 @@ function chercherPlanning($jour,$employe){
 		array_push($tabclis, array($client,$tabcli,$tabcontrat,$tabcompte));
 	}
 	array_push($tabres,$tabclis);
-	return afficherPlanning($planning);
+	return afficherPlanning($tabres);
 }
 
 function planningDuJour($conseille){
-	$ajd=localtime();
+	$ajd=date("d-m-Y");
 	return chercherPlanning($ajd,$conseille);
 }
 
@@ -344,7 +348,7 @@ function listePiece($nomMotif){
     return $tab;
 }
 
-function lesMotif(){
+function lesMotifs(){
     $connexion=getConnect();
     $requete="select * from motif";
     $resultat=$connexion->query($requete);

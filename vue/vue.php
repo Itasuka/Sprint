@@ -19,8 +19,6 @@ function afficherIndex(){
                 </fieldset>
                 
             </form>
-
-
         </body>';
     if(!isset($contenu)){
         $contenu="";
@@ -35,7 +33,7 @@ function afficherAccueilAgent(){
                                 <input type="submit" value="Synthese d\'un client" name="InfoCli" />
                                 <input type="submit" value="Dépot ou retrait sur le compte d\'un client" name="DouRCompteCli" />
                                 <input type="submit" value="Prendre RDV" name="PrendreRDV" />
-                                <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
+                                <p><a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a></p>
                         </fieldset>
                 </form>';
     
@@ -46,7 +44,7 @@ function afficherAccueilAgent(){
 function afficherModifierInfosClientAgent(){
     $contenu='<form id="ModifInfoCli" action="site.php" method="POST">
                         <fieldset> <legend> ENTREZ LES INFORMATIONS A MODIFIER </legend>
-                                <p><label>Identifiant du client ayant des infos a modifier :</label><input type="text" name="IdCli"></p>
+                                <p><label>Identifiant du client a modifier :</label><input type="text" name="IdCli"></p>
                                 <p><label>Adresse :</label><input type="text" name="AdresseCli"></p>
                                 <p><label>Numero de téléphone :</label><input type="text" name="NumTelCli"></p>
                                 <p><label>Mail :</label><input type="text" name="MailCli"></p>
@@ -58,6 +56,7 @@ function afficherModifierInfosClientAgent(){
                 
     $_SESSION['contenu']=$contenu;
 }
+
     function afficherSyntheseClientAgent(){
        $contenu='<form id="InfoCli" action="site.php" method="POST">
                         <fieldset> <legend> SYNTHESE DU CLIENT </legend>
@@ -88,9 +87,10 @@ function afficherModifierInfosClientAgent(){
     function afficherPrendreRDV($tabdemotifs){
         $contenu='<form id="PrendreRDV" action="site.php" method="POST">
                         <fieldset> <legend> PRENDRE RDV </legend>
-                                <p><label>Donner le nom du conseillé pour voir son planning sur 7jours :</label><input type="text" name="NomConseille"></p>
+                                <p><label>Donner le nom du conseillé</label><input type="text" name="NomConseille"></p>
                                 <p><label>Donner le jour de départ</label><input type="date" name="DateDepart"></p>
-                                        <input type="submit" name="VoirPlanning7j" value="Voir planning sur 7jours">
+                                <p>
+                                        <input type="submit" name="VoirPlanning7j" value="Voir planning sur 7jours"></p>
                                 <p><label>Donner l\'identifiant du client concerné :</label><input type="text" name="IdCli">
                                 <p><label>Donner la date du RDV :</label><input type="date" name="DateRDV">
                                 <p><label>Donner l\'heure du RDV :</label><input type="text" name="HeureRDV">
@@ -117,7 +117,7 @@ function afficherAccueilConseille(){
         <input type="submit" value="ouvrir compte" name="ouvrirCompte" />
         <input type="submit" value="modifier le decouvert" name="modifDecouvert" />
         <input type="submit" value="résilier contrat ou compte" name="resilier" />
-        <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
+        <p><a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a></p>
     </p>
     </fieldset>
     </form>';
@@ -138,7 +138,7 @@ function afficherPlanningConseille(){  //si la date n'est pas mise alors c'est l
 }
 
 function afficherAjoutClient(){
-    $contenu='form id="ajoutCli"action="site.php" method="POST">
+    $contenu='<form id="ajoutCli"action="site.php" method="POST">
     <fieldset><legend>Ajouter un client :</legend>
         <p><label>Nom du client :</label><input type="text" name="NomCli"></p>
         <p><label>Prenom du client :</label><input type="text" name="PrenomCli"></p>
@@ -215,7 +215,11 @@ function afficherAccueilDirecteur(){
                         <input type="submit" value="Créer/Modifier/Supprimer un contrat" formaction="site.php" formmethod="POST" name="C/M/S_Contrat" />
                         <input type="submit" value="Modifier la liste du pièce à fournir" formaction="site.php" formmethod="POST" name="C/M/S_Piece" />
                         <input type="submit" value="Statistique" formaction="site.php" formmethod="POST" name="Stat" />
+<<<<<<< HEAD
                         <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
+=======
+                        <p><a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a></p>
+>>>>>>> cc66ffc5c45a8b0dc5ae38da39ae5811d6be0f4b
                     </p>
                 </fieldset>
             </form>';
@@ -396,7 +400,7 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
         $contenu="";                                           
     }
     foreach($tabclient as $ligne){                                     
-        $contenu.="<form><fieldset><legend>Synthese du client n°".$ligne->idcli." ";
+        $contenu.="<form name='AffSys' method='POST' action='site.php'><legend>Synthese du client n°".$ligne->idcli." ";
     }
     foreach($tabclient as $ligne){
         $contenu.="</br> <p> Client : ".$ligne->nomcli." ".$ligne->prenomcli."   |   Identifiant : ".$ligne->idcli."   |   Date de naissance :".$ligne->datenaissance."</p>";
@@ -411,40 +415,50 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
     foreach($tabcontrat as $ligne){
         $contenu.="<p> Contrat : ".$ligne->nomcontrat." avec un tarif mensuel de ".$ligne->tarifmensuel."</p>";
     }
-    $contenu.="</fieldset></form>";
+    $contenu.="</form>";
     $_SESSION['contenuForm']=$contenu;
 }
 
 //checkbox
 //tab des comptes
     // en fonction de l'id 
-function afficherLesComptes($tab){
-    $contenu="";
-    foreach ($tab as $ligne) {
-        $contenu.="<form name='formAffCom' method='POST' action='site.php' onsubmit='return verifActionCompte()><fieldset><legend>Gestion du ou des compte(s) du client n°".$ligne->idcli."</legend>";
-        break;
-    }
-    foreach ($tab as $compte) {
-        $contenu.="<p><input type='radio' value='Compte n°".$compte->idcompte."' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
+    function afficherLesComptes($tab){
+        $contenu="";
+        foreach ($tab as $ligne) {
+            $contenu.="<form name='formAffCom' method='POST' action='site.php' onsubmit='return verifActionCompte()'><fieldset><legend>Gestion du ou des compte(s) du client n°".$ligne->idcli."</legend>";
+            break;
+        }
+        foreach ($tab as $compte) {
+            $contenu.="<p><input type='radio' value='Compte n°".$compte->idcompte."' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
+        }
+        $contenu.="<br>
+                   <p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>
+                   <p><label>Le solde du compte sélectionné :  </label><input type='text' id='solde' readonly/></p>
+                   <p><label>Le découvert du compte sélectionné :  </label><input type='text' id='decouvert' readonly/></p>
+                   <p><label>le montant à débiter/créditer :  </label><input type='text' id='montant' required/></p>
+                   <p><label>Débiter</label> <input type='radio' id='debit' name='choix'/></p>
+                   <p><label>Créditer</label><input type='radio' id='credit'name='choix'/>  
+                   </p>
+                   </br>";
+                
+        $contenu.="<p><input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p></fieldset></form>";
+        $_SESSION['contenuForm']=$contenu;
     }
     $contenu.="<p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>
                <p><label>Le solde du compte sélectionné (en euros) :  </label><input type='text' id='solde' readonly/></p>
                <p><label>Le découvert maximum du compte sélectionné (en euros) :  </label><input type='text' id='decouvert' readonly/></p>
                <p><label>Veuillez indiquer le montant à débiter/créditer (en euros) :  </label><input type='text' id='montant' required/></p>
-               <p><label>Choisissez l'action à effectuer :  <input type='radio' id='debit'/> Débiter  </label>   <input type='radio' id='credit'/> Créditer  </p>";
-    $contenu.="<input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p></fieldset></form>";
-    $_SESSION['contenuForm']=$contenu;
+               <p><label>Choisissez l'action à effectuer :</label>  Débiter : <input type='radio' id='debit'/>   Créditer : <input type='radio' id='credit'</p>";
+    $contenu.="<input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p>";
 }
 
 function afficherErreurdeco($erreur){
-    $contenuCat="";
-    $contenu='<p>'.$erreur.'</p>
-    <p><a href=site.php name="retour">Retour au site</a>';
-    $_SESSION['contenuForm']=$contenu;
-    require_once('gabarit.php');
-}    
-
-
+        $contenuCat="";
+        $contenu='<p>'.$erreur.'</p>
+        <p><a href=site.php name="retour">Retour au site</a>';
+        $_SESSION['contenuForm']=$contenu;
+        require_once('gabarit.php');
+    }    
 function afficherErreurco($erreur){
     $contenuCat="";
     $_SESSION['contenuBackup']=$_SESSION['contenu'];

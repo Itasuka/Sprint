@@ -36,7 +36,7 @@ function debitercompte($idcompte,$montant){
 
 function creditercompte($idcompte,$montant){
     $connexion=getConnect();
-    $requete="select $solde from compte where idcompte=$idcompte";
+    $requete="select solde from compte where idcompte=$idcompte";
     $resultat=$connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $tableau=$resultat->fetchall();
@@ -50,9 +50,9 @@ function creditercompte($idcompte,$montant){
     }
 }
 
-function checkRDV($daterdv,$heurerdv){
+function checkRDV($daterdv,$heurerdv,$login){
     $connexion=getConnect();
-    $requete="select * from motif where dateevenement=$daterdv and heure=$heurerdv";
+    $requete="select * from planning where dateevenement='$daterdv' and heure='$heurerdv' and login='$login'";
     $resultat=$connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $tableaudesclients=$resultat->fetchall();
@@ -213,9 +213,9 @@ function getCategorie($login){
 	return $categorie;
 }
 
-function ajouterClient($idcli,$loginconseille,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam){
+function ajouterClient($loginconseille,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam){
 	$connexion=getConnect();
-	$requete="insert into client values($idcli,$loginconseille,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam)";
+	$requete="insert into client values(0,'$loginconseille','$nom','$prenom','$datenaissance','$adresse','$numtel','$profession','$situationfam')";
 	$insere=$connexion->query($requete);
 	$insere->closeCursor();
 }

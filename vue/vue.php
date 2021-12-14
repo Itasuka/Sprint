@@ -212,8 +212,8 @@ function afficherResiliationContratCompte(){
     <fieldset>
         <legend>Résilier un  contrat</legend>
             <p><label>Id du compte/contrat :</label><input type="text" name="IdResilier"></p>
-            <p><input type="submit" name="Résilier un compte" id="ResilierCompte"/>
-            <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Resilier un contrat"/></p> 
+            <p><input type="submit" name="Résilier un compte" value="Résilier un compte" id="ResilierCompte"/>
+            <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Résilier un contrat"/></p> 
     </fieldset>
     </form>';
     $_SESSION['contenu']=$contenu;
@@ -449,7 +449,10 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
             break;
         }
         foreach ($tab as $compte) {
-            $contenu.="<p><input type='radio' value='Compte n°".$compte->idcompte."' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
+            $idc=$compte->idcompte;
+            $decouvert=$compte->montantdecouvert;
+            $solde=$compte->montantdecouvert;
+            $contenu.="<p><input type='radio' value='Compte n°$idc' name='compteChoisi' onfocus='afficheDecouvertEtSolde($idc,$decouvert,$solde)'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
         }
         $contenu.="<br>
                    <p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>

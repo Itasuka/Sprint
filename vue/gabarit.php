@@ -3,7 +3,7 @@
  		<head>
    			 <meta charset="utf-8">
    			 <link rel="stylesheet" href="vue/style/style.css">
-   			 <script type="text/javascript" src="script/script.js"></script>
+   			 <script type="text/javascript" src="vue/script/script.js"></script>
         </head>
         <header></header>
         <body>

@@ -93,7 +93,8 @@ function syntheseClientCompte($id){
 
 function creerEmploye($login,$mdp,$nom,$prenom,$categorie){
     $connexion=getConnect();
-    $requete="insert into employe values ($login, $mdp, $nom, $prenom, $categorie)" ; 
+    $requete="insert into employe values ('$login','$mdp','$nom','$prenom','$categorie')" ;
+    echo $requete; 
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
@@ -101,7 +102,7 @@ function creerEmploye($login,$mdp,$nom,$prenom,$categorie){
 //bien chercher l'employer à modifier avant d'utiliser cette méthode pour avoir la valeur $id
 function modifierEmploye($login,$newlogin,$mdp){
     $connexion=getConnect();
-    $requete="update employe set login=$newlogin, mdp=$mdp where login=$login" ;
+    $requete="update employe set login='$newlogin', mdp='$mdp' where login='$login'" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
@@ -185,9 +186,9 @@ function bloquerCréneau($date,$heure,$login){
     $resultat->closeCursor();
 }
 
-function poserRDV($date,$heure,$login,$idcli,$nommotif){
+function poserRDV($date,$heure,$login,$idcli,$nommotif,$categorie){
     $connexion=getConnect();
-    $requete="insert into planning values ($date,$login,$idcli,$nommotif,$heure)" ;
+    $requete="insert into planning values(0,'$date','$login','$idcli','$nommotif','$heure','$categorie')" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
@@ -209,7 +210,7 @@ function ajouterClient($nom,$prenom,$datenaissance,$adresse,$numtel,$profession,
 	$insere->closeCursor();
 }
 
-
+    
 function vendreContrat($idcli,$nom,$date,$tarifmensuel){
 	$connexion=getConnect();
 	$requete="insert into contrat values(0,$idcli,$nom,$date,$tarifmensuel)";
@@ -338,7 +339,7 @@ function statsSolde($date){
 
 function listePiece($nomMotif){
     $connexion=getConnect();
-    $requete="select group_concat(nompiece) pieces from motif where nommotif=$nommotif natural join requis natural join piece";
+    $requete="select nompiece from motif natural join requis natural join piece where nommotif='$nomMotif'";
     $resultat=$connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $tab=$resultat->fetchall();

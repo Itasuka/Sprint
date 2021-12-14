@@ -129,6 +129,18 @@ $motif=$_POST['MotifRDV'];
 	afficherPrendreRDV($tab);
 }
 
+function ctlafficherRechercherId(){
+	afficherRechercherId();
+}
+
+function ctlChercherIdClient(){
+	if((!isset($_POST['DateNaissanceClient'])) || (empty($_POST['NomClient']))){
+		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
+		}
+	$tab=chercherUnIdClient($_POST['DateNaissanceClient'],$_POST['NomClient'])
+	afficherIdClient($tab);
+}
+
 //------------FIN AGENT------------
 
 //----------CONSEILLE--------------
@@ -236,6 +248,8 @@ function ctlResilierContrat(){
 }
 //-------------FIN CONSEILLE --------------
 
+//-----------DIRECTEUR----------------
+//----------FIN DIRECTEUR-----------
 function ctlErreur($erreur){
 	if(isset($_SESSION['categorie'])){
 		afficherErreurco($erreur);

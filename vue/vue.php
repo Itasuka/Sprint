@@ -221,11 +221,7 @@ function afficherAccueilDirecteur(){
                         <input type="submit" value="Créer/Modifier/Supprimer un contrat" formaction="site.php" formmethod="POST" name="C/M/S_Contrat" />
                         <input type="submit" value="Modifier la liste du pièce à fournir" formaction="site.php" formmethod="POST" name="C/M/S_Piece" />
                         <input type="submit" value="Statistique" formaction="site.php" formmethod="POST" name="Stat" />
-<<<<<<< HEAD
-                        <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
-=======
                         <p><a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a></p>
->>>>>>> cc66ffc5c45a8b0dc5ae38da39ae5811d6be0f4b
                     </p>
                 </fieldset>
             </form>';

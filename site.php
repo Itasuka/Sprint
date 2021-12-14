@@ -26,22 +26,22 @@ try{
 	if(isset($_SESSION['categorie'])){
 		if($_SESSION['categorie']=="Conseille"){
 			//Tout les isset conseille
-			if(isset($POST['planning_conseiller'])){
+			if(isset($_POST['planning_conseiller'])){
 				ctlafficherPlanningConseille();
 			}
-			else if(isset($POST['ajoutCli'])){
+			else if(isset($_POST['ajoutCli'])){
 				ctlafficherAjoutClient();
 			}
-			else if(isset($POST['vendreContrat'])){
+			else if(isset($_POST['vendreContrat'])){
 				ctlafficherVendreContrat();
 			}
-			else if(isset($POST['ouvrirCompte'])){
+			else if(isset($_POST['ouvrirCompte'])){
 				ctlafficherOuvrirCompte();
 			}
-			else if(isset($POST['modifDecouvert'])){
+			else if(isset($_POST['modifDecouvert'])){
 				ctlafficherModifierDecouvert();
 			}
-			else if(isset($POST['resilier'])){
+			else if(isset($_POST['resilier'])){
 				ctlafficherResiliationContratCompte();
 			}
 			//----------------------------------
@@ -83,6 +83,9 @@ try{
 			//Tout les isset Agents
 			if(isset($_POST['ModifInfoCli'])){
 				ctlAfficherModInfCli();
+			}
+			else if(isset($_POST['ChercherId'])){
+				ctlafficherRechercherId();
 			}
 			else if(isset($_POST['InfoCli'])){
 				ctlInfCli();

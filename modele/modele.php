@@ -50,6 +50,16 @@ function creditercompte($idcompte,$montant){
     }
 }
 
+function checkRDV($daterdv,$heurerdv){
+    $connexion=getConnect();
+    $requete="select * from motif where dateevenement=$daterdv and heure=$heurerdv";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tableaudesclients=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $tableaudesclients;
+}
+
 function chercherUnIdClient($nomclient,$datenaissanceclient){
     $connexion=getConnect();
     $requete="select idcli from client where nomcli=$nomclient and datenaissancecli=$datenaissance";
@@ -259,7 +269,6 @@ function supprimerContrat($id){
     $supprime->closeCursor();
 }
 	
-
 function supprimerCompte($id){
     $connexion=getConnect();
     $requete="delete from compte where idcompte=$id";

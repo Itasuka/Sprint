@@ -451,7 +451,7 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
         $contenu.="<p><input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p></fieldset></form>";
         $_SESSION['contenuForm']=$contenu;
     }
-
+//la fonction qui fait pop l'id client
 function afficherIdClient($tab){
     $contenu.='<fieldset> <legend>Résultat de la recherche</legend>';
     foreach($tab as $ligne){

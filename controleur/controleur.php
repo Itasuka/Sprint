@@ -76,7 +76,6 @@ function ctlRechercheCli(){
 	}
 	$tab=syntheseClientCompte($_POST['IdCli']);
 	afficherLesComptes($tab);
-	$_SESSION['contenuForm']="<p><label name='reussite'>Operation reussie</label></p>";
 }
 
 function ctlPrendreRDV(){
@@ -148,7 +147,8 @@ function ctlDebiterCrediter(){
 	if((empty($_POST['montant']))||(empty($_POST['compte']))||(empty($_POST['solde']))||(empty($_POST['decouvert']))){
 		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
 		}
-	if((isset($_POST['debit'])){
+	$res = $_POST['choix'];
+	if($res=="debit"){
 			$montant=$_POST['montant'];
 			$solde=$_POST['solde'];
 			$decouvert=$_POST['decouvert'];
@@ -159,11 +159,6 @@ function ctlDebiterCrediter(){
 	}
 	creditercompte($_POST['compte'],$_POST['montant']);
 	}
-}
-
-function ctlCréditer(){
-	crediter()
-}
 
 //------------FIN AGENT------------
 

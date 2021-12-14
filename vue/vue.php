@@ -463,12 +463,12 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
             $contenu.="<p><input type='radio' value='Compte n°$idc' name='compteChoisi' onfocus='afficheDecouvertEtSolde($idc,$decouvert,$solde)'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
         }
         $contenu.="<br>
-                   <p><label>Le numéro du compte sélectionné :  </label><input type='text' name='compte' readonly/></p>
-                   <p><label>Le solde du compte sélectionné :  </label><input type='text' name='solde' readonly/></p>
-                   <p><label>Le découvert du compte sélectionné :  </label><input type='text' name='decouvert' readonly/></p>
-                   <p><label>le montant à débiter/créditer :  </label><input type='text' name='montant' required/></p>
-                   <p><label>Débiter</label> <input type='radio' id='debit' name='choix'/></p>
-                   <p><label>Créditer</label><input type='radio' id='credit'name='choix'/>  
+                   <p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' name='compte' readonly/></p>
+                   <p><label>Le solde du compte sélectionné :  </label><input type='text' id='solde' name='solde' readonly/></p>
+                   <p><label>Le découvert du compte sélectionné :  </label><input type='text' id='decouvert' name='decouvert' readonly/></p>
+                   <p><label>le montant à débiter/créditer :  </label><input type='text' id='montant' name='montant' required/></p>
+                   <p><label>Débiter</label> <input type='radio' value='debit' id='debit' name='choix'/></p>
+                   <p><label>Créditer</label><input type='radio' value='credit' id='credit'name='choix'/>  
                    </p>
                    </br>";
                 

@@ -112,7 +112,7 @@ function afficherRechercherId(){
                 <fieldset> <legend> CHERCHER UN ID </legend>
             <p><label>Nom du client:</label><input type="text" name="NomClient"></p>
             <p><label>Date de naissance du client:</label><input type="text" name="DateNaissanceClient"></p>
-            <p><input type="submit" value="Chercher un client" name="modifDecouvert"/></p>'
+            <p><input type="submit" value="Chercher un client" name="modifDecouvert"/></p>';
 }
 
 function afficherAccueilConseille(){

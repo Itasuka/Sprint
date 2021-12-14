@@ -111,13 +111,9 @@ function ctlPlanning7j(){
 }
 
 function ctlAjoutRDV(){
-<<<<<<< HEAD
-	if((!isset($_POST['DateRDV'])) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
-=======
 	if(!isset($_POST['DateRDV']) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
->>>>>>> e097ef39bebfdb682323b7b99214ff795e18baa3
 	throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
-}poserRDV($_POST['DateRDV'],$_POST['HeureRDV'],$_POST['LoginConseille'],$_POST['IdCli'],$_POST['MotifRDV']);
+	}
 $date=$_POST['DateRDV'];
 $heure=$_POST['HeureRDV'];
 $login=$_POST['LoginConseille'];
@@ -141,7 +137,7 @@ function ctlChercherIdClient(){
 	if((!isset($_POST['DateNaissanceClient'])) || (empty($_POST['NomClient']))){
 		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
 		}
-	$tab=chercherUnIdClient($_POST['DateNaissanceClient'],$_POST['NomClient'])
+	$tab=chercherUnIdClient($_POST['DateNaissanceClient'],$_POST['NomClient']);
 	afficherIdClient($tab);
 }
 

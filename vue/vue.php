@@ -19,8 +19,6 @@ function afficherIndex(){
                 </fieldset>
                 
             </form>
-
-
         </body>';
     if(!isset($contenu)){
         $contenu="";
@@ -36,7 +34,7 @@ function afficherAccueilAgent(){
                                 <input type="submit" value="Dépot ou retrait sur le compte d\'un client" name="DouRCompteCli" />
                                 <input type="submit" value="Prendre RDV" name="PrendreRDV" />
                                 <input type="submit" value="Chercher un identifiant client" name="ChercherId"/>
-                                <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
+                                <p><a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a></p>
                         </fieldset>
                 </form>';
     
@@ -47,7 +45,7 @@ function afficherAccueilAgent(){
 function afficherModifierInfosClientAgent(){
     $contenu='<form id="ModifInfoCli" action="site.php" method="POST">
                         <fieldset> <legend> ENTREZ LES INFORMATIONS A MODIFIER </legend>
-                                <p><label>Identifiant du client ayant des infos a modifier :</label><input type="text" name="IdCli"></p>
+                                <p><label>Identifiant du client a modifier :</label><input type="text" name="IdCli"></p>
                                 <p><label>Adresse :</label><input type="text" name="AdresseCli"></p>
                                 <p><label>Numero de téléphone :</label><input type="text" name="NumTelCli"></p>
                                 <p><label>Mail :</label><input type="text" name="MailCli"></p>
@@ -90,9 +88,10 @@ function afficherModifierInfosClientAgent(){
     function afficherPrendreRDV($tabdemotifs){
         $contenu='<form id="PrendreRDV" action="site.php" method="POST">
                         <fieldset> <legend> PRENDRE RDV </legend>
-                                <p><label>Donner le nom du conseillé pour voir son planning sur 7jours :</label><input type="text" name="NomConseille"></p>
+                                <p><label>Donner le nom du conseillé</label><input type="text" name="NomConseille"></p>
                                 <p><label>Donner le jour de départ</label><input type="date" name="DateDepart"></p>
-                                        <input type="submit" name="VoirPlanning7j" value="Voir planning sur 7jours">
+                                <p>
+                                        <input type="submit" name="VoirPlanning7j" value="Voir planning sur 7jours"></p>
                                 <p><label>Donner l\'identifiant du client concerné :</label><input type="text" name="IdCli">
                                 <p><label>Donner la date du RDV :</label><input type="date" name="DateRDV">
                                 <p><label>Donner l\'heure du RDV :</label><input type="text" name="HeureRDV">
@@ -126,7 +125,7 @@ function afficherAccueilConseille(){
         <input type="submit" value="ouvrir compte" name="ouvrirCompte" />
         <input type="submit" value="modifier le decouvert" name="modifDecouvert" />
         <input type="submit" value="résilier contrat ou compte" name="resilier" />
-        <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
+        <p><a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a></p>
     </p>
     </fieldset>
     </form>';
@@ -144,10 +143,11 @@ function afficherPlanningConseille(){  //si la date n'est pas mise alors c'est l
         </fieldset>
         <p> <input type="submit" value="ajouter le client" name="planning1jour" /></p>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherAjoutClient(){
-    $contenu='form id="ajoutCli"action="site.php" method="POST">
+    $contenu='<form id="ajoutCli"action="site.php" method="POST">
     <fieldset><legend>Ajouter un client :</legend>
         <p><label>Nom du client :</label><input type="text" name="NomCli"></p>
         <p><label>Prenom du client :</label><input type="text" name="PrenomCli"></p>
@@ -162,6 +162,7 @@ function afficherAjoutClient(){
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherVendreContrat(){
@@ -175,6 +176,7 @@ function afficherVendreContrat(){
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherOuvrirCompte(){
@@ -188,6 +190,7 @@ function afficherOuvrirCompte(){
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherModifierDecouvert(){
@@ -199,6 +202,7 @@ function afficherModifierDecouvert(){
         <input type="reset" value="Effacer" id="Eff"></p>
     </fieldset>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherResiliationContratCompte(){
@@ -210,6 +214,7 @@ function afficherResiliationContratCompte(){
             <input type="submit" formaction="site.php" formmethod="POST" value="Resilier un contrat" name="ResilierContrat"/></p> 
     </fieldset>
     </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 
@@ -217,10 +222,11 @@ function afficherAccueilDirecteur(){
 	$contenuCat='<form id="debutDirecteur" action="site.php" method="POST">
             <fieldset>
                     <p>
-                        <input type="submit" value="accès des employer" name="ModifLogEmployer" />
-                        <input type="submit" value="créé/modif/supp un contrat" formaction="site.php" formmethod="POST" name="C/M/S_Contrat" />
-                        <input type="submit" value="la liste du pièce à fournir" formaction="site.php" formmethod="POST" name="C/M/S_Piece" />
+                        <input type="submit" value="accès des employer" name="ModifLogEmploye" />
+                        <input type="submit" value="Créer/Modifier/Supprimer un contrat" formaction="site.php" formmethod="POST" name="C/M/S_Contrat" />
+                        <input type="submit" value="Modifier la liste du pièce à fournir" formaction="site.php" formmethod="POST" name="C/M/S_Piece" />
                         <input type="submit" value="Statistique" formaction="site.php" formmethod="POST" name="Stat" />
+                        <p><a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a></p>
                     </p>
                 </fieldset>
             </form>';
@@ -235,11 +241,18 @@ function afficherAccesEmploye(){
                         <fieldset><legend>Acces des Employer</legend>
                                 <p><label>Nom :</label><input type="text" name="NomAChange" /></p>
                                 <p><label>Prenom :</label><input type="text" name="PrenomAChanger"/></p>
-                                <p><input type="submit" name="Créé employer" id="CreeEmployer">
-                                <input type="submit" formaction="site.php" formmethod="POST" value="ModifAcces" name="modifier accès"/>
-                                <input type="reset" formaction="site.php" formmethod="POST" value="Eff" name="Effacer"/></p>
+                                <p><label>Login :</label><input type="text" name="LoginChange" /></p>
+                                <p><label>Mot de Passe :</label><input type="text" name="MDPChange" /></p>
+                                <p><label>Categorie :</label><input type="text" name="CatChange" /></p>
+                                <p><input type="submit" value="Créer employé" name="CreerEmploye" id="CreerEmployer">
+                                <p><label>Ancient login :</label><input type="text" name="Login" /></p>
+                                <p><label>Nouveau login :</label><input type="text" name="NouveauLoginChange" /></p>
+                                <p><label>Nouveau mot de passe :</label><input type="text" name="MDP" /></p>
+                                <input type="submit" formaction="site.php" formmethod="POST" value="ModifAcces" name="modifier_acces"/>
+                                <input type="reset" formaction="site.php" formmethod="POST" value="Effacer" name="Effacer"/></p>
                         </fieldset>
                 </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherChangeContrat(){
@@ -394,7 +407,7 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
         $contenu="";                                           
     }
     foreach($tabclient as $ligne){                                     
-        $contenu.="<form><fieldset><legend>Synthese du client n°".$ligne->idcli." ";
+        $contenu.="<form name='AffSys' method='POST' action='site.php'><legend>Synthese du client n°".$ligne->idcli." ";
     }
     foreach($tabclient as $ligne){
         $contenu.="</br> <p> Client : ".$ligne->nomcli." ".$ligne->prenomcli."   |   Identifiant : ".$ligne->idcli."   |   Date de naissance :".$ligne->datenaissance."</p>";
@@ -409,29 +422,35 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
     foreach($tabcontrat as $ligne){
         $contenu.="<p> Contrat : ".$ligne->nomcontrat." avec un tarif mensuel de ".$ligne->tarifmensuel."</p>";
     }
-    $contenu.="</fieldset></form>";
+    $contenu.="</form>";
     $_SESSION['contenuForm']=$contenu;
 }
 
 //checkbox
 //tab des comptes
     // en fonction de l'id 
-function afficherLesComptes($tab){
-    $contenu="";
-    foreach ($tab as $ligne) {
-        $contenu.="<form name='formAffCom' method='POST' action='site.php' onsubmit='return verifActionCompte()><fieldset><legend>Gestion du ou des compte(s) du client n°".$ligne->idcli."</legend>";
-        break;
+    function afficherLesComptes($tab){
+        $contenu="";
+        foreach ($tab as $ligne) {
+            $contenu.="<form name='formAffCom' method='POST' action='site.php' onsubmit='return verifActionCompte()'><fieldset><legend>Gestion du ou des compte(s) du client n°".$ligne->idcli."</legend>";
+            break;
+        }
+        foreach ($tab as $compte) {
+            $contenu.="<p><input type='radio' value='Compte n°".$compte->idcompte."' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
+        }
+        $contenu.="<br>
+                   <p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>
+                   <p><label>Le solde du compte sélectionné :  </label><input type='text' id='solde' readonly/></p>
+                   <p><label>Le découvert du compte sélectionné :  </label><input type='text' id='decouvert' readonly/></p>
+                   <p><label>le montant à débiter/créditer :  </label><input type='text' id='montant' required/></p>
+                   <p><label>Débiter</label> <input type='radio' id='debit' name='choix'/></p>
+                   <p><label>Créditer</label><input type='radio' id='credit'name='choix'/>  
+                   </p>
+                   </br>";
+                
+        $contenu.="<p><input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p></fieldset></form>";
+        $_SESSION['contenuForm']=$contenu;
     }
-    foreach ($tab as $compte) {
-        $contenu.="<p><input type='radio' value='Compte n°".$compte->idcompte."' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
-    }
-    $contenu.="<p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>
-               <p><label>Le solde du compte sélectionné (en euros) :  </label><input type='text' id='solde' readonly/></p>
-               <p><label>Le découvert maximum du compte sélectionné (en euros) :  </label><input type='text' id='decouvert' readonly/></p>
-               <p><label>Veuillez indiquer le montant à débiter/créditer (en euros) :  </label><input type='text' id='montant' required/></p>
-               <p><label>Choisissez l'action à effectuer :</label>  Débiter : <input type='radio' id='debit'/>   Créditer : <input type='radio' id='credit'</p>";
-    $contenu.="<input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p>";
-}
 
 function afficherIdClient($tab){
     $contenu.='<fieldset> <legend>Résultat de la recherche</legend>';
@@ -442,14 +461,12 @@ function afficherIdClient($tab){
 }
 
 function afficherErreurdeco($erreur){
-    $contenuCat="";
-    $contenu='<p>'.$erreur.'</p>
-    <p><a href=site.php name="retour">Retour au site</a>';
-    $_SESSION['contenuForm']=$contenu;
-    require_once('gabarit.php');
-}    
-
-
+        $contenuCat="";
+        $contenu='<p>'.$erreur.'</p>
+        <p><a href=site.php name="retour">Retour au site</a>';
+        $_SESSION['contenuForm']=$contenu;
+        require_once('gabarit.php');
+    }    
 function afficherErreurco($erreur){
     $contenuCat="";
     $_SESSION['contenuBackup']=$_SESSION['contenu'];

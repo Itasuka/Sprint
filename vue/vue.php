@@ -166,6 +166,7 @@ function afficherAjoutClient(){
         <p><label>login conseiller :</label><input type="text" name"loginC">
         <p><label>Nom du client :</label><input type="text" name="NomCli"></p>
         <p><label>Prenom du client :</label><input type="text" name="PrenomCli"></p>
+        <p><label>Login du conseille</label><input type="text" name="LoginC"></p>
         <p><label>Date de naissance du Client :</label><input type="date" name="DateNaissanceCli"></p>
         <p><label>Adresse du client :</label><input type="text" name="AdresseCli"></p>
         <p><label>Numero de telephone du client :</label><input type="text" name="NumTelCli"></p>
@@ -226,8 +227,8 @@ function afficherResiliationContratCompte(){
     <fieldset>
         <legend>Résilier un  contrat</legend>
             <p><label>Id du compte/contrat :</label><input type="text" name="IdResilier"></p>
-            <p><input type="submit" name="Résilier un compte" id="ResilierCompte"/>
-            <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Resilier un contrat"/></p> 
+            <p><input type="submit" name="Résilier un compte" value="Résilier un compte" id="ResilierCompte"/>
+            <input type="submit" formaction="site.php" formmethod="POST" value="ResilierContrat" name="Résilier un contrat"/></p> 
     </fieldset>
     </form>';
     $_SESSION['contenu']=$contenu;
@@ -367,12 +368,13 @@ function afficheridentifiantClient($tab){
 
 function afficherPlanning1jour1employe($tab){
     $h=8;
-    $tailletabcase2 = sizeof($tab[1]);
-    foreach($tab[0] as $ligne){
-        $contenu.="<table> <tr> <th colspan='2'>Planning de '. $tab[0]->nomemploye.' '.$tab[0]->prenomemploye .' le '.$tab[0]->dateevenement.'</th> </tr> <tr>";
+    $contenu="";
+    /*$tailletabcase2 = sizeof(array($tab[1]));
+    foreach($tab as $ligne){
+        $contenu.="<table> <tr> <th colspan='2'>Planning de '. $ligne->nomemploye.' '.$ligne->prenomemploye .' le '.$ligne->dateevenement.'</th> </tr> <tr>";
         break;
     }
-    foreach ($tab[0] as $planning){
+    foreach ($tab as $planning){
         $contenu.="<tr> <th>".$h."h00 </th>";
         if (($planning->heure)-8==$h){
             $listedespieces=$planning->nompieces;
@@ -416,7 +418,9 @@ function afficherPlanning1jour1employe($tab){
             $h=$h++;
         }
     }
-    $contenu.="</table>";
+    $contenu.="</table>";*/
+    $contenu.="<label>Le Planning n'est pas accessible pour le moment";
+    $_SESSION['contenuForm']=$contenu;
 }
 
 function afficherSynthese($tabclient,$tabcontrat,$tabcompte){ 
@@ -453,7 +457,10 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
             break;
         }
         foreach ($tab as $compte) {
-            $contenu.="<p><input type='radio' value='Compte n°".$compte->idcompte."' name='compteChoisi' onfocus='afficheDecouvertEtSolde(".$compte->idcompte.",".$compte->montantdecouvert.",".$compte->solde.")'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
+            $idc=$compte->idcompte;
+            $decouvert=$compte->montantdecouvert;
+            $solde=$compte->montantdecouvert;
+            $contenu.="<p><input type='radio' value='Compte n°$idc' name='compteChoisi' onfocus='afficheDecouvertEtSolde($idc,$decouvert,$solde)'/><label>  Compte numero ".$compte->idcompte." de type ".$compte->nomcompte." ouvert le ".$compte->dateouverture.". </label></p>";
         }
         $contenu.="<br>
                    <p><label>Le numéro du compte sélectionné :  </label><input type='text' name='compte' readonly/></p>

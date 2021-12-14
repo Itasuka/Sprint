@@ -184,15 +184,15 @@ function ctlPlanning1JourConseille(){
 	if ((empty($_POST['JourPlanning']))||(empty($_POST['LoginC']))){
 		throw new Exception("Un ou plusieurs champs sont vides");
 	} 
-	$p=chercherPlanning($POST_["JourPlanning"],$POST_["LoginC"]);
+	$p=chercherPlanning($_POST["JourPlanning"],$_POST["LoginC"]);
 	afficherPlanning1jour1employe($p);
 }
 
 function ctlCreationClient(){
-	if (empty($_POST['loginC'])){
-		throw new Exception("le conseillé ne peut etre vide");
+	if (empty($_POST['LoginC'])){
+		throw new Exception("Le conseillé ne peut être vide");
 	}
-	$loginc=$_POST['loginC'];
+	$loginc=$_POST['LoginC'];
 	$nom=$_POST['NomCli'];
 	$prenom=$_POST['PrenomCli'];
 	$datenaissance=$_POST['DateNaissanceCli'];
@@ -288,8 +288,6 @@ function ctlResilierContrat(){
 }
 //-------------FIN CONSEILLE --------------
 
-//-----------DIRECTEUR----------------
-//----------FIN DIRECTEUR-----------
 function ctlErreur($erreur){
 	if(isset($_SESSION['categorie'])){
 		afficherErreurco($erreur);

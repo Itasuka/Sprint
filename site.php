@@ -136,7 +136,7 @@ try{
 			//---------------------------------
 			//Isset D ou R
 			if(isset($POST['operation'])){
-				ctlDébiterCredit();
+				ctlDebiterCrediter();
 			}
 			
 

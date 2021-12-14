@@ -10,7 +10,7 @@ function getConnect(){
 
 function seConnecter($login,$mdp){
 	$connexion=getConnect();
-	$requete="select CATEGORIE from employe where LOGIN='".$login."' and MDP='".$mdp."'";
+	$requete="select categorie from employe where LOGIN='".$login."' and MDP='".$mdp."'";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
 	$categorie=$resultat->fetchall();
@@ -69,23 +69,26 @@ function syntheseClientInfo($id){
     $tabduclient=$infoclient->fetchall();
     $infoclient->closeCursor();
     return $tabduclient;
+}
 
 function syntheseClientContrat($id){
-    $requeteinfocontrat="select nomcontrat from client where idcli=$id";
+    $connexion=getConnect();
+    $requeteinfocontrat="select nomcontrat,tarifmensuel from contrat where idcli=$id";
     $infocontrat=$connexion->query($requeteinfocontrat);
     $infocontrat->setFetchMode(PDO::FETCH_OBJ);
-    $tabcompte=$infocompte->fetchall();
+    $tabcontrat=$infocontrat->fetchall();
     $infocontrat->closeCursor();
-    return $tabcompte;
+    return $tabcontrat;
 }
 
 function syntheseClientCompte($id){
-    $requeteinfocompte="select nomcompte,solde from client where idcli=$id";
+    $connexion=getConnect();
+    $requeteinfocompte="select * from compte where idcli=$id";
     $infocompte=$connexion->query($requeteinfocompte);
     $infocompte->setFetchMode(PDO::FETCH_OBJ);
-    $tabdcontrat=$infocompte->fetchall();
+    $tabcompte=$infocompte->fetchall();
     $infocompte->closeCursor();
-    return $tabcontrat;
+    return $tabcompte;
 }
 
 function creerEmploye($login,$mdp,$nom,$prenom,$categorie){
@@ -199,12 +202,13 @@ function getCategorie($login){
 	return $categorie;
 }
 
-function ajouterClient($nom,$prenom,$datenaissance,$addresse,$numtel,$profession,$situationfam){
+function ajouterClient($nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam){
 	$connexion=getConnect();
-	$requete="insert into client values(0,$nom,$prenom,$datenaissance,$addresse,$numtel,$profession,$situationfam)";
+	$requete="insert into client values(0,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam)";
 	$insere=$connexion->query($requete);
 	$insere->closeCursor();
 }
+
 
 function vendreContrat($idcli,$nom,$date,$tarifmensuel){
 	$connexion=getConnect();
@@ -266,13 +270,13 @@ function chercherPlanning($jour,$employe){
 	$requete="select dateevenement,idmotif,login,idcli,heure,group_concat(nompiece),nommotif from planning where dateevenement=$jour and login=$employe natural join motif natural join requis natural join piece";
 	$planning=$connexion->query($requete);
 	$planning->setFetchMode(PDO::FETCH_OBJ);
-	$planning->fetchall();
+	$tab1=$planning->fetchall();
 	$planning->closeCursor();
 	$requete="select distinct idcli from planning where dateevenement=$jour and login=$employe";
 	$lescli=$connexion->query($requete);
 	$lescli->setFetchMode(PDO::FETCH_OBJ);
 	$lescli->fetchall();
-	$tabres=array($planning);
+	$tabres=array($tab1);
 	$tabclis=array();
 	foreach ($lescli as $client){
 		$tabcli=syntheseClientInfo($client);
@@ -294,9 +298,9 @@ function statsContrats($date1,$date2){
 	$requete="select count(idcontrat) nb from contrat where dateouverture>=$date1 and dateouverture<=date2";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
-	$resultat->fetchall();
+	$tab=$resultat->fetchall();
 	$resultat->closeCursor();
-	return $resultat;
+	return $tab;
 }
 
 function statsRDV($date1,$date2){
@@ -304,9 +308,9 @@ function statsRDV($date1,$date2){
 	$requete="select count(dateevenement) nb from planning where dateevenement>=$date1 and dateevenement<=$date2";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
-	$resultat->fetchall();
+	$tab=$resultat->fetchall();
 	$resultat->closeCursor();
-	return $resultat;
+	return $tab;
 }
 
 function statsClient($date){
@@ -317,9 +321,9 @@ function statsClient($date){
 			    select idcli from compte where dateouverture<=$date";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
-	$resultat->fetchall();
+	$tab=$resultat->fetchall();
 	$resultat->closeCursor();
-	return $resultat;
+	return $tab;
 }
 
 function statsSolde($date){
@@ -327,8 +331,58 @@ function statsSolde($date){
 	$requete="select sum(solde) somme from compte where dateouverture<=$date";
 	$resultat=$connexion->query($requete);
 	$resultat->setFetchMode(PDO::FETCH_OBJ);
-	$resultat->fetchall();
+	$tab=$resultat->fetchall();
 	$resultat->closeCursor();
-	return $resultat;
+	return $tab;
 }
+
+function listePiece($nomMotif){
+    $connexion=getConnect();
+    $requete="select group_concat(nompiece) pieces from motif where nommotif=$nommotif natural join requis natural join piece";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tab=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $tab;
+}
+
+function lesMotifs(){
+    $connexion=getConnect();
+    $requete="select * from motif";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $tab=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $tab;
+}
+
+function ModifAdresseCli($idCli1,$adressecli){
+    $connexion=getConnect();
+    $requete="update client set adressecli=$adressecli where idCli=$idCli1";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+function ModifNumTelCli($idCli1,$NumTelcli){
+    $connexion=getConnect();
+    $requete="update client set numtelcli=$NumTelcli where idCli=$idCli1";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+function ModifMailCli($idCli1,$mailcli){
+    $connexion=getConnect();
+    $requete="update client set mailcli=$mailcli where idCli=$idCli1";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+function ModifProfesionCli($idCli1,$Profesioncli){
+    $connexion=getConnect();
+    $requete="update client set profesioncli1=$Profesioncli where idCli=$idCli1";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}
+function ModifSitFamiCli($idCli1,$Sitfamicli){
+    $connexion=getConnect();
+    $requete="update client set situationfamcli=$Sitfamicli where idCli=$idCli1";
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
 }

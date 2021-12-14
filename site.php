@@ -44,6 +44,10 @@ try{
 			else if(isset($_POST['resilier'])){
 				ctlafficherResiliationContratCompte();
 			}
+			else if(isset($_POST['creneau_conseiller'])){
+				ctlafficherPoserTaches();
+			}
+
 			//----------------------------------
 			//Isset pour Planning
 			if(isset($_POST['planning1jour'])){
@@ -77,6 +81,11 @@ try{
 
 			if(isset($_POST['ResilierCompte'])){
 				ctlResilierCompte();
+			}
+			//------------------------------------
+			//Isset Bloquer Un creneau
+			if(isset($_POST['putcreneau'])){
+				ctlPoserCreneau();
 			}
 		}
 		else if($_SESSION['categorie']=="Agent"){
@@ -119,7 +128,16 @@ try{
 			if(isset($_POST['CreationRDV'])){
 				ctlAjoutRDV();
 			}
-
+			//-------------------------------
+			//Isset pour chercher id
+			if(isset($_POST['chercherUnClient'])){
+				ctlChercherIdClient();
+			}
+			//---------------------------------
+			//Isset D ou R
+			if(isset($POST['operation'])){
+				ctlDébiterCredit();
+			}
 			
 
 		}

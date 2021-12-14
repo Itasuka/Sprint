@@ -62,7 +62,8 @@ function checkRDV($daterdv,$heurerdv,$login){
 
 function chercherUnIdClient($nomclient,$datenaissanceclient){
     $connexion=getConnect();
-    $requete="select idcli from client where nomcli=$nomclient and datenaissancecli=$datenaissance";
+    $datenaissanceclient2=date("Y-m-d");
+    $requete="select idcli from client where nomcli='$nomclient' and datenaissance=$datenaissanceclient2";
     $resultat=$connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $tableaudesclients=$resultat->fetchall();
@@ -191,7 +192,7 @@ function modifierListePJ($nomMotif,$liste){
 
 function bloquerCréneau($date,$heure,$login){
     $connexion=getConnect();
-    $requete="insert into planning(dateevenement,login,heure) values ($date,$login,$heure,'tache')" ;
+    $requete="insert into planning(idevenement,dateevenement,login,heure,categorie) values (0,'$date','$login','$heure','tache')" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
@@ -223,14 +224,14 @@ function ajouterClient($loginconseille,$nom,$prenom,$datenaissance,$adresse,$num
     
 function vendreContrat($idcli,$nom,$date,$tarifmensuel){
 	$connexion=getConnect();
-	$requete="insert into contrat values(0,$idcli,$nom,$date,$tarifmensuel)";
+	$requete="insert into contrat values(0,'$idcli','$nom','$date','$tarifmensuel')";
 	$vendre=$connexion->query($requete);
 	$vendre->closeCursor();
 }
 
 function ouvrirCompte($idcli,$nomcompte,$date,$montantdecouvert){
 	$connexion=getConnect();
-	$requete="insert into compte values(0,$idcli,$nomcompte,$date,$montantdecouvert)";
+	$requete="insert into compte values(0,'$idcli','$nomcompte','$date','$montantdecouvert',0)";
 	$ouvrir=$connexion->query($requete);
 	$ouvrir->closeCursor();
 }
@@ -264,14 +265,14 @@ function changerdecouvert($idcompte,$decouvert){
 
 function supprimerContrat($id){
 	$connexion=getConnect();
-	$requete="delete from contrat where idcontrat=$id";
+	$requete="delete from contrat where idclient=$id";
 	$supprime=$connexion->query($requete);
     $supprime->closeCursor();
 }
 	
 function supprimerCompte($id){
     $connexion=getConnect();
-    $requete="delete from compte where idcompte=$id";
+    $requete="delete from compte where idclient=$id";
 	$supprime=$connexion->query($requete);
     $supprime->closeCursor();
 }

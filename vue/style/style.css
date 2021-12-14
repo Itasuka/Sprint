@@ -97,6 +97,19 @@ input[type="submit"]:hover,input[type="reset"]:hover{
     box-shadow: 0 0 5px #9400D3;
     margin-right: 55%;
 }
+label[name="reussite"]{
+    background-color: indigo;
+    color: #FFF;
+    display: block;
+    width: 12%;
+    float: left ;
+    padding-bottom:1% ;
+    padding-right:1% ;
+    padding-top:1% ;
+    margin-left: 15%;
+    text-align: right;
+    letter-spacing: 1px;
+}
 input[type="radio"]{
     width: 30%;
     height: 30%;

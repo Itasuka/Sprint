@@ -180,14 +180,14 @@ function modifierListePJ($nomMotif,$liste){
 
 function bloquerCréneau($date,$heure,$login){
     $connexion=getConnect();
-    $requete="insert into planning(dateevenement,login,heure) values ($date,$login,$heure)" ;
+    $requete="insert into planning(dateevenement,login,heure) values ($date,$login,$heure,'tache')" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
 
 function poserRDV($date,$heure,$login,$idcli,$nommotif){
     $connexion=getConnect();
-    $requete="insert into planning values ($date,$login,$idcli,$nommotif,$heure)" ;
+    $requete="insert into planning values (0,$date,$login,$idcli,$nommotif,$heure,'rdv')" ;
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
@@ -202,9 +202,9 @@ function getCategorie($login){
 	return $categorie;
 }
 
-function ajouterClient($nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam){
+function ajouterClient($idcli,$loginconseille,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam){
 	$connexion=getConnect();
-	$requete="insert into client values(0,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam)";
+	$requete="insert into client values($idcli,$loginconseille,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam)";
 	$insere=$connexion->query($requete);
 	$insere->closeCursor();
 }
@@ -251,17 +251,19 @@ function changerdecouvert($idcompte,$decouvert){
 	$miseajour->closeCursor();
 }
 
-function supprimeConCom($type,$id){
+function supprimerContrat($id){
 	$connexion=getConnect();
-	if ($type=="contrat"){
-		$requete="delete from contrat where idcontrat=$id";
-		$supprime=$connexion->query($requete);
-	}
-	if ($type=="compte"){
-		$requete="delete from compte where idcompte=$id";
-		$supprime=$connexion->query($requete);
-	}
-	$supprime->closeCursor();
+	$requete="delete from contrat where idcontrat=$id";
+	$supprime=$connexion->query($requete);
+    $supprime->closeCursor();
+}
+	
+
+function supprimerCompte($id){
+    $connexion=getConnect();
+    $requete="delete from compte where idcompte=$id";
+	$supprime=$connexion->query($requete);
+    $supprime->closeCursor();
 }
 
 
@@ -285,11 +287,11 @@ function chercherPlanning($jour,$employe){
 		array_push($tabclis, array($client,$tabcli,$tabcontrat,$tabcompte));
 	}
 	array_push($tabres,$tabclis);
-	return afficherPlanning($planning);
+	return afficherPlanning($tabres);
 }
 
 function planningDuJour($conseille){
-	$ajd=localtime();
+	$ajd=date("d-m-Y");
 	return chercherPlanning($ajd,$conseille);
 }
 

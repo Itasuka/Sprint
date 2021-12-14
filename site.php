@@ -26,6 +26,58 @@ try{
 	if(isset($_SESSION['categorie'])){
 		if($_SESSION['categorie']=="Conseille"){
 			//Tout les isset conseille
+			if(isset($POST['planning_conseiller'])){
+				afficherPlanningConseille();
+			}
+			else if(isset($POST['ajoutCli'])){
+				afficherAjoutClient();
+			}
+			else if(isset($POST['vendreContrat'])){
+				afficherVendreContrat();
+			}
+			else if(isset($POST['ouvrirCompte'])){
+				afficherOuvrirCompte();
+			}
+			else if(isset($POST['modifDecouvert'])){
+				afficherModifierDecouvert();
+			}
+			else if(isset($POST['resilier'])){
+				afficherResiliationContratCompte();
+			}
+			//----------------------------------
+			//Isset pour Planning
+			if(isset($_POST['planning1jour'])){
+				ctlPlanning1JourConseille();
+			}
+			//----------------------------------
+			//Isset Ajout Client
+			if(isset($_POST['envoyerNewCli'])){
+				ctlCreationClient();
+			}
+			//----------------------------------
+			//Isset Vendre Contrat
+			if(isset($_POST['ContratVendu'])){
+				ctlVendreContrat();
+			}
+			//------------------------------------
+			//Isset Ouvrir compte
+			if(isset($_POST['CompteOuvert'])){
+				ctlOuvrirCompte();
+			}
+			//------------------------------------
+			//Isset Modifier decouvert
+			if(isset($_POST['changerDecouvert'])){
+				ctlChangerDecouvert();
+			}
+			//------------------------------------
+			//Isset Resiliation Contrat ou Compte
+			if(isset($_POST['ResilierContrat'])){
+				ctlResilierContrat();
+			}
+
+			if(isset($_POST['ResilierCompte'])){
+				ctlResilierCompte();
+			}
 		}
 		else if($_SESSION['categorie']=="Agent"){
 			//Tout les isset Agents

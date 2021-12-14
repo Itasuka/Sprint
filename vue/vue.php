@@ -56,6 +56,7 @@ function afficherModifierInfosClientAgent(){
                 
     $_SESSION['contenu']=$contenu;
 }
+
     function afficherSyntheseClientAgent(){
        $contenu='<form id="InfoCli" action="site.php" method="POST">
                         <fieldset> <legend> SYNTHESE DU CLIENT </legend>
@@ -432,6 +433,13 @@ function afficherSynthese($tabclient,$tabcontrat,$tabcompte){
         $contenu.="<p><input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p></fieldset></form>";
         $_SESSION['contenuForm']=$contenu;
     }
+    $contenu.="<p><label>Le numéro du compte sélectionné :  </label><input type='text' id='compte' readonly/></p>
+               <p><label>Le solde du compte sélectionné (en euros) :  </label><input type='text' id='solde' readonly/></p>
+               <p><label>Le découvert maximum du compte sélectionné (en euros) :  </label><input type='text' id='decouvert' readonly/></p>
+               <p><label>Veuillez indiquer le montant à débiter/créditer (en euros) :  </label><input type='text' id='montant' required/></p>
+               <p><label>Choisissez l'action à effectuer :</label>  Débiter : <input type='radio' id='debit'/>   Créditer : <input type='radio' id='credit'</p>";
+    $contenu.="<input type='submit' value='Effectuer l'opération' /><p id='erreurcompte'></p>";
+}
 
 function afficherErreurdeco($erreur){
         $contenuCat="";

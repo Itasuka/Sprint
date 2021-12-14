@@ -119,7 +119,7 @@ function afficherAccueilConseille(){
 	$contenuCat='<form id="debutConseille" action="site.php" method="POST">
     <fieldset><legend> QUE VOULEZ-VOUS FAIRE ? </legend>
     <p>
-        <input type="submit" value="voir planning" name="planning_conseiller" />
+        <input type="submit" value="voir planning(indisponible)" name="planning_conseiller" />
         <input type="submit" value="bloquer un créneau" name="creneau_conseiller" />
         <input type="submit" value="inscrire client" name="ajoutCli" />
         <input type="submit" value="vendre un contrat" name="vendreContrat" />
@@ -239,7 +239,7 @@ function afficherAccueilDirecteur(){
             <fieldset>
                     <p>
                         <input type="submit" value="accès des employer" name="ModifLogEmploye" />
-                        <input type="submit" value="Créer/Modifier/Supprimer un contrat" formaction="site.php" formmethod="POST" name="C/M/S_Contrat" />
+                        <input type="submit" value="Créer/Modifier/Supprimer un contrat(indispo)" formaction="site.php" formmethod="POST" name="C/M/S_Contrat" />
                         <input type="submit" value="Modifier la liste du pièce à fournir" formaction="site.php" formmethod="POST" name="C/M/S_Piece" />
                         <input type="submit" value="Statistique" formaction="site.php" formmethod="POST" name="Stat" />
                         <p><a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a></p>

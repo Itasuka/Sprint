@@ -147,7 +147,7 @@ function ctlDebiterCrediter(){
 	if((empty($_POST['montant']))||(empty($_POST['compte']))||(empty($_POST['solde']))||(empty($_POST['decouvert']))){
 		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
 		}
-	if((isset($_POST['debit'])){
+	if(isset($_POST['debit'])){
 			$montant=$_POST['montant'];
 			$solde=$_POST['solde'];
 			$decouvert=$_POST['decouvert'];
@@ -158,10 +158,9 @@ function ctlDebiterCrediter(){
 	}
 	creditercompte($_POST['compte'],$_POST['montant']);
 	}
-}
 
 function ctlCréditer(){
-	crediter()
+	crediter();
 }
 
 //------------FIN AGENT------------

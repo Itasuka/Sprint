@@ -110,12 +110,24 @@ function ctlPlanning7j(){
 }
 }
 
-/*function ctlAjoutRDV(){
+function ctlAjoutRDV(){
 	if((!isset($_POST['DateRDV']) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
-		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
-}poserRDV($_POST['DateRDV'],$_POST['HeureRDV'],$_POST['LoginConseille'],$_POST['IdCli'],$_POST['MotifRDV']);*
-//finir 
-}*/
+	throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
+}poserRDV($_POST['DateRDV'],$_POST['HeureRDV'],$_POST['LoginConseille'],$_POST['IdCli'],$_POST['MotifRDV']);
+$date=$_POST['DateRDV'];
+$heure=$_POST['HeureRDV'];
+$login=$_POST['LoginConseille'];
+$idcli=$_POST['IdCli'];
+$motif=$_POST['MotifRDV'];
+	poserRDV($date,$heure,$login,$idcli,$motif,'rdv');
+	$tabp=listePiece($motif);
+	$_SESSION['contenuForm']="Liste des pièces nécessaire au rendez-vous :  ";
+	foreach ($tabp as $ligne) {
+		$_SESSION['contenuForm'].=$ligne->nompiece.", ";
+	}
+	$tab=lesMotifs();
+	afficherPrendreRDV($tab);
+}
 
 //------------FIN AGENT------------
 
@@ -166,6 +178,32 @@ function ctlVendreContrat(){
 		throw new Exception("Un ou plusieurs champs sont vides");
 	}
 	vendreContrat($_POST['Idcli'],$_POST['NomContrat'],$_POST['DateOuvertureContrat'],$_POST['TarifContrat']);
+}
+function ctlModifierLogEmploye(){
+	afficherAccesEmploye();
+}
+
+function ctlCreeEmploye(){
+	$log=$_POST['LoginChange'];
+	$mdp=$_POST['MDPChange'];
+	$nom=$_POST['NomAChange'];
+	$prenom=$_POST['PrenomAChanger'];
+	$cate=$_POST['CatChange'];
+	if(empty($_POST['NomAChange']) || empty($_POST['PrenomAChanger']) || empty($_POST['LoginChange']) || empty($_POST['MDPChange']) || empty($_POST['CatChange'])){
+		throw new Exception("Un des champs est vide");
+	}
+	creerEmploye($log,$mdp,$nom,$prenom,$cate);
+	$_SESSION['contenuForm']="<p>L'employe a été créé</p>";
+	afficherAccesEmploye();
+}
+
+function ctlModifEmp(){
+	if(empty($_POST['Login']) || empty($_POST['NouveauLoginChange']) || empty($_POST['MDP'])){
+		throw new Exception("Un des champs est vide");
+	}
+	modifierEmploye($_POST['Login'],$_POST['NouveauLoginChange'],$_POST['MDP']);
+	$_SESSION['contenuForm']="<p>L'employe a été modifié</p>";
+	afficherAccesEmploye();
 }
 
 function ctlOuvrirCompte(){

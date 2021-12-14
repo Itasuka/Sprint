@@ -217,11 +217,15 @@ function afficherAccueilDirecteur(){
 	$contenuCat='<form id="debutDirecteur" action="site.php" method="POST">
             <fieldset>
                     <p>
-                        <input type="submit" value="accès des employer" name="ModifLogEmployer" />
-                        <input type="submit" value="créé/modif/supp un contrat" formaction="site.php" formmethod="POST" name="C/M/S_Contrat" />
-                        <input type="submit" value="la liste du pièce à fournir" formaction="site.php" formmethod="POST" name="C/M/S_Piece" />
+                        <input type="submit" value="accès des employer" name="ModifLogEmploye" />
+                        <input type="submit" value="Créer/Modifier/Supprimer un contrat" formaction="site.php" formmethod="POST" name="C/M/S_Contrat" />
+                        <input type="submit" value="Modifier la liste du pièce à fournir" formaction="site.php" formmethod="POST" name="C/M/S_Piece" />
                         <input type="submit" value="Statistique" formaction="site.php" formmethod="POST" name="Stat" />
+<<<<<<< HEAD
+                        <a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a>
+=======
                         <p><a href="site.php?action=logout" title="Déconnexion">Se déconnecter</a></p>
+>>>>>>> cc66ffc5c45a8b0dc5ae38da39ae5811d6be0f4b
                     </p>
                 </fieldset>
             </form>';
@@ -236,11 +240,18 @@ function afficherAccesEmploye(){
                         <fieldset><legend>Acces des Employer</legend>
                                 <p><label>Nom :</label><input type="text" name="NomAChange" /></p>
                                 <p><label>Prenom :</label><input type="text" name="PrenomAChanger"/></p>
-                                <p><input type="submit" name="Créé employer" id="CreeEmployer">
-                                <input type="submit" formaction="site.php" formmethod="POST" value="ModifAcces" name="modifier accès"/>
-                                <input type="reset" formaction="site.php" formmethod="POST" value="Eff" name="Effacer"/></p>
+                                <p><label>Login :</label><input type="text" name="LoginChange" /></p>
+                                <p><label>Mot de Passe :</label><input type="text" name="MDPChange" /></p>
+                                <p><label>Categorie :</label><input type="text" name="CatChange" /></p>
+                                <p><input type="submit" value="Créer employé" name="CreerEmploye" id="CreerEmployer">
+                                <p><label>Ancient login :</label><input type="text" name="Login" /></p>
+                                <p><label>Nouveau login :</label><input type="text" name="NouveauLoginChange" /></p>
+                                <p><label>Nouveau mot de passe :</label><input type="text" name="MDP" /></p>
+                                <input type="submit" formaction="site.php" formmethod="POST" value="ModifAcces" name="modifier_acces"/>
+                                <input type="reset" formaction="site.php" formmethod="POST" value="Effacer" name="Effacer"/></p>
                         </fieldset>
                 </form>';
+    $_SESSION['contenu']=$contenu;
 }
 
 function afficherChangeContrat(){

@@ -116,6 +116,7 @@ try{
 			if(isset($_POST['CreationRDV'])){
 				ctlAjoutRDV();
 			}
+
 			
 
 		}
@@ -132,6 +133,14 @@ try{
 			}
 			else if(isset($_POST['Stat'])){
 				ctlStat();
+			}
+			//--------------------------------------
+			//Isset pour Acces employe :  
+			if(isset($_POST['CreerEmploye'])){
+				ctlCreeEmploye();
+			}
+			if(isset($_POST['modifier_acces'])){
+				ctlModifEmp();
 			}
 
 		}

@@ -163,7 +163,51 @@ try{
 			if(isset($_POST['modifier_acces'])){
 				ctlModifEmp();
 			}
-
+			//Isset pour modification de contrat
+			if(isset($_POST['ContratCree'])){
+				ctlCreeContrat();
+			}
+			if(isset($_POST['ContratModif'])){
+				ctlModifContrat();
+			}
+			if(isset($_POST['ContratSupp'])){
+				ctlCreeContrat();
+			}
+			//isset pour modification de Piece
+			if(isset($_POST['PieceCree'])){
+				ctlCreePiece();
+			}
+			if(isset($_POST['PieceSupp'])){
+				ctlSuppPiece();
+			}
+			if(isset($_POST['PieceModif'])){
+				ctlModifPiece();
+			}
+			//isset pour afficher les statistiques
+			if(isset($_POST['StatContrat'])){
+				ctlaffStat1();
+			}
+			if(isset($_POST['StatRDV'])){
+				ctlaffStat2();
+			}
+			if(isset($_POST['StatCli'])){
+				ctlaffStat3();
+			}
+			if(isset($_POST['StatSomme'])){
+				ctlaffStat4();
+			}
+			if(isset($_POST['OkayContratStat'])){
+				ctlStat1();
+			}
+			if(isset($_POST['OkayRDVStat'])){
+				ctlStat2();
+			}
+			if(isset($_POST['OkayClientStat'])){
+				ctlStat3();
+			}
+			if(isset($_POST['OkaySommeStat'])){
+				ctlStat4();
+			}
 		}
 
 		ctlAccueilCat();

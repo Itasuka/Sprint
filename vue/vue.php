@@ -150,7 +150,7 @@ function afficherAjoutClient(){
     <fieldset><legend>Ajouter un client :</legend>
         <p><label>Nom du client :</label><input type="text" name="NomCli"></p>
         <p><label>Prenom du client :</label><input type="text" name="PrenomCli"></p>
-        <p><label>Id du client</label><input type="text" name="Idcli"></p>
+        <p><label>Login du conseille</label><input type="text" name="LoginC"></p>
         <p><label>Date de naissance du Client :</label><input type="date" name="DateNaissanceCli"></p>
         <p><label>Adresse du client :</label><input type="text" name="AdresseCli"></p>
         <p><label>Numero de telephone du client :</label><input type="text" name="NumTelCli"></p>
@@ -352,12 +352,13 @@ function afficheridentifiantClient($tab){
 
 function afficherPlanning1jour1employe($tab){
     $h=8;
-    $tailletabcase2 = sizeof($tab[1]);
-    foreach($tab[0] as $ligne){
-        $contenu.="<table> <tr> <th colspan='2'>Planning de '. $tab[0]->nomemploye.' '.$tab[0]->prenomemploye .' le '.$tab[0]->dateevenement.'</th> </tr> <tr>";
+    $contenu="";
+    /*$tailletabcase2 = sizeof(array($tab[1]));
+    foreach($tab as $ligne){
+        $contenu.="<table> <tr> <th colspan='2'>Planning de '. $ligne->nomemploye.' '.$ligne->prenomemploye .' le '.$ligne->dateevenement.'</th> </tr> <tr>";
         break;
     }
-    foreach ($tab[0] as $planning){
+    foreach ($tab as $planning){
         $contenu.="<tr> <th>".$h."h00 </th>";
         if (($planning->heure)-8==$h){
             $listedespieces=$planning->nompieces;
@@ -401,7 +402,9 @@ function afficherPlanning1jour1employe($tab){
             $h=$h++;
         }
     }
-    $contenu.="</table>";
+    $contenu.="</table>";*/
+    $contenu.="<label>Le Planning n'est pas accessible pour le moment";
+    $_SESSION['contenuForm']=$contenu;
 }
 
 function afficherSynthese($tabclient,$tabcontrat,$tabcompte){ 

@@ -113,7 +113,7 @@ function ctlPlanning7j(){
 function ctlAjoutRDV(){
 	if(!isset($_POST['DateRDV']) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
 	throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
-	}
+}poserRDV($_POST['DateRDV'],$_POST['HeureRDV'],$_POST['LoginConseille'],$_POST['IdCli'],$_POST['MotifRDV']);
 $date=$_POST['DateRDV'];
 $heure=$_POST['HeureRDV'];
 $login=$_POST['LoginConseille'];
@@ -129,18 +129,6 @@ $motif=$_POST['MotifRDV'];
 	afficherPrendreRDV($tab);
 }
 
-function ctlafficherRechercherId(){
-	afficherRechercherId();
-}
-
-function ctlChercherIdClient(){
-	if((!isset($_POST['DateNaissanceClient'])) || (empty($_POST['NomClient']))){
-		throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
-		}
-	$tab=chercherUnIdClient($_POST['DateNaissanceClient'],$_POST['NomClient']);
-	afficherIdClient($tab);
-}
-
 //------------FIN AGENT------------
 
 //----------CONSEILLE--------------
@@ -148,15 +136,14 @@ function ctlPlanning1JourConseille(){
 	if ((empty($_POST['JourPlanning']))||(empty($_POST['LoginC']))){
 		throw new Exception("Un ou plusieurs champs sont vides");
 	} 
-	$p=chercherPlanning($POST_["JourPlanning"],$POST_["LoginC"]);
+	$p=chercherPlanning($_POST["JourPlanning"],$_POST["LoginC"]);
 	afficherPlanning1jour1employe($p);
 }
 
 function ctlCreationClient(){
-	if ((empty($_POST['Idcli']))||(empty($_POST['LoginC']))){
-		throw new Exception("L'identifiant et le conseillé ne peuvent etre vide");
+	if (empty($_POST['LoginC'])){
+		throw new Exception("Le conseillé ne peut être vide");
 	}
-	$idclient=$_POST['Idcli'];
 	$loginc=$_POST['LoginC'];
 	$nom=$_POST['NomCli'];
 	$prenom=$_POST['PrenomCli'];
@@ -165,7 +152,7 @@ function ctlCreationClient(){
 	$numtel=$_POST['NumTelCli'];
 	$profession=$_POST['ProfessionCli'];
 	$situationfam=$_POST['SituFamilleCli'];
-	ajouterClient($idclient,$loginc,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam);
+	ajouterClient($loginc,$nom,$prenom,$datenaissance,$adresse,$numtel,$profession,$situationfam);
 }
 function ctlafficherPlanningConseille(){
 	afficherPlanningConseille();
@@ -248,8 +235,6 @@ function ctlResilierContrat(){
 }
 //-------------FIN CONSEILLE --------------
 
-//-----------DIRECTEUR----------------
-//----------FIN DIRECTEUR-----------
 function ctlErreur($erreur){
 	if(isset($_SESSION['categorie'])){
 		afficherErreurco($erreur);

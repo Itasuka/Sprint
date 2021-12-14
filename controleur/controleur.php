@@ -111,7 +111,7 @@ function ctlPlanning7j(){
 }
 
 function ctlAjoutRDV(){
-	if((!isset($_POST['DateRDV']) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
+	if(!isset($_POST['DateRDV']) || empty($_POST['HeureRDV']) || empty($_POST['LoginConseille']) || empty($_POST['IdCli'])){
 	throw new Exception("Un ou plusieurs des champs ne sont pas remplis");
 }poserRDV($_POST['DateRDV'],$_POST['HeureRDV'],$_POST['LoginConseille'],$_POST['IdCli'],$_POST['MotifRDV']);
 $date=$_POST['DateRDV'];
